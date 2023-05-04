@@ -1,5 +1,6 @@
 import logging
 def setup_logging():
+    from logging import FileHandler
     from logging import Formatter
     from logging import getLogger
     from logging import StreamHandler
@@ -7,9 +8,13 @@ def setup_logging():
     formatter = Formatter('%(asctime)s %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
     stream_handler = StreamHandler()
     stream_handler.setFormatter(formatter)
+    file_handler = FileHandler('/var/log/smtp-alert-server.log')
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(20)
 
     logger = getLogger()
     logger.addHandler(stream_handler)
+    logger.addHandler(file_handler)
     logger.setLevel(20)
 setup_logging()
 
@@ -31,8 +36,7 @@ function_url = doug_function_url
 if 'authorization' in environ:
     authorization = environ['authorization']
 else:
-    authorization = open('/var/smtp-alert-server/authorization', 'r').readlines()[0].strip()
-    
+    authorization = open('/etc/smtp-alert-server/authorization', 'r').readlines()[0].strip()
 
 
 def send_alert_subject(subject):
@@ -70,6 +74,7 @@ async def amain():
 
 
 if __name__ == '__main__':
+    logging.info('SMTP alert server started')
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.create_task(amain())

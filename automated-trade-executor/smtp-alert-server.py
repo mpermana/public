@@ -55,6 +55,7 @@ class SinkHandler:
         self, server: SMTPServer, session: SMTPSession, envelope: SMTPEnvelope
     ) -> str:
         for line in envelope.content.splitlines():
+            print(line)
             if line.startswith(b'Subject: Alert:'):
                 send_alert_subject(line.decode()[len('Subject :'):])
         return "250 OK"

@@ -75,6 +75,7 @@ async def amain():
 
 if __name__ == '__main__':
     logging.info('SMTP alert server started')
+    send_alert_subject('Test Subject')
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.create_task(amain())

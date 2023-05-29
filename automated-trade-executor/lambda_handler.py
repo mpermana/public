@@ -4,6 +4,7 @@ basicConfig()
 from boto3 import client
 from dateutil import tz
 from datetime import datetime
+from itertools import chain
 from pprint import pprint
 from re import search
 from td.client import TDClient
@@ -61,6 +62,14 @@ td_client.login()
 
 def get_account():
     return td_client.get_accounts(configuration['account_id'], fields=['positions'])
+
+def get_order_symbols():
+    return set([
+        order_leg.get('instrument', {}).get('symbol')
+        for order_leg in chain.from_iterable(
+            [order.get('orderLegCollection', []) for order in td_client.get_orders(configuration['account_id'])]
+        )
+    ])
 
 def get_quote(symbol):
     quote = td_client.get_quotes([symbol])[symbol]
@@ -271,6 +280,9 @@ def process(alert_text):
             is_new_symbol = 'GOOG' not in position_symbols and 'GOOGL' not in position_symbols
         else:
             is_new_symbol = symbol not in position_symbols 
+        if symbol in get_order_symbols():
+            print('Skipping because symbol already in the history:', symbol)
+            break
         if is_new_symbol and is_within_trade_time_window():
             try:
                 enter_position(symbol, alert['strategy'])

@@ -1,3 +1,6 @@
+'''
+cp /home/mpermana/secrets/ameritrade/credentials-mpermana.json /tmp/credentials.json
+'''
 def patch_s3_client():
     import boto3.s3.inject
     from boto3 import client

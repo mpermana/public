@@ -1,0 +1,98 @@
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+
+<script>
+const state = {
+  
+}
+const upload = () => {
+}
+
+const sendFileForm = (file, url, key, awsAccessKeyId, policy, signature) => {  
+  var formData = new FormData();
+  formData.append('file', file);
+  formData.append('key', key);
+  formData.append('awsAccessKeyId', awsAccessKeyId);
+  formData.append('policy', policy);
+  formData.append('signature', signature);
+
+  // Create a new XMLHttpRequest
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', url, true);    
+
+  // Set up the onload callback
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log('File uploaded successfully!');
+    } else {
+      console.error('File upload failed.');
+    }
+  };
+
+  // Send the request with the file data
+  xhr.send(formData);
+}
+  
+const onChange = (event) => {
+  const files = event.target.files;
+  for (const file of files) {
+    const bucket = 'mpermana-upload'
+    const key = `photos/${file.name}`;
+    const url = `https://fwmnzowufkfbknsgsrps7us3ym0sokwy.lambda-url.us-west-1.on.aws/?bucket=${bucket}&key=${key}`    
+    fetch(url).then(response => {
+      response.json().then(({url, fields}) => {
+        sendFileForm(file, url, fields.key, fields.AWSAccessKeyId, fields.policy, fields.signature)
+        // document.forms[0].action = url
+        // document.getElementsByName('key')[0].value = fields.key;
+        // document.getElementsByName('AWSAccessKeyId')[0].value = fields.AWSAccessKeyId;
+        // document.getElementsByName('policy')[0].value = fields.policy;
+        // document.getElementsByName('signature')[0].value = fields.signature;
+      })
+    })
+  };
+}
+
+const submit1 = () => {
+  const bucket = 'mpermana-upload'
+  const file = document.getElementsByName('file')[0].files[0]
+  const key = `photos/${file.name}`;
+  const url = `https://fwmnzowufkfbknsgsrps7us3ym0sokwy.lambda-url.us-west-1.on.aws/?bucket=${bucket}&key=${key}`    
+  fetch(url).then(response => {
+    response.json().then(({url, fields}) => {    
+      document.forms[0].action = url
+      document.getElementsByName('key')[0].value = fields.key;
+      document.getElementsByName('AWSAccessKeyId')[0].value = fields.AWSAccessKeyId;
+      document.getElementsByName('policy')[0].value = fields.policy;
+      document.getElementsByName('signature')[0].value = fields.signature;
+      document.getElementsByName('submit')[0].click();
+    })
+  })  
+}
+</script>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <!-- Copy the 'url' value returned by S3Client.generate_presigned_post() -->
+    <form action="URL_VALUE" method="post" enctype="multipart/form-data">
+      <!-- Copy the 'fields' key:values returned by S3Client.generate_presigned_post() -->
+      <input type="hidden" name="key" value="VALUE" />
+      <input type="hidden" name="AWSAccessKeyId" value="VALUE" />
+      <input type="hidden" name="policy" value="VALUE" />
+      <input type="hidden" name="signature" value="VALUE" />
+    File:
+      <input type="file"   name="file" onChange="onChange(event)" multiple /> <br />
+      <input type="submit" name="submit" value="Upload to Amazon S3" />
+    </form>
+  </body>
+</html>
+
+<button onclick="submit1()">
+submit
+</button>
+<script>
+  //upload()
+  const files = document.getElementsByName('file')[0].files;
+</script>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    .image-container {
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .preview-image {
+      max-width: 300px;
+    }
+
+    .modified-image {
+      max-width: 300px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Original Image:</h2>
+        <div id="imagePreview" class="image-container"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Modified Image:</h2>
+        <div id="modifiedImagePreview" class="image-container"></div>
+        <button class="btn btn-primary" onclick="saveModifiedImage()">Save Modified Image</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <input type="file" id="imageFileInput" accept="image/*">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="resize">Resize:</label>
+        <input type="number" id="resize" min="10" max="200" value="100">
+      </div>
+      <div class="col-md-4">
+        <label for="brightness">Brightness:</label>
+        <input type="range" id="brightness" min="0" max="200" value="100">
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" onclick="processImage()">Process Image</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="face-api.min.js"></script>
+  <script>
+    var originalImage;
+    var modifiedImage;
+
+    function previewImage(file, previewElement) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function() {
+        var img = new Image();
+        img.onload = function() {
+          URL.revokeObjectURL(this.src);
+        };
+        img.src = URL.createObjectURL(file);
+        img.classList.add('preview-image');
+        previewElement.innerHTML = '';
+        previewElement.appendChild(img);
+      });
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function processImage() {
+      var fileInput = document.getElementById('imageFileInput');
+      var resizeInput = document.getElementById('resize');
+      var brightnessInput = document.getElementById('brightness');
+
+      var file = fileInput.files[0];
+      var resizeValue = resizeInput.value;
+      var brightnessValue = brightnessInput.value;
+
+      if (!file) {
+        alert('Please select an image file.');
+        return;
+      }
+
+      var reader = new FileReader();
+
+      reader.addEventListener('load', async function() {
+        var img = new Image();
+        img.onload = async function() {
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+
+          var scaleFactor = resizeValue / 100;
+          var newWidth = img.width * scaleFactor;
+          var newHeight = img.height * scaleFactor;
+
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          context.drawImage(img, 0, 0, newWidth, newHeight);
+
+          var imageData = context.getImageData(0, 0, newWidth, newHeight);
+          var data = imageData.data;
+
+          var brightnessFactor = brightnessValue / 100;
+
+          // Face detection using Face-API.js
+          await faceapi.nets.ssdMobilenetv1.loadFromUri('./models');
+          const faceDetectionOptions = new faceapi.SsdMobilenetv1Options();
+          const results = await faceapi.detectAllFaces(canvas, faceDetectionOptions).withFaceLandmarks();
+
+          results.forEach((result) => {
+            const { x, y, width, height } = result.detection.box;
+
+            for (let row = y; row < y + height; row++) {
+              for (let col = x; col < x + width; col++) {
+                const dataIndex = (row * newWidth + col) * 4;
+
+                data[dataIndex] *= brightnessFactor; // Red channel
+                data[dataIndex + 1] *= brightnessFactor; // Green channel
+                data[dataIndex + 2] *= brightnessFactor; // Blue channel
+              }
+            }
+          });
+
+          context.putImageData(imageData, 0, 0);
+
+          modifiedImage = new Image();
+          modifiedImage.src = canvas.toDataURL('image/jpeg');
+          modifiedImage.classList.add('modified-image');
+
+          var modifiedImagePreview = document.getElementById('modifiedImagePreview');
+          modifiedImagePreview.innerHTML = '';
+          modifiedImagePreview.appendChild(modifiedImage);
+        };
+        img.src = reader.result;
+        img.classList.add('preview-image');
+
+        originalImage = new Image();
+        originalImage.src = reader.result;
+        originalImage.classList.add('preview-image');
+
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.innerHTML = '';
+        imagePreview.appendChild(originalImage);
+      });
+
+      reader.readAsDataURL(file);
+    }
+
+    async function saveModifiedImage() {
+      if (!modifiedImage) {
+        alert('No modified image available.');
+        return;
+      }
+
+      const fileHandle = await window.showSaveFilePicker({
+        types: [
+          {
+            description: 'JPEG Image',
+            accept: { 'image/jpeg': ['.jpg', '.jpeg'] },
+          },
+        ],
+      });
+
+      const writable = await fileHandle.createWritable();
+      const blob = await fetch(modifiedImage.src).then((r) => r.blob());
+
+      await writable.write(blob);
+      await writable.close();
+    }
+  </script>
+</body>
+</html>

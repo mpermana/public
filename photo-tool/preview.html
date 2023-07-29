@@ -1,0 +1,43 @@
+<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Upload Form</title>
+</head>
+<body>
+  <form action="upload.php" method="POST" enctype="multipart/form-data">
+    <input type="file" name="imageFile" accept="image/*">
+    <input type="submit" value="Upload">
+  </form>
+
+  <h2>Preview:</h2>
+  <div id="imagePreview"></div>
+
+  <script>
+    function previewImage() {
+      var fileInput = document.querySelector('input[type="file"]');
+      var preview = document.getElementById('imagePreview');
+
+      fileInput.addEventListener('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+
+        reader.addEventListener('load', function() {
+          var img = new Image();
+          img.src = reader.result;
+          img.style.maxWidth = '300px'; // Adjust the maximum width as needed
+          preview.innerHTML = ''; // Clear previous image
+          preview.appendChild(img);
+        });
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+
+    previewImage();
+  </script>
+</body>
+</html>

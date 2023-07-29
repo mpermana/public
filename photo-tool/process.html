@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Editor</title>
+  <style>
+    #imagePreview {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #modifiedImagePreview {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <input type="file" id="imageFileInput" accept="image/*">
+  <br>
+  <label for="resize">Resize:</label>
+  <input type="number" id="resize" min="10" max="200" value="100">
+  <br>
+  <label for="brightness">Brightness:</label>
+  <input type="range" id="brightness" min="0" max="200" value="100">
+  <br>
+  <button onclick="processImage()">Process Image</button>
+  <br>
+  <h2>Original Image:</h2>
+  <div id="imagePreview"></div>
+
+  <h2>Modified Image:</h2>
+  <div id="modifiedImagePreview"></div>
+
+  <script>
+    var originalImage;
+    var modifiedImage;
+
+    function previewImage(file, previewElement) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function() {
+        var img = new Image();
+        img.onload = function() {
+          URL.revokeObjectURL(this.src);
+        };
+        img.src = URL.createObjectURL(file);
+        img.style.maxWidth = '300px';
+        previewElement.innerHTML = '';
+        previewElement.appendChild(img);
+      });
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function processImage() {
+      var fileInput = document.getElementById('imageFileInput');
+      var resizeInput = document.getElementById('resize');
+      var brightnessInput = document.getElementById('brightness');
+
+      var file = fileInput.files[0];
+      var resizeValue = resizeInput.value;
+      var brightnessValue = brightnessInput.value;
+
+      if (!file) {
+        alert('Please select an image file.');
+        return;
+      }
+
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function() {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+
+          var scaleFactor = resizeValue / 100;
+          var newWidth = img.width * scaleFactor;
+          var newHeight = img.height * scaleFactor;
+
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          context.drawImage(img, 0, 0, newWidth, newHeight);
+
+          var imageData = context.getImageData(0, 0, newWidth, newHeight);
+          var data = imageData.data;
+
+          var brightnessFactor = brightnessValue / 100;
+
+          for (var i = 0; i < data.length; i += 4) {
+            data[i] *= brightnessFactor; // Red channel
+            data[i + 1] *= brightnessFactor; // Green channel
+            data[i + 2] *= brightnessFactor; // Blue channel
+          }
+
+          context.putImageData(imageData, 0, 0);
+
+          modifiedImage = new Image();
+          modifiedImage.src = canvas.toDataURL('image/jpeg');
+          modifiedImage.style.maxWidth = '300px';
+
+          var modifiedImagePreview = document.getElementById('modifiedImagePreview');
+          modifiedImagePreview.innerHTML = '';
+          modifiedImagePreview.appendChild(modifiedImage);
+        };
+        img.src = reader.result;
+        img.style.maxWidth = '300px';
+
+        originalImage = new Image();
+        originalImage.src = reader.result;
+        originalImage.style.maxWidth = '300px';
+
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.innerHTML = '';
+        imagePreview.appendChild(originalImage);
+      });
+
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
+

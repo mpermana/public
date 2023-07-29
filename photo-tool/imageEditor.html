@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="michael.js"></script>
+  <title>Image Editor</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <style>
+    .image-container {
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .preview-image {
+      max-width: 100%;
+    }
+
+    .modified-image {
+      /* max-width: 100%; */
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Original Image:</h2>
+        <div id="imagePreview" class="image-container"></div>
+      </div>
+      <div class="col-md-6">
+        <h2>Modified Image:</h2>
+        <div id="modifiedImagePreview" class="image-container"></div>
+        <button class="btn btn-primary" onclick="saveModifiedImage()">Save Modified Image</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <input type="file" id="imageFileInput" accept="image/*">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4">
+        <label for="resize">Resize:</label>
+        <input type="number" id="resize" min="10" max="200" value="100">
+      </div>
+      <div class="col-md-4">
+        <label for="brightness">Brightness:</label>
+        <input type="range" id="brightness" min="0" max="200" value="100">
+      </div>
+      <div class="col-md-4">
+        <button class="btn btn-primary" onclick="processImage()">Process Image</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var originalImage;
+    var modifiedImage;
+
+    function previewImage(file, previewElement) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function() {
+        var img = new Image();
+        img.onload = function() {
+          URL.revokeObjectURL(this.src);
+        };
+        img.src = URL.createObjectURL(file);
+        img.classList.add('preview-image');
+        previewElement.innerHTML = '';
+        previewElement.appendChild(img);
+      });
+
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function processImage() {
+      var fileInput = document.getElementById('imageFileInput');
+      var resizeInput = document.getElementById('resize');
+      var brightnessInput = document.getElementById('brightness');
+
+      var file = fileInput.files[0];
+      var resizeValue = resizeInput.value;
+      var brightnessValue = brightnessInput.value;
+
+      if (!file) {
+        alert('Please select an image file.');
+        return;
+      }
+
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function() {
+        var img = new Image();
+        img.onload = function() {
+          var canvas = document.createElement('canvas');
+          var context = canvas.getContext('2d');
+
+          var scaleFactor = resizeValue / 100;
+          var newWidth = img.width * scaleFactor;
+          var newHeight = img.height * scaleFactor;
+
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+
+          context.drawImage(img, 0, 0, newWidth, newHeight);
+
+          var imageData = context.getImageData(0, 0, newWidth, newHeight);
+          var data = imageData.data;
+
+          var brightnessFactor = brightnessValue / 100;
+
+          for (var i = 0; i < data.length; i += 4) {
+            if (false) {
+              data[i] *= brightnessFactor; // Red channel
+              data[i + 1] *= brightnessFactor; // Green channel
+              data[i + 2] *= brightnessFactor; // Blue channel
+            } else {
+              data[i] = bumpMap[data[i]]
+              data[i + 1] = bumpMap[data[i+1]]
+              data[i + 2] = bumpMap[data[i+2]]
+            }
+          }
+
+          context.putImageData(imageData, 0, 0);
+
+          modifiedImage = new Image();
+          modifiedImage.src = canvas.toDataURL('image/jpeg');
+          modifiedImage.classList.add('modified-image');
+
+          var modifiedImagePreview = document.getElementById('modifiedImagePreview');
+          modifiedImagePreview.innerHTML = '';
+          modifiedImagePreview.appendChild(modifiedImage);
+        };
+        img.src = reader.result;
+        img.classList.add('preview-image');
+
+        originalImage = new Image();
+        originalImage.src = reader.result;
+        originalImage.classList.add('preview-image');
+
+        var imagePreview = document.getElementById('imagePreview');
+        imagePreview.innerHTML = '';
+        imagePreview.appendChild(originalImage);
+      });
+
+      reader.readAsDataURL(file);
+    }
+
+    function saveModifiedImage() {
+      if (!modifiedImage) {
+        alert('No modified image available.');
+        return;
+      }
+
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
+      canvas.width = modifiedImage.width;
+      canvas.height = modifiedImage.height;
+      context.drawImage(modifiedImage, 0, 0);
+
+      canvas.toBlob(function(blob) {
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'modified_image.jpg';
+        link.click();
+      }, 'image/jpeg');
+    }
+  </script>
+</body>
+</html>

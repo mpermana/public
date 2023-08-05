@@ -7,9 +7,9 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "justMyCode": true,
+            "justMyCode": false,
             "args": [
-                "\\\\192.168.0.3\\Public\\mpermana\\My Pictures\\2023-04-07 Hydaelyn Swim School\\Z50_2216.JPG"
+                "\\\\192.168.0.3\\Public\\mpermana\\My Pictures\\2023-04-07 Hydaelyn Swim School"
             ]
         }
     ]

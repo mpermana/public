@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Samurai Single Target",
+    "input": "12314516^4^5",
+    "delay": 2.51,
+    "pause": true
+  },
+  {
+    "name": "Pld Solo",
+    "input": "1234",
+    "delay": 2.51,
+    "pause": true
+  },
+  {
+    "name": "Thread 3",
+    "input": "^1^4@1@3",
+    "delay": 0.51,
+    "pause": true
+  },
+  {
+    "name": "Samurai Multiple Target",
+    "input": "^1^2^1^3^4",
+    "delay": 2.51,
+    "pause": true
+  },
+  {
+    "name": "War Multi",
+    "input": "^1^2",
+    "delay": 2.51,
+    "pause": true
+  },
+  {
+    "name": "BLM Multi",
+    "input": "777=43^3",
+    "delay": 2.51,
+    "pause": false
+  }
+]

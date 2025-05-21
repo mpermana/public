@@ -1,3 +1,4 @@
+import ctypes
 import tkinter as tk
 from tkinter import ttk
 import threading
@@ -8,12 +9,16 @@ from queue import Queue
 import json
 import os
 
-from utility import is_caps_lock_on
-
 SAVE_FILE = "threads.json"
 key_queue = Queue()
 threads = []
 control_flags = []
+
+
+def is_caps_lock_on():
+    # VK_CAPITAL is 0x14
+    CAPS_LOCK = 0x14
+    return bool(ctypes.WinDLL("User32.dll").GetKeyState(CAPS_LOCK) & 1)
 
 def is_final_fantasy_active():
     try:
@@ -53,8 +58,8 @@ def send_keys_loop(parsed_keys, flags, delay):
                 return
             if flags["pause"]:
                 break
-            if not is_final_fantasy_active() or is_caps_lock_on():
-                sleep(0.1)
+            if not is_final_fantasy_active():
+                sleep(0.01)
                 continue
             key_queue.put((modifier, key))
             sleep(delay)
@@ -175,41 +180,3 @@ def on_start_click():
     delay_string = delay_entry.get()
     if input_string.strip():
         start_sending(input_string, delay_string, thread_buttons_frame)
-
-# Start key worker
-worker_thread = threading.Thread(target=key_worker, daemon=True)
-worker_thread.start()
-
-# GUI
-root = tk.Tk()
-root.title("FF Key Sender")
-root.geometry("600x520")
-
-frame = ttk.Frame(root, padding=10)
-frame.pack(fill="both", expand=True)
-
-ttk.Label(frame, text="Enter text to send (use ^ for Ctrl, @ for Alt):").pack()
-entry = ttk.Entry(frame, width=40)
-entry.pack(pady=5)
-
-ttk.Label(frame, text="Delay between keys (in seconds):").pack()
-delay_entry = ttk.Entry(frame, width=10)
-delay_entry.insert(0, "2.51")
-delay_entry.pack(pady=5)
-
-ttk.Label(frame, text=(
-    'Examples:\n'
-    '  hello         - Sends h, e, l, l, o\n'
-    '  ^a@bcd        - Ctrl+A, Alt+B, then c, d\n'
-    '  ^^@@xyz       - Sends ^, @, x, y, z\n'
-), foreground="gray").pack()
-
-thread_buttons_frame = ttk.LabelFrame(frame, text="Active Threads")
-thread_buttons_frame.pack(fill="both", expand=True, pady=10)
-
-start_btn = ttk.Button(frame, text="Start Send", command=on_start_click)
-start_btn.pack(pady=5)
-
-load_all_threads(thread_buttons_frame)
-
-root.mainloop()

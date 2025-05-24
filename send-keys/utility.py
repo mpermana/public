@@ -15,10 +15,17 @@ threads = []
 control_flags = []
 
 
+VK_NUMLOCK = 0x90
+VK_SCROLL  = 0x91
+VK_CAPITAL = CAPS_LOCK = 0x14
 def is_caps_lock_on():
-    # VK_CAPITAL is 0x14
-    CAPS_LOCK = 0x14
     return bool(ctypes.WinDLL("User32.dll").GetKeyState(CAPS_LOCK) & 1)
+
+def is_num_lock_on():
+    return bool(ctypes.WinDLL("User32.dll").GetKeyState(VK_NUMLOCK) & 1)
+
+def is_scroll_lock_on():
+    return bool(ctypes.WinDLL("User32.dll").GetKeyState(VK_SCROLL) & 1)
 
 def is_final_fantasy_active():
     try:

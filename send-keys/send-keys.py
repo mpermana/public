@@ -10,12 +10,24 @@ except:
   pass
 
 def send_keys(input_string):
-    for char in input_string:
-        if char == " ":
-            pydirectinput.press("space")  # Handle spaces explicitly
+    i = 0
+    while i < len(input_string):
+        print(input_string[i:i+6])
+        if input_string[i:i+6] == "{NUM0}":
+            print("num0")
+            pydirectinput.press("num0")
+            i += 6
+        elif input_string[i:i+5] == "{INS}":
+            pydirectinput.press("insert")
+            i += 5
+        elif input_string[i] == " ":
+            pydirectinput.press("space")
+            i += 1
         else:
-            pydirectinput.press(char)  # Press each character
+            pydirectinput.press(input_string[i])
+            i += 1
         sleep(delay)
+
 
 def main():
     if len(sys.argv) < 2:

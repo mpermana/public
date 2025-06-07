@@ -57,8 +57,6 @@ def send_keys_loop(parsed_keys, flags, delay):
             continue
 
         conditions = []
-        if not is_final_fantasy_active():
-            send_key = False
         if flags["if_caps_on"]:
             conditions.append(is_caps_lock_on())
         if flags["if_caps_off"]:
@@ -76,9 +74,6 @@ def send_keys_loop(parsed_keys, flags, delay):
         if not send_key:
             sleep(0.1)
             continue
-
-        pprint(flags)
-
         for modifier, key in parsed_keys:
             if flags["pause"]:
                 break
@@ -87,7 +82,12 @@ def send_keys_loop(parsed_keys, flags, delay):
 
 def key_worker():
     while True:
+        if not is_final_fantasy_active():
+            sleep(0.1)
+            continue
         modifier, key = key_queue.get()
+        from datetime import datetime
+        print(datetime.now(), modifier, key)
         if key == " ":
             key = "space"
         elif key == "tab":

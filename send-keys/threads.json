@@ -2,7 +2,7 @@
   {
     "name": "Single",
     "input_string": "123",
-    "delay": 2.51,
+    "delay": 0,
     "pause": true,
     "if_caps_on": true,
     "if_caps_off": false,
@@ -12,9 +12,9 @@
     "if_scroll_off": false
   },
   {
-    "name": "Thread 2",
+    "name": "Multi",
     "input_string": "^1^2",
-    "delay": 2.51,
+    "delay": 0,
     "pause": true,
     "if_caps_on": true,
     "if_caps_off": false,
@@ -25,12 +25,36 @@
   },
   {
     "name": "Thread 3",
-    "input_string": "\\t3",
-    "delay": 2.51,
-    "pause": false,
-    "if_caps_on": false,
-    "if_caps_off": true,
+    "input_string": "^5",
+    "delay": 30,
+    "pause": true,
+    "if_caps_on": true,
+    "if_caps_off": false,
+    "if_num_on": false,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  },
+  {
+    "name": "Thread 4",
+    "input_string": "@1^7",
+    "delay": 30,
+    "pause": true,
+    "if_caps_on": true,
+    "if_caps_off": false,
     "if_num_on": true,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  },
+  {
+    "name": "tank atk",
+    "input_string": "@2",
+    "delay": 30,
+    "pause": true,
+    "if_caps_on": true,
+    "if_caps_off": false,
+    "if_num_on": false,
     "if_num_off": false,
     "if_scroll_on": false,
     "if_scroll_off": false

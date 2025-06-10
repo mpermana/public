@@ -4,14 +4,17 @@ import threading
 import pydirectinput
 import pygetwindow as gw
 from time import sleep
-from queue import Queue
+from time import time
+from pprint import pprint
+from utility import send_key
+
 import json
 import os
 
 from utility import is_caps_lock_on, is_num_lock_on, is_scroll_lock_on
 
 SAVE_FILE = "threads.json"
-key_queue = Queue()
+
 threads = []
 control_flags = []
 
@@ -50,60 +53,44 @@ def parse_input_string(input_string):
             i += 1
     return parsed
 
-def send_keys_loop(parsed_keys, flags, delay):
-    while True:
-        if flags["pause"]:
-            sleep(0.1)
-            continue
+def is_flags_for_send_keys(flags):
+    if flags["pause"] or not is_final_fantasy_active():
+        return False
 
-        conditions = []
-        if flags["if_caps_on"]:
-            conditions.append(is_caps_lock_on())
-        if flags["if_caps_off"]:
-            conditions.append(not is_caps_lock_on())
-        if flags["if_num_on"]:
-            conditions.append(is_num_lock_on())
-        if flags["if_num_off"]:
-            conditions.append(not is_num_lock_on())
-        if flags["if_scroll_on"]:
-            conditions.append(is_scroll_lock_on())
-        if flags["if_scroll_off"]:
-            conditions.append(not is_scroll_lock_on())
-        from pprint import pprint
-        send_key = conditions and all(conditions)
-        if not send_key:
-            sleep(0.1)
-            continue
+    conditions = []
+    if flags["if_caps_on"]:
+        conditions.append(is_caps_lock_on())
+    if flags["if_caps_off"]:
+        conditions.append(not is_caps_lock_on())
+    if flags["if_num_on"]:
+        conditions.append(is_num_lock_on())
+    if flags["if_num_off"]:
+        conditions.append(not is_num_lock_on())
+    if flags["if_scroll_on"]:
+        conditions.append(is_scroll_lock_on())
+    if flags["if_scroll_off"]:
+        conditions.append(not is_scroll_lock_on())    
+    return conditions and all(conditions)
+
+from keyboard import mutexed_send_key
+
+def send_keys_loop(flags):
+    while True:        
+        start_time = time()
+        parsed_keys = parse_input_string(flags["input_string"])
+        pprint(parsed_keys)
         for modifier, key in parsed_keys:
-            if flags["pause"]:
-                break
-            key_queue.put((modifier, key))
-            sleep(delay)
-
-def key_worker():
-    while True:
-        if not is_final_fantasy_active():
-            sleep(0.1)
-            continue
-        modifier, key = key_queue.get()
-        from datetime import datetime
-        print(datetime.now(), modifier, key)
-        if key == " ":
-            key = "space"
-        elif key == "tab":
-            key = "tab"
-        if modifier == "ctrl":
-            pydirectinput.keyDown("ctrl")
-            pydirectinput.press(key)
-            pydirectinput.keyUp("ctrl")
-        elif modifier == "alt":
-            pydirectinput.keyDown("alt")
-            pydirectinput.press(key)
-            pydirectinput.keyUp("alt")
-        else:
-            pydirectinput.press(key)
-        key_queue.task_done()
-
+            while not is_flags_for_send_keys(flags):
+                sleep(0.10)
+            key_delay = 2.4
+            mutexed_send_key(modifier, key, key_delay)
+        delay = flags["delay"]
+        if delay:
+            elapsed_time = time() - start_time
+            wait_time = delay - elapsed_time
+            if wait_time > 0:
+                sleep(wait_time)
+            
 def save_all_threads():
     data = []
     for flags in control_flags:
@@ -119,6 +106,7 @@ def save_all_threads():
             "if_scroll_on": flags.get("if_scroll_on", False),
             "if_scroll_off": flags.get("if_scroll_off", False)
         })
+    pprint(data)
     with open(SAVE_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
@@ -145,9 +133,8 @@ def start_sending(input_string, delay_string, container, paused=False, restore_m
     try:
         delay = float(delay_string)
     except ValueError:
-        delay = 2.51
-
-    parsed_keys = parse_input_string(input_string)
+        delay = 0
+    
     thread_index = len(control_flags) + 1
     thread_name = name or f"Thread {thread_index}"
 
@@ -168,7 +155,7 @@ def start_sending(input_string, delay_string, container, paused=False, restore_m
 
     control_flags.append(flags)
 
-    t = threading.Thread(target=send_keys_loop, args=(parsed_keys, flags, delay), daemon=True)
+    t = threading.Thread(target=send_keys_loop, args=(flags,), daemon=True)
     threads.append(t)
     t.start()
 
@@ -185,6 +172,19 @@ def start_sending(input_string, delay_string, container, paused=False, restore_m
 
     name_entry.bind("<Return>", save_name)
     name_entry.bind("<FocusOut>", save_name)
+
+    # delay
+    delay_var = tk.IntVar(value=delay)
+    delay_entry = ttk.Entry(row, textvariable=delay_var, width=4)
+    delay_entry.pack(side="top", anchor="w", padx=5)
+
+    def save_delay(event=None):
+        flags["delay"] = delay_var.get()
+        save_all_threads()
+
+    delay_entry.bind("<Return>", save_delay)
+    delay_entry.bind("<FocusOut>", save_delay)
+    #
 
     # ttk.Label(row, text=f'"{input_string}" (delay: {delay}s)').pack(anchor="w", padx=5)
     input_var = tk.StringVar(value=input_string)
@@ -244,17 +244,6 @@ def on_start_click():
     if input_string.strip():
         start_sending(input_string, delay_string, thread_buttons_frame)
 
-def update_queue_display():
-    queue_listbox.delete(0, tk.END)
-    temp_list = list(key_queue.queue)
-    for modifier, key in temp_list[:100]:
-        mod_str = f"{modifier}+" if modifier else ""
-        queue_listbox.insert(tk.END, f"{mod_str}{key}")
-    queue_size_label.config(text=f"Queue size: {len(temp_list)}")
-    root.after(500, update_queue_display)
-
-worker_thread = threading.Thread(target=key_worker, daemon=True)
-worker_thread.start()
 
 root = tk.Tk()
 root.title("FF Key Sender")
@@ -267,9 +256,9 @@ ttk.Label(frame, text="Enter text to send (use ^ for Ctrl, @ for Alt):").pack()
 entry = ttk.Entry(frame, width=40)
 entry.pack(pady=5)
 
-ttk.Label(frame, text="Delay between keys (in seconds):").pack()
+ttk.Label(frame, text="Delay between sequence (in seconds):").pack()
 delay_entry = ttk.Entry(frame, width=10)
-delay_entry.insert(0, "2.51")
+delay_entry.insert(0, "0")
 delay_entry.pack(pady=5)
 
 ttk.Label(frame, text=(
@@ -286,21 +275,6 @@ thread_buttons_frame.pack(fill="both", expand=True, pady=10)
 start_btn = ttk.Button(frame, text="Start Send", command=on_start_click)
 start_btn.pack(pady=5)
 
-queue_display_frame = ttk.LabelFrame(frame, text="Key Queue")
-queue_display_frame.pack(fill="both", expand=True, pady=10)
-
-queue_size_label = ttk.Label(queue_display_frame, text="Queue size: 0")
-queue_size_label.pack()
-queue_listbox = tk.Listbox(queue_display_frame, height=10, width=50)
-queue_listbox.pack(padx=5, pady=5)
-
-def clear_queue():
-    with key_queue.mutex:
-        key_queue.queue.clear()
-
-clear_btn = ttk.Button(queue_display_frame, text="Clear Queue", command=clear_queue)
-clear_btn.pack(pady=2)
 
 load_all_threads(thread_buttons_frame)
-update_queue_display()
 root.mainloop()

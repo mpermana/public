@@ -192,10 +192,10 @@ def on_start_click():
 
 
 def send_key(modifier, key):
-    print(datetime.now(), modifier, key)
+    print(f'{modifier}-{key}')
     if key == " ":
         key = "space"
-    assert modifier in ["alt", "ctrl", None]
+    assert modifier in ["alt", "ctrl", "tab", None]
     if modifier:
         pydirectinput.keyDown(modifier)
         pydirectinput.press(key)

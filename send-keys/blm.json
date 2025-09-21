@@ -1,0 +1,26 @@
+[
+  {
+    "name": "BLM Std",
+    "input_string": "3^32111111-1105\\t",
+    "delay": 0.0,
+    "pause": false,
+    "if_caps_on": true,
+    "if_caps_off": false,
+    "if_num_on": false,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  },
+  {
+    "name": "Thread 2",
+    "input_string": "@1@2^1%^2",
+    "delay": 15.0,
+    "pause": false,
+    "if_caps_on": true,
+    "if_caps_off": false,
+    "if_num_on": false,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  }
+]

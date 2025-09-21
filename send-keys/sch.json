@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Scholar Attack",
+    "input_string": "1",
+    "delay": 0,
+    "pause": true,
+    "if_caps_on": false,
+    "if_caps_off": true,
+    "if_num_on": true,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  },
+  {
+    "name": "Thread 2",
+    "input_string": "\\t",
+    "delay": 10,
+    "pause": true,
+    "if_caps_on": false,
+    "if_caps_off": true,
+    "if_num_on": true,
+    "if_num_off": false,
+    "if_scroll_on": false,
+    "if_scroll_off": false
+  }
+]

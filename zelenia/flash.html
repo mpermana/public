@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Diamond and Circle Flash</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      position: relative;
+    }
+    #display {
+      position: absolute;
+      top: 20px;
+    }
+    .shape {
+      width: 100px;
+      height: 100px;
+      margin: auto;
+      display: none;
+    }
+    .diamond {
+      transform: rotate(45deg);
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Diamond_icon.svg/100px-Diamond_icon.svg.png') center/contain no-repeat;
+    }
+    .circle {
+      border-radius: 50%;
+      background-color: lightblue;
+    }
+    #circleZone {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      border: 2px solid blue;
+      bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    #person {
+      width: 50px;
+      height: 50px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/9/99/Icon-round-Question_mark.jpg') center/cover no-repeat;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      cursor: grab;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div id="display">
+    <div id="diamond" class="shape diamond"></div>
+    <div id="circle" class="shape circle"></div>
+  </div>
+  <div id="circleZone"></div>
+  <div id="person" draggable="true"></div>
+
+  <script>
+    const diamond = document.getElementById('diamond');
+    const circle = document.getElementById('circle');
+
+    function flashShape(shapeElement, count, delay, callback) {
+      let flashes = 0;
+      const interval = setInterval(() => {
+        shapeElement.style.display = 'block';
+        setTimeout(() => {
+          shapeElement.style.display = 'none';
+        }, delay / 2);
+        flashes++;
+        if (flashes >= count) {
+          clearInterval(interval);
+          setTimeout(callback, delay);
+        }
+      }, delay);
+    }
+
+    flashShape(diamond, 4, 3000, () => {
+      flashShape(circle, 4, 3000, () => {
+        document.getElementById('circleZone').style.borderColor = 'green';
+      });
+    });
+
+    // Dragging functionality
+    const person = document.getElementById('person');
+    let offsetX = 0, offsetY = 0;
+    let dragging = false;
+
+    person.addEventListener('mousedown', (e) => {
+      dragging = true;
+      offsetX = e.offsetX;
+      offsetY = e.offsetY;
+      person.style.cursor = 'grabbing';
+    });
+
+    document.addEventListener('mouseup', () => {
+      dragging = false;
+      person.style.cursor = 'grab';
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (dragging) {
+        person.style.left = `${e.clientX - offsetX}px`;
+        person.style.top = `${e.clientY - offsetY}px`;
+      }
+    });
+  </script>
+</body>
+</html>

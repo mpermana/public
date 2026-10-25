@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Rainbow Zoo</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐰</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;700&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="stage"></canvas>
+
+  <main id="menu" class="screen">
+    <h1 id="title" class="title"></h1>
+    <p id="subtitle" class="subtitle"></p>
+    <div id="lang-row" class="row"></div>
+    <div id="animal-row" class="row"></div>
+    <div id="modes"></div>
+    <p id="voice-hint" class="hint"></p>
+  </main>
+
+  <header id="hud">
+    <button id="home-btn" class="round-btn in-mode" title="Home (Esc)">🏠</button>
+    <div id="hud-title" class="in-mode"></div>
+    <div class="spacer"></div>
+    <button id="lang-btn" class="pill-btn in-mode" title="Change language"></button>
+    <button id="pad-btn" class="round-btn" title="Choose game controller">🎮</button>
+    <button id="sound-btn" class="round-btn" title="Sound on / off">🔊</button>
+    <button id="fs-btn" class="round-btn" title="Full screen">⛶</button>
+  </header>
+
+  <nav id="hud-extra" hidden></nav>
+  <div id="word-card" aria-live="polite"></div>
+  <div id="toast"></div>
+
+  <div id="pad-panel" hidden>
+    <div class="pad-box" role="dialog" aria-labelledby="pad-heading">
+      <h2 id="pad-heading">🎮 Game controller</h2>
+      <p class="pad-help">Press a button on a controller to see which one it is. Press <b>A</b> on it, or click it, to use it.</p>
+      <div id="pad-list"></div>
+      <button id="pad-close" title="Done (B / Esc)">✓</button>
+    </div>
+  </div>
+
+  <div id="splash">
+    <div class="splash-animals">🐰🐹🦁🦕🦖🦒🐘</div>
+    <button id="play-btn" aria-label="Play">▶</button>
+    <p>Click or press any key to start<br><small>(this turns on the sound)</small></p>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/modes/walk.js"></script>
+  <script src="js/modes/feed.js"></script>
+  <script src="js/modes/letters.js"></script>
+  <script src="js/modes/bubbles.js"></script>
+  <script src="js/modes/buttons.js"></script>
+  <script src="js/modes/clock.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -65,6 +65,7 @@ Modes.push({
     a.squish = 0.35;
     FX.burst(f.x, f.y, { n: 10, colors: ['#fff', '#ffd60a'] });
     UI.say(f.id, f.emoji);
+    Progress.earn(f.id === this.wish.id && this.party <= 0 ? 2 : 1, f.x, f.y);
     if (this.party > 0) return;
 
     a.scale = Math.min(MAX_GROWTH, a.scale + 0.14);
@@ -76,6 +77,7 @@ Modes.push({
       this.wish = pick(FOODS.filter(x => x.id !== f.id));
     }
     if (a.scale >= MAX_GROWTH) {
+      Progress.earn(3, a.x, a.y);
       this.party = 3;
       Sfx.tada();
       a.doAction();
@@ -139,13 +141,26 @@ Modes.push({
     drawEmoji(ctx, this.animal.kind.emoji, x + w + h * 1.3, y + h / 2, h * 2.4);
   },
 
+  foodAt(x, y) {
+    return [...this.foods].reverse().find(f => dist(x, y, f.x, f.y) < f.r * 1.3);
+  },
+
+  // Food under the mouse says "Drag!"; while dragging, the animal glows as the drop target.
+  hint() {
+    const a = this.animal, p = Input.pointer;
+    if (this.drag) return { x: a.x, y: a.y - a.size * 0.05, r: a.radius * 1.5, cursor: 'grabbing' };
+    const f = Input.lastDevice === 'mouse' && p.inside && this.foodAt(p.x, p.y);
+    if (f) return { x: f.x, y: f.y, r: f.r * 1.3, text: `🖱️ ${word('drag').text}`, cursor: 'grab' };
+    return animalHint(a);
+  },
+
   onAction() {
     this.animal.doAction();
     UI.say(this.animal.kind.id, this.animal.kind.emoji);
   },
 
   onPointerDown(p) {
-    const f = [...this.foods].reverse().find(f => dist(p.x, p.y, f.x, f.y) < f.r * 1.3);
+    const f = this.foodAt(p.x, p.y);
     if (f) {
       this.drag = f;
       this.steering = false;

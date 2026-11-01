@@ -17,6 +17,7 @@
     <p id="subtitle" class="subtitle"></p>
     <div id="lang-row" class="row"></div>
     <div id="animal-row" class="row"></div>
+    <div id="hat-row" class="row"></div>
     <div id="modes"></div>
     <p id="voice-hint" class="hint"></p>
   </main>
@@ -24,6 +25,11 @@
   <header id="hud">
     <button id="home-btn" class="round-btn in-mode" title="Home (Esc)">🏠</button>
     <div id="hud-title" class="in-mode"></div>
+    <button id="level-pill" title="Level">
+      <span id="level-badge"><b id="level-num">1</b></span>
+      <span class="level-bar"><span id="level-fill"></span></span>
+      <span id="level-next"></span>
+    </button>
     <div class="spacer"></div>
     <button id="lang-btn" class="pill-btn in-mode" title="Change language"></button>
     <button id="pad-btn" class="round-btn" title="Choose game controller">🎮</button>
@@ -33,7 +39,9 @@
 
   <nav id="hud-extra" hidden></nav>
   <div id="word-card" aria-live="polite"></div>
+  <div id="levelup" aria-live="polite"></div>
   <div id="toast"></div>
+  <div id="focus-hint" hidden></div>
 
   <div id="pad-panel" hidden>
     <div class="pad-box" role="dialog" aria-labelledby="pad-heading">
@@ -45,7 +53,7 @@
   </div>
 
   <div id="splash">
-    <div class="splash-animals">🐰🐹🦁🦕🦖🦒🐘</div>
+    <div class="splash-animals">🐰🐹🦁🦕🦖🦒🐘🐴🐱🐞</div>
     <button id="play-btn" aria-label="Play">▶</button>
     <p>Click or press any key to start<br><small>(this turns on the sound)</small></p>
   </div>
@@ -54,6 +62,7 @@
   <script src="js/content.js"></script>
   <script src="js/core.js"></script>
   <script src="js/sound.js"></script>
+  <script src="js/progress.js"></script>
   <script src="js/input.js"></script>
   <script src="js/modes/walk.js"></script>
   <script src="js/modes/feed.js"></script>

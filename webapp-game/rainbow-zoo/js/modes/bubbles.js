@@ -62,14 +62,32 @@ Modes.push({
     }
   },
 
+  bubbleAt(x, y) {
+    return this.bubbles.find(b => dist(x, y, b.x, b.y) < b.r);
+  },
+
   popAt(x, y) {
-    const b = this.bubbles.find(b => dist(x, y, b.x, b.y) < b.r);
+    const b = this.bubbleAt(x, y);
     if (b) this.pop(b);
     return !!b;
   },
 
+  // A bubble under the controller cursor says "Press A"; under the mouse, "Click!".
+  // Touch mode needs no hint: the bubble pops as soon as you reach it.
+  hint() {
+    const c = this.cursor, p = Input.pointer;
+    if (c.visible) {
+      const b = this.bubbleAt(c.x, c.y);
+      return b && { x: b.x, y: b.y, r: b.r * 1.12, text: hintFor({ click: null }) };
+    }
+    if (this.touchPop || Input.lastDevice !== 'mouse' || !p.inside) return null;
+    const b = this.bubbleAt(p.x, p.y);
+    return b && { x: b.x, y: b.y, r: b.r * 1.12, text: hintFor(), cursor: 'pointer' };
+  },
+
   pop(b) {
     this.bubbles.splice(this.bubbles.indexOf(b), 1);
+    Progress.earn(1, b.x, b.y);
     Sfx.pop();
     FX.burst(b.x, b.y, { colors: ['#bfe9ff', '#ffffff', '#d7c6ff'], n: 18 });
     FX.add({ kind: 'emoji', text: b.item.emoji, x: b.x, y: b.y, vy: -60 * Stage.k, life: 1.3, size: b.r * 1.4 });

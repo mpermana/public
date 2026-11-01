@@ -51,8 +51,10 @@ Modes.push({
     for (const ch in this.flash) if ((this.flash[ch] -= dt) <= 0) delete this.flash[ch];
   },
 
-  pop(b) {
+  // Popping with the keyboard (the lesson here) earns more than clicking.
+  pop(b, byKey = false) {
     this.balloons.splice(this.balloons.indexOf(b), 1);
+    Progress.earn(byKey ? 2 : 1, b.x, b.y);
     Sfx.pop();
     FX.burst(b.x, b.y, { colors: [b.color.hex, '#fff'], n: 26, speed: 380 });
     if (this.set === 'abc') {
@@ -130,13 +132,23 @@ Modes.push({
     if (!ch) return false;
     this.flash[ch] = 0.35;
     const matches = this.balloons.filter(b => b.ch === ch);
-    if (matches.length) this.pop(matches.reduce((hi, b) => (b.y < hi.y ? b : hi)));
+    if (matches.length) this.pop(matches.reduce((hi, b) => (b.y < hi.y ? b : hi)), true);
     else Sfx.soft();
     return true;
   },
 
+  balloonAt(x, y) {
+    return this.balloons.find(b => dist(x, y, b.x, b.y) < b.r * 1.15);
+  },
+
+  // Pointing at a balloon says which key pops it, since the keyboard is the lesson here.
+  hint() {
+    const p = Input.pointer, b = Input.lastDevice === 'mouse' && p.inside && this.balloonAt(p.x, p.y);
+    return b ? { x: b.x, y: b.y, r: b.r * 1.35, text: `⌨️ ${pressPhrase(b.ch)}`, cursor: 'pointer' } : null;
+  },
+
   onPointerDown(p) {
-    const b = this.balloons.find(b => dist(p.x, p.y, b.x, b.y) < b.r * 1.15);
+    const b = this.balloonAt(p.x, p.y);
     if (b) this.pop(b);
   },
 });

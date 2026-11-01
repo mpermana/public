@@ -19,6 +19,24 @@ function padName(id) {
 
 const padKey = g => `${g.index}:${g.id}`;
 
+// Face-button labels and colors by physical position (standard mapping: 0 bottom, 1 right, 2 left, 3 top).
+const PAD_STYLES = {
+  xbox: {
+    0: { label: 'A', color: 'green' }, 1: { label: 'B', color: 'red' },
+    2: { label: 'X', color: 'blue' }, 3: { label: 'Y', color: 'yellow' },
+    4: { label: 'LB', color: 'orange' }, 5: { label: 'RB', color: 'purple' },
+  },
+  playstation: {
+    0: { label: '✕', color: 'blue' }, 1: { label: '○', color: 'red' },
+    2: { label: '□', color: 'pink' }, 3: { label: '△', color: 'green' },
+    4: { label: 'L1', color: 'orange' }, 5: { label: 'R1', color: 'purple' },
+  },
+};
+
+function padStyle(id = Input.padId) {
+  return /054c|playstation|dualshock|dualsense|wireless controller/i.test(id) ? PAD_STYLES.playstation : PAD_STYLES.xbox;
+}
+
 const Input = {
   handlers: {},
   held: new Set(),
@@ -33,13 +51,18 @@ const Input = {
   stick: [0, 0],
   stick2: [0, 0],
   stickArmed: [true, true],
+  lastDevice: 'mouse', // 'mouse' | 'touch' | 'key' | 'pad', for choosing hint text
 
   emit(type, arg) { this.handlers[type]?.(arg); },
 
   init(surface) {
+    const usePointer = e => { this.lastDevice = e.pointerType === 'touch' ? 'touch' : 'mouse'; };
+    addEventListener('pointermove', usePointer, true);
+    addEventListener('pointerdown', usePointer, true);
     addEventListener('keydown', e => {
       // Keep little fingers from scrolling, tabbing or typing into the page.
       if (!e.ctrlKey && !e.metaKey && !e.altKey && !/^F\d+$/.test(e.key)) e.preventDefault();
+      this.lastDevice = 'key';
       this.held.add(e.code);
       if (e.repeat) return;
       this.emit('key', e);
@@ -110,6 +133,7 @@ const Input = {
     this.padId = pad ? pad.id : '';
     this.padButtons = pad ? this.prevButtons[pad.index] : [];
     if (pad) {
+      if (presses.has(pad) || pad.axes.slice(0, 2).some(v => Math.abs(v) > 0.5)) this.lastDevice = 'pad';
       for (const i of presses.get(pad) || []) {
         this.emit('pad', i);
         if (PAD_NAV[i]) this.emit('nav', PAD_NAV[i]);

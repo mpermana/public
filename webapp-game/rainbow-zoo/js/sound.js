@@ -96,6 +96,9 @@ const Sfx = {
   thud()   { this.tone(120, 0.25, { to: 40, vol: 0.5 }); this.noise(0.15, { freq: 300, vol: 0.4 }); },
   roar()   { this.noise(0.6, { freq: 500, vol: 0.5 }); this.tone(110, 0.6, { to: 70, type: 'sawtooth', vol: 0.12 }); },
   chomp()  { this.noise(0.07, { freq: 1500, vol: 0.35 }); this.noise(0.07, { freq: 1200, vol: 0.3, delay: 0.12 }); },
+  buzz()   { this.tone(170, 1.2, { to: 240, type: 'sawtooth', vol: 0.05 }); },
+  meow()   { this.tone(500, 0.18, { to: 900, type: 'triangle', vol: 0.18 }); this.tone(900, 0.3, { to: 420, type: 'triangle', vol: 0.18, delay: 0.18 }); },
+  clipclop() { [0, 0.15, 0.3, 0.45].forEach((d, i) => this.tone(i % 2 ? 700 : 900, 0.06, { type: 'square', vol: 0.08, delay: d })); },
 
   // Rising notes: pass a step to climb the scale (e.g. counting stars).
   ding(step = 0) {
@@ -106,5 +109,18 @@ const Sfx = {
 
   tada() {
     [0, 4, 7, 12].forEach((s, i) => this.tone(523 * Math.pow(2, s / 12), 0.3, { type: 'triangle', vol: 0.18, delay: i * 0.1 }));
+  },
+
+  // A star landing in the level badge; `step` climbs for a run of stars.
+  twinkle(step = 0) {
+    const f = 1568 * Math.pow(2, step * 2 / 12);
+    this.tone(f, 0.12, { type: 'triangle', vol: 0.07 });
+    this.tone(f * 1.5, 0.1, { vol: 0.03, delay: 0.04 });
+  },
+
+  // Level up: a quick climb, then a held chord.
+  fanfare() {
+    [0, 4, 7, 12].forEach((s, i) => this.tone(523 * Math.pow(2, s / 12), 0.16, { type: 'square', vol: 0.06, delay: i * 0.11 }));
+    [12, 16, 19].forEach(s => this.tone(523 * Math.pow(2, s / 12), 0.8, { type: 'triangle', vol: 0.13, delay: 0.46 }));
   },
 };

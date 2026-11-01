@@ -11,6 +11,11 @@ const App = {
     Settings.load();
     Stage.init(document.getElementById('stage'));
     UI.init();
+    Progress.init();
+    Progress.onLevelUp = () => {
+      this.renderMenu(); // a hat may have unlocked
+      this.mode?.animal?.doAction();
+    };
     Speech.init(() => this.renderMenu());
     Input.init(Stage.canvas);
     Input.handlers = {
@@ -70,6 +75,28 @@ const App = {
     }
     FX.update(dt);
     FX.draw(ctx);
+    Progress.update(dt);
+    Progress.draw(ctx);
+    Hint.draw(ctx, (this.mode && !this.padsOpen && this.mode.hint?.()) || null);
+    this.updateFocusHint();
+  },
+
+  // Menu twin of the in-game hint: a "Press A / Enter / Click" pill under the focused item.
+  updateFocusHint() {
+    const el = document.getElementById('focus-hint'), f = this.focus;
+    if (!this.started || this.mode || this.padsOpen || !f) {
+      el.hidden = true;
+      return;
+    }
+    const dev = Input.lastDevice;
+    const text = dev === 'pad' ? `🎮 ${pressPhrase(padStyle()[0].label)}`
+      : dev === 'key' ? `⌨️ ${pressPhrase('Enter')}`
+      : `${dev === 'touch' ? '👆' : '🖱️'} ${word(dev === 'touch' ? 'tap' : 'click').text}`;
+    if (el.textContent !== text) el.textContent = text;
+    el.hidden = false;
+    const r = f.getBoundingClientRect(), below = r.bottom + 52 < innerHeight;
+    el.style.left = `${r.left + r.width / 2}px`;
+    el.style.top = `${below ? r.bottom + 10 : r.top - 46}px`;
   },
 
   drawParade(ctx, dt) {
@@ -78,7 +105,12 @@ const App = {
       p.x += dt * 0.035;
       if (p.x > 1.1) p.x -= 1.2;
       p.t += dt * 8;
-      drawEmoji(ctx, p.kind.emoji, p.x * Stage.w, y - Math.abs(Math.sin(p.t)) * 14 * k, size, { flip: p.kind.flip, rot: Math.sin(p.t) * 0.08 });
+      ctx.save();
+      ctx.translate(p.x * Stage.w, y - Math.abs(Math.sin(p.t)) * 14 * k);
+      ctx.rotate(Math.sin(p.t) * 0.08);
+      if (p.kind.flip) ctx.scale(-1, 1);
+      drawAnimalSprite(ctx, p.kind, size);
+      ctx.restore();
     }
   },
 
@@ -96,6 +128,19 @@ const App = {
       const b = this.navButton('animal-btn', a.emoji, () => this.setAnimal(a.id), () => UI.say(a.id, a.emoji));
       b.dataset.animal = a.id;
       animalRow.append(b);
+    }
+    const hatRow = document.getElementById('hat-row');
+    for (const h of HATS) {
+      const b = this.navButton('hat-btn', '', () => this.setHat(h, b), () => this.sayHat(h));
+      b.dataset.hat = h.id;
+      const emoji = document.createElement('span'), lock = document.createElement('span'), num = document.createElement('b');
+      emoji.className = 'hat-emoji';
+      emoji.textContent = h.emoji;
+      lock.className = 'hat-lock';
+      num.textContent = h.level;
+      lock.append(num);
+      b.append(emoji, lock);
+      hatRow.append(b);
     }
     const grid = document.getElementById('modes');
     for (const m of Modes) {
@@ -137,6 +182,13 @@ const App = {
     document.getElementById('subtitle').textContent = lang === 'en' ? '' : [title.roman, title.en].filter(Boolean).join(' · ');
     document.querySelectorAll('.chip').forEach(b => b.classList.toggle('selected', b.dataset.lang === lang));
     document.querySelectorAll('.animal-btn').forEach(b => b.classList.toggle('selected', b.dataset.animal === Settings.animal));
+    for (const b of document.querySelectorAll('.hat-btn')) {
+      const h = HATS.find(x => x.id === b.dataset.hat);
+      b.classList.toggle('locked', !Progress.unlocked(h.id));
+      b.classList.toggle('selected', Progress.hat === h.id);
+      b.title = Progress.unlocked(h.id) ? word(h.id).en : `Level ${h.level}`;
+    }
+    Progress.render();
     for (const card of document.querySelectorAll('.mode-card')) {
       const w = word(Modes.find(m => m.id === card.dataset.mode).title);
       card.querySelector('.mode-title').textContent = w.text;
@@ -166,7 +218,7 @@ const App = {
 
   // Move menu focus to the nearest item in a direction (keyboard / d-pad).
   spatialNav(dir) {
-    const items = [...document.querySelectorAll('.chip, .animal-btn, .mode-card')];
+    const items = [...document.querySelectorAll('.chip, .animal-btn, .hat-btn, .mode-card')];
     if (!items.includes(this.focus)) return this.setFocus(items.find(el => el.classList.contains('mode-card')));
     const center = el => { const r = el.getBoundingClientRect(); return { x: r.left + r.width / 2, y: r.top + r.height / 2 }; };
     const [vx, vy] = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[dir], a = center(this.focus);
@@ -193,6 +245,30 @@ const App = {
     Settings.save();
     this.renderMenu();
     UI.say(id, ANIMALS.find(a => a.id === id).emoji);
+  },
+
+  // Put a hat on (or take it off again). A locked hat wiggles and says its level.
+  setHat(h, button) {
+    if (!Progress.unlocked(h.id)) {
+      Sfx.soft();
+      button.classList.remove('nope');
+      void button.offsetWidth; // restart the wiggle
+      button.classList.add('nope');
+      this.sayHat(h);
+      return;
+    }
+    const on = Progress.hat !== h.id;
+    Progress.wear(on ? h.id : null);
+    this.renderMenu();
+    if (on) UI.say(h.id, h.emoji);
+    else Sfx.pop();
+  },
+
+  sayHat(h) {
+    if (Progress.unlocked(h.id)) return UI.say(h.id, h.emoji);
+    const w = word('level');
+    Speech.speak(`${w.text} ${h.level}`);
+    UI.showWord({ emoji: '🔒', text: `${w.text} ${h.level}`, roman: w.roman && `${w.roman} ${h.level}`, en: `Level ${h.level}` });
   },
 
   // ----------------------------------------------------------- modes / HUD
@@ -228,6 +304,7 @@ const App = {
       b.addEventListener('click', () => { b.blur(); Sfx.click(); fn(); });
     };
     on('home-btn', () => this.home());
+    on('level-pill', () => Progress.sayLevel());
     on('lang-btn', () => this.setLang(LANGS[(LANGS.findIndex(l => l.id === Settings.lang) + 1) % LANGS.length].id));
     on('sound-btn', () => {
       Settings.sound = !Settings.sound;

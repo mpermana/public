@@ -42,7 +42,9 @@ Modes.push({
     FX.burst(star.x, star.y, { n: 14 });
     FX.text(star.x, star.y - star.r, String(this.count), RAINBOW[(this.count - 1) % RAINBOW.length].hex, 80);
     UI.say('n' + this.count, '⭐');
+    Progress.earn(1, star.x, star.y);
     if (this.count === 10) {
+      Progress.earn(3, this.animal.x, this.animal.y);
       Sfx.tada();
       Speech.speak(word('great').text, Settings.lang, { interrupt: false });
       FX.burst(this.animal.x, this.animal.y, { n: 50, speed: 600 });
@@ -76,6 +78,8 @@ Modes.push({
     this.animal.draw(ctx);
     drawStarMeter(ctx, this.count, 10);
   },
+
+  hint() { return animalHint(this.animal); },
 
   onAction() {
     this.animal.doAction();

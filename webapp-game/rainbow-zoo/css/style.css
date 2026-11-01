@@ -3,6 +3,7 @@
   --paper: rgba(255, 255, 255, 0.88);
   --lift: 0 4px 0 rgba(59, 42, 90, 0.15);
   --rainbow: linear-gradient(90deg, #ff4d6d, #ff9f1c, #ffd60a, #3ddc84, #3a86ff, #9d4edd, #ff70a6);
+  --ring: conic-gradient(#ff4d6d, #ff9f1c, #ffd60a, #3ddc84, #3a86ff, #9d4edd, #ff70a6, #ff4d6d);
   --font: "Fredoka", "Comic Sans MS", "Chalkboard SE", "Yu Gothic UI", "Microsoft YaHei UI", system-ui, sans-serif;
 }
 
@@ -61,6 +62,31 @@ button:focus { outline: none; }
   background: linear-gradient(#fff, #fff) padding-box, var(--rainbow) border-box;
   transform: scale(1.12);
 }
+
+/* Hats: locked ones are a dark shape with the level that unlocks them. */
+.hat-btn {
+  position: relative; display: grid; place-items: center;
+  width: clamp(52px, 7vw, 76px); aspect-ratio: 1; border-radius: 50%;
+  background: var(--paper); box-shadow: var(--lift);
+  font-size: clamp(28px, 4.2vw, 44px);
+  transition: transform 0.15s;
+}
+.hat-btn.selected {
+  border: 5px solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box, var(--rainbow) border-box;
+  transform: scale(1.12);
+}
+.hat-btn.locked .hat-emoji { filter: brightness(0); opacity: 0.2; }
+.hat-lock {
+  display: none; position: absolute; right: -6px; bottom: -6px;
+  width: 30px; height: 30px; padding: 3px; border-radius: 50%;
+  background: var(--ring);
+  font-size: 15px; font-weight: 700;
+}
+.hat-lock b { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; }
+.hat-btn.locked .hat-lock { display: block; }
+.hat-btn.nope { animation: nope 0.35s; }
+@keyframes nope { 25% { translate: -6px 0; } 75% { translate: 6px 0; } }
 
 #modes {
   display: grid; grid-template-columns: repeat(3, minmax(0, 240px)); gap: 16px;
@@ -134,7 +160,36 @@ body:not(.playing) .in-mode { display: none; }
 .dock-btn.text { padding: 0 18px; font-size: 20px; }
 .dock-btn.selected { color: #fff; background: var(--rainbow); text-shadow: 0 2px 0 rgba(0, 0, 0, 0.2); }
 
-.round-btn:active, .pill-btn:active, .dock-btn:active, .chip:active, .animal-btn:active, .mode-card:active {
+/* Level badge: number in a rainbow ring, the bar to the next level, the next hat. */
+#level-pill {
+  display: flex; align-items: center; gap: 8px; flex: none;
+  height: 56px; padding: 0 14px 0 5px; border-radius: 999px;
+  background: var(--paper); box-shadow: var(--lift);
+}
+#level-badge { display: grid; place-items: center; width: 46px; height: 46px; padding: 5px; border-radius: 50%; background: var(--ring); }
+#level-num { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; font-size: 21px; }
+#level-pill.bump #level-badge { animation: ping 0.35s ease-out; }
+.level-bar {
+  --bar: clamp(56px, 11vw, 140px);
+  position: relative; width: var(--bar); height: 18px; border-radius: 999px; overflow: hidden;
+  background: #e9e1f7; box-shadow: inset 0 2px 0 rgba(59, 42, 90, 0.12);
+}
+#level-fill {
+  position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit;
+  background: var(--rainbow); background-size: var(--bar) 100%;
+  transition: width 0.4s cubic-bezier(0.3, 1.4, 0.6, 1);
+}
+#level-next { font-size: 26px; line-height: 1; opacity: 0.75; }
+/* Narrow screens: just the badge, and a tighter top bar so every button fits. */
+@media (max-width: 640px) {
+  .level-bar, #level-next, #hud-title { display: none; }
+  #hud { gap: 4px; padding: 8px; }
+  #level-pill { height: 48px; padding: 0; background: none; box-shadow: none; }
+  .round-btn { width: 48px; height: 48px; font-size: 24px; }
+  .pill-btn { height: 48px; padding: 0 10px; font-size: 15px; }
+}
+
+.round-btn:active, .pill-btn:active, .dock-btn:active, .chip:active, .animal-btn:active, .hat-btn:active, .mode-card:active, #level-pill:active {
   transform: translateY(3px) scale(0.97);
 }
 
@@ -157,6 +212,37 @@ body:not(.playing) .in-mode { display: none; }
 .wc-text { font-size: clamp(34px, 5vw, 56px); font-weight: 700; line-height: 1.15; }
 .wc-roman { font-size: 22px; color: #7a68a6; }
 .wc-en { font-size: 17px; color: #9a8fb3; }
+
+/* Level-up card: takes the word card's spot (word cards wait while it shows). */
+#levelup {
+  position: fixed; left: 50%; top: 150px; z-index: 4;
+  min-width: 260px; max-width: calc(100vw - 32px);
+  padding: 0 32px 16px; border-radius: 32px; border: 8px solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box, var(--rainbow) border-box;
+  box-shadow: 0 14px 40px rgba(59, 42, 90, 0.3);
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(-50%) scale(0.6);
+  transform-origin: 50% 0;
+  transition: opacity 0.2s, transform 0.35s cubic-bezier(0.3, 1.6, 0.6, 1);
+}
+#levelup.show { opacity: 1; transform: translateX(-50%) scale(1); }
+.lu-level {
+  display: grid; place-items: center;
+  width: 104px; height: 104px; margin: -56px auto 4px; padding: 9px; border-radius: 50%;
+  background: var(--ring); box-shadow: 0 6px 16px rgba(59, 42, 90, 0.25);
+}
+.lu-level div { display: grid; place-items: center; width: 100%; height: 100%; border-radius: 50%; background: #fff; font-size: 48px; font-weight: 700; }
+.lu-text { font-size: clamp(30px, 5vw, 50px); font-weight: 700; line-height: 1.15; }
+.lu-roman { font-size: 20px; color: #7a68a6; }
+.lu-reward {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 10px; padding: 4px 18px; border-radius: 999px;
+  background: #fff7d6; font-size: 24px; font-weight: 700;
+}
+.lu-emoji { font-size: 56px; line-height: 1.1; animation: bob 1.2s ease-in-out infinite; }
+.lu-new { padding: 2px 10px; border-radius: 999px; background: #ff4d6d; color: #fff; font-size: 16px; transform: rotate(-8deg); }
 
 #toast {
   position: fixed; left: 50%; bottom: 96px; z-index: 4;
@@ -207,6 +293,17 @@ body:not(.playing) .in-mode { display: none; }
   background: var(--rainbow); color: #fff; font-size: 32px;
   box-shadow: var(--lift);
 }
+
+#focus-hint {
+  position: fixed; z-index: 2;
+  padding: 6px 16px; border-radius: 999px; border: 3px solid #9d4edd;
+  background: #fff; box-shadow: var(--lift);
+  font-size: 18px; font-weight: 700; white-space: nowrap;
+  pointer-events: none;
+  transform: translateX(-50%);
+  animation: nudge 1s ease-in-out infinite;
+}
+@keyframes nudge { 50% { transform: translate(-50%, -5px); } }
 
 #splash {
   position: fixed; inset: 0; z-index: 10;

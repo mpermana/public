@@ -308,6 +308,9 @@ const ACTIONS = {
   breath:  { time: 1.0, start: () => Sfx.whoosh() },
   stretch: { time: 1.0, start: () => Sfx.boing() },
   spray:   { time: 1.0, start: () => Sfx.splash() },
+  gallop:  { time: 0.9, start: () => Sfx.clipclop() },
+  pounce:  { time: 0.8, start: a => { Sfx.meow(); FX.text(a.x, a.y - a.size * 0.7, word('meow').text, '#ff70a6', 60); } },
+  fly:     { time: 1.6, start: () => Sfx.buzz() },
 };
 
 class Animal {
@@ -324,6 +327,7 @@ class Animal {
     this.squish = 0;     // seconds of munch squash left
     this.action = null;
     this.actionT = 0;
+    this.lastActionAt = Stage.time; // for "press Space" hints when idle
     this.bounds = null;  // optional { top, bottom } in px
     this.setKind(id);
   }
@@ -367,6 +371,7 @@ class Animal {
     if (this.action) return;
     this.action = this.kind.special;
     this.actionT = 0;
+    this.lastActionAt = Stage.time;
     this.landed = false;
     ACTIONS[this.action].start(this);
   }
@@ -387,6 +392,9 @@ class Animal {
     if (this.action === 'spray' && p < 0.6 && Math.random() < 0.5) {
       FX.add({ kind: 'emoji', text: '💧', x: m.x, y: this.y - this.size * 0.3, vx: this.dirX * rand(100, 260) * k, vy: rand(-650, -450) * k, g: 900 * k, life: 1.2, size: 30 * k });
     }
+    if (this.action === 'fly' && Math.random() < 0.4) {
+      FX.add({ kind: 'emoji', text: pick(['✨', '💖']), x: this.x + rand(-0.3, 0.3) * this.size, y: this.y - this.pose().lift + this.size * 0.3, vy: 40 * k, life: 0.8, size: 26 * k });
+    }
   }
 
   pose() {
@@ -394,38 +402,128 @@ class Animal {
     const wave = Math.sin(Math.PI * p);
     let lift = Math.abs(Math.sin(this.walk)) * s * 0.08 * this.stride;
     let rot = Math.sin(this.walk) * 0.08 * this.stride;
-    let sx = 1, sy = 1 + Math.sin(Stage.time * 3) * 0.02;
+    let sx = 1, sy = 1 + Math.sin(Stage.time * 3) * 0.02, shift = 0;
     switch (this.action) {
       case 'hop': lift += wave * s * 1.1; break;
       case 'spin': rot += p * TAU; break;
       case 'roar': sx = sy = 1 + wave * 0.3; break;
       case 'stomp': if (p < 0.4) lift += Math.sin(Math.PI * p / 0.4) * s * 0.5; break;
       case 'stretch': sy *= 1 + wave * 0.6; sx *= 1 - wave * 0.15; break;
+      case 'gallop': lift += Math.abs(Math.sin(p * Math.PI * 3)) * s * 0.35; rot += Math.sin(p * Math.PI * 6) * 0.1; break;
+      case 'fly': lift += wave * s * 1.6; rot += Math.sin(p * 30) * 0.15; break;
+      case 'pounce':
+        if (p < 0.3) {
+          const crouch = Math.sin(Math.PI * p / 0.3);
+          sy *= 1 - crouch * 0.25;
+          sx *= 1 + crouch * 0.15;
+        } else {
+          const leap = Math.sin(Math.PI * (p - 0.3) / 0.7);
+          lift += leap * s * 0.8;
+          shift = this.dirX * leap * s * 0.5;
+        }
+        break;
     }
     if (this.squish) {
       const q = Math.sin(this.squish / 0.35 * Math.PI);
       sx *= 1 + q * 0.18;
       sy *= 1 - q * 0.14;
     }
-    return { lift, rot, sx, sy };
+    return { lift, rot, sx, sy, shift };
   }
 
   draw(ctx) {
-    const s = this.size, { lift, rot, sx, sy } = this.pose(), feet = this.y + s * 0.4;
+    const s = this.size, { lift, rot, sx, sy, shift } = this.pose(), feet = this.y + s * 0.4;
     ctx.save();
     ctx.fillStyle = 'rgba(40,60,20,.22)';
     ctx.beginPath();
-    ctx.ellipse(this.x, feet, s * 0.36 * (1 - Math.min(lift / s, 0.6) * 0.5), s * 0.08, 0, 0, TAU);
+    ctx.ellipse(this.x + shift, feet, s * 0.36 * (1 - Math.min(lift / s, 0.6) * 0.5), s * 0.08, 0, 0, TAU);
     ctx.fill();
     // Scale from the feet so stretching grows upward; rotate around the middle.
-    ctx.translate(this.x, feet - lift);
+    ctx.translate(this.x + shift, feet - lift);
     ctx.scale(sx * (this.kind.flip && this.dirX > 0 ? -1 : 1), sy);
     ctx.translate(0, -s * 0.45);
     ctx.rotate(rot);
-    ctx.drawImage(emojiSprite(this.kind.emoji), -s / 2, -s / 2, s, s);
+    drawAnimalSprite(ctx, this.kind, s);
     ctx.restore();
   }
 }
+
+// The animal's picture and its hat, centered on the current origin.
+function drawAnimalSprite(ctx, kind, s) {
+  ctx.drawImage(emojiSprite(kind.emoji), -s / 2, -s / 2, s, s);
+  const hat = HATS.find(h => h.id === Progress.hat);
+  if (!hat) return;
+  const [x, y, scale, tilt] = kind.hat, size = s * hat.size * scale;
+  ctx.save();
+  ctx.translate((x + hat.dx * scale) * s, (y + hat.dy * scale) * s);
+  ctx.rotate(tilt + hat.rot);
+  ctx.drawImage(emojiSprite(hat.emoji), -size / 2, -size / 2, size, size);
+  ctx.restore();
+}
+
+// ------------------------------------------------------------------- hints
+
+// How to act right now, for the device the child last used:
+// "🖱️ Click!", "⌨️ Press Space" or "🎮 Press A". `pad` is a button index or a label.
+function hintFor({ click = 'click', key = 'Space', pad = 0 } = {}) {
+  const dev = Input.lastDevice;
+  if (dev === 'pad' && pad !== null) return `🎮 ${pressPhrase(typeof pad === 'number' ? padStyle()[pad].label : pad)}`;
+  if (dev === 'key' && key !== null) return `⌨️ ${pressPhrase(key)}`;
+  if (!click) return null;
+  return dev === 'touch' ? `👆 ${word('tap').text}` : `🖱️ ${word(click).text}`;
+}
+
+// Hovering the animal says "Click!"; idling on keyboard / controller nudges "Press Space / A".
+function animalHint(a, { idle = true } = {}) {
+  const p = Input.pointer, ring = { x: a.x, y: a.y - a.size * 0.05, r: a.radius * 1.5 };
+  if (Input.lastDevice === 'mouse' && p.inside && dist(p.x, p.y, a.x, a.y) < a.radius * 1.2) return { ...ring, text: hintFor(), cursor: 'pointer' };
+  const idling = !a.action && Stage.time - a.lastActionAt > 6;
+  if (idle && idling && (Input.lastDevice === 'key' || Input.lastDevice === 'pad')) return { ...ring, text: hintFor() };
+  return null;
+}
+
+// Modes return a target from `hint()`: { x, y, r, text?, cursor? }. It gets a
+// spinning rainbow ring, a "what to press" bubble, and the mouse cursor changes.
+const Hint = {
+  cursor: '',
+
+  draw(ctx, target) {
+    const cursor = target?.cursor || '';
+    if (cursor !== this.cursor) Stage.canvas.style.cursor = this.cursor = cursor;
+    if (!target) return;
+    const k = Stage.k, t = Stage.time, r = target.r * (1 + Math.sin(t * 6) * 0.05);
+    ctx.save();
+    ctx.lineWidth = 8 * k;
+    ctx.strokeStyle = 'rgba(255,255,255,.9)';
+    ctx.beginPath();
+    ctx.arc(target.x, target.y, r, 0, TAU);
+    ctx.stroke();
+    ctx.lineWidth = 5 * k;
+    ctx.setLineDash([16 * k, 10 * k]);
+    ctx.lineDashOffset = -t * 60 * k;
+    ctx.strokeStyle = `hsl(${(t * 120) % 360}, 90%, 58%)`;
+    ctx.stroke();
+    ctx.restore();
+    if (target.text) this.bubble(ctx, target.text, target.x, target.y, r);
+  },
+
+  bubble(ctx, text, x, y, r) {
+    const k = Stage.k, size = Math.max(18, 26 * k);
+    ctx.font = `700 ${size}px ${FONT}`;
+    const w = ctx.measureText(text).width + size * 1.2, h = size * 1.7;
+    let by = y - r - h * 0.7 - Math.abs(Math.sin(Stage.time * 4)) * 6 * k;
+    if (by - h / 2 < 84) by = y + r + h * 0.7; // no room above: go below
+    const bx = clamp(x, w / 2 + 8, Stage.w - w / 2 - 8);
+    ctx.fillStyle = '#fff';
+    ctx.strokeStyle = '#9d4edd';
+    ctx.lineWidth = Math.max(2, 3 * k);
+    ctx.beginPath();
+    ctx.roundRect(bx - w / 2, by - h / 2, w, h, h / 2);
+    ctx.fill();
+    ctx.stroke();
+    drawLabel(ctx, text, bx, by, size, { color: '#3b2a5a', stroke: '#fff' });
+  },
+};
 
 // --------------------------------------------------------------------- DOM
 
@@ -438,6 +536,7 @@ const UI = {
 
   // Big card with the word in the current language, its reading and English.
   showWord({ emoji = '', text, roman = '', en = '' }) {
+    if (performance.now() < this.hushUntil) return;
     const parts = [['wc-emoji', emoji], ['wc-text', text], ['wc-roman', roman]];
     if (Settings.lang !== 'en' && en && en !== text) parts.push(['wc-en', en]);
     this.card.replaceChildren(...parts.filter(([, v]) => v).map(([cls, v]) => {
@@ -451,6 +550,12 @@ const UI = {
     this.card.classList.add('show');
     clearTimeout(this.cardTimer);
     this.cardTimer = setTimeout(() => this.card.classList.remove('show'), 2600);
+  },
+
+  // Keep word cards away for a while (the level-up card uses their spot).
+  hush(ms) {
+    this.hushUntil = performance.now() + ms;
+    this.card.classList.remove('show');
   },
 
   // Speak a word and show its card.

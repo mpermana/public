@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Hammy's Happy Resort</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2256%22 r=%2240%22 fill=%22%23e8a85c%22/><circle cx=%2226%22 cy=%2222%22 r=%2214%22 fill=%22%23e8a85c%22/><circle cx=%2274%22 cy=%2222%22 r=%2214%22 fill=%22%23e8a85c%22/><ellipse cx=%2250%22 cy=%2268%22 rx=%2226%22 ry=%2220%22 fill=%22%23fff4e2%22/><circle cx=%2236%22 cy=%2250%22 r=%226%22 fill=%22%232b1b17%22/><circle cx=%2264%22 cy=%2250%22 r=%226%22 fill=%22%232b1b17%22/><circle cx=%2250%22 cy=%2262%22 r=%224%22 fill=%22%23f58aa0%22/></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- Persistent HUD: Hammy's portrait, mood and needs on the left; clock, speed and stars on the right. -->
+  <header id="hud" hidden>
+    <button id="hud-hammy" class="hud-card" title="How is Hammy?">
+      <canvas id="hud-portrait" width="112" height="112"></canvas>
+      <span class="hud-mood"><b id="hud-name">Hammy</b><small id="hud-mood">Happy</small></span>
+    </button>
+    <div id="hud-needs" class="hud-card"></div>
+    <div class="hud-spacer"></div>
+    <div id="hud-clock" class="hud-card" title="Time">
+      <span id="hud-weather">☀️</span>
+      <span class="hud-time"><b id="hud-time">7:00 AM</b><small id="hud-day">Monday</small></span>
+    </div>
+    <button id="hud-speed" class="hud-card round" title="Time speed"></button>
+    <button id="hud-stars" class="hud-card" title="Stars and stickers"><span class="star-icon">⭐</span><b id="hud-star-count">0</b></button>
+  </header>
+
+  <button id="back-btn" class="big-round" hidden title="Back">⬅️</button>
+
+  <nav id="nav" hidden>
+    <button data-nav="map" title="World map">🗺️</button>
+    <button data-nav="home" title="Go home">🏠</button>
+    <button data-nav="wishes" title="What Hammy wants to do">💭<i id="wish-dot" hidden></i></button>
+    <button data-nav="schedule" title="Today's schedule">📅</button>
+    <button data-nav="status" title="How is Hammy?">🐹</button>
+    <button data-nav="settings" title="Settings">⚙️</button>
+  </nav>
+
+  <div id="actbar" hidden></div>
+  <div id="popover" hidden></div>
+  <div id="cancel-bar" hidden><button id="cancel-btn">✋ Stop</button></div>
+  <div id="dpad" hidden>
+    <button data-dir="up">▲</button><button data-dir="left">◀</button><button data-dir="right">▶</button><button data-dir="down">▼</button>
+  </div>
+
+  <div id="panel" hidden><div class="sheet"><button class="sheet-close" title="Close">✕</button><div class="sheet-body"></div></div></div>
+  <div id="reward" hidden></div>
+  <div id="toast"></div>
+
+  <main id="menu" hidden></main>
+
+  <div id="loading"><div class="loading-hammy">🐹</div><p>Loading the resort…</p></div>
+
+  <script src="js/core.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/props.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/activities.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/location.js"></script>
+  <script src="js/scenes/map.js"></script>
+  <script src="js/scenes/house.js"></script>
+  <script src="js/scenes/outdoor.js"></script>
+  <script src="js/games/base.js"></script>
+  <script src="js/games/home.js"></script>
+  <script src="js/games/learning.js"></script>
+  <script src="js/games/music.js"></script>
+  <script src="js/games/reading.js"></script>
+  <script src="js/games/sports.js"></script>
+  <script src="js/games/arcade.js"></script>
+  <script src="js/games/outside.js"></script>
+  <script src="js/games/family.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -87,6 +87,7 @@ Modes.push({
     this.announceT = 0;
     this.wonT = 0;
     this.slots = [];
+    this.visited = new Set([currentActivity(this.t).id]); // routine times found this visit, one ⭐ each
     this.L = this.layout();
     this.animal = new Animal(Settings.animal);
     this.quizBtn = UI.button('🎯', () => this.toggleQuiz(), { title: 'Quiz: set the clock' });
@@ -107,10 +108,10 @@ Modes.push({
     const w = Stage.w, h = Stage.h, slotH = Math.min(84 * Stage.k + 10, (Math.min(w - 32, 940)) / SCHEDULE.length);
     const ty = h - 100 - slotH / 2;
     if (w > h * 1.1) {
-      const cy = (90 + ty - slotH / 2) / 2, R = Math.min((ty - slotH / 2 - 110) / 2, w * 0.24), cx = w * 0.36;
+      const cy = (90 + ty - slotH / 2) / 2, R = Math.max(20, Math.min((ty - slotH / 2 - 110) / 2, w * 0.24)), cx = w * 0.36;
       return { cx, cy, R, px: (cx + R + w) / 2, py: cy, ty, slotH };
     }
-    const R = Math.min(w * 0.4, (ty - 120) * 0.3), cy = 100 + R;
+    const R = Math.max(20, Math.min(w * 0.4, (ty - 120) * 0.3)), cy = 100 + R;
     return { cx: w / 2, cy, R, px: w / 2, py: (cy + R + ty - slotH / 2) / 2, ty, slotH };
   },
 
@@ -119,6 +120,7 @@ Modes.push({
     const n = Math.abs(delta);
     const t = delta > 0 ? Math.floor(this.t / n) * n + n : Math.ceil(this.t / n) * n - n;
     this.t = (t + 1440) % 1440;
+    this.lastInput = Stage.time;
     Sfx.click();
     this.announceT = 0.5; // wait for mashing to stop before talking
   },
@@ -152,12 +154,17 @@ Modes.push({
 
   announce() {
     this.announceT = 0;
+    this.lastInput = Stage.time;
     const p = timePhrase(this.t), act = SCHEDULE.find(s => s.at === this.t);
     Speech.speak(p.text);
     UI.showWord({ ...p, emoji: act ? act.emoji : isDaytime(this.t) ? '☀️' : '🌙' });
     if (act) {
       Speech.speak(word(act.id).text, Settings.lang, { interrupt: false });
       this.animal.doAction();
+      if (!this.visited.has(act.id)) {
+        this.visited.add(act.id);
+        Progress.earn(1, this.animal.x, this.animal.y);
+      }
     }
     if (this.quiz !== null && this.t % 720 === this.quiz) this.win();
   },
@@ -165,6 +172,7 @@ Modes.push({
   win() {
     this.quiz = null;
     this.wonT = 2.5;
+    Progress.earn(5, this.L.cx, this.L.cy);
     Sfx.tada();
     Speech.speak(word('great').text, Settings.lang, { interrupt: false });
     this.animal.doAction();
@@ -277,8 +285,29 @@ Modes.push({
     return false;
   },
 
+  slotAt(x, y) {
+    return this.slots.find(s => dist(x, y, s.x, s.y) < s.r);
+  },
+
+  // The long hand's tip is the cue: "Drag!" for the mouse, and after a quiet
+  // spell on keyboard / controller, "Press ← →" / "Press ✚".
+  hint() {
+    const L = this.L, p = Input.pointer, ang = (this.shown % 60) / 60 * TAU - Math.PI / 2;
+    const tip = { x: L.cx + Math.cos(ang) * L.R * 0.7, y: L.cy + Math.sin(ang) * L.R * 0.7, r: L.R * 0.14 };
+    if (this.dragging) return { ...tip, cursor: 'grabbing' };
+    if (Input.lastDevice === 'mouse' && p.inside) {
+      const slot = this.slotAt(p.x, p.y);
+      if (slot) return { x: slot.x, y: slot.y, r: slot.r * 1.05, text: hintFor(), cursor: 'pointer' };
+      if (dist(p.x, p.y, L.cx, L.cy) < L.R) return { ...tip, text: `🖱️ ${word('drag').text}`, cursor: 'grab' };
+      return animalHint(this.animal, { idle: false });
+    }
+    const keyOrPad = Input.lastDevice === 'key' || Input.lastDevice === 'pad';
+    if (keyOrPad && Stage.time - this.lastInput > 6) return { ...tip, text: hintFor({ key: '← →', pad: '✚' }) };
+    return null;
+  },
+
   onPointerDown(p) {
-    const slot = this.slots.find(s => dist(p.x, p.y, s.x, s.y) < s.r);
+    const slot = this.slotAt(p.x, p.y);
     if (slot) return this.setTime(slot.at);
     const L = this.L;
     if (dist(p.x, p.y, L.cx, L.cy) < L.R) {

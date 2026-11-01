@@ -4,6 +4,7 @@ import threading
 import time
 import json
 import os
+from PIL import ImageGrab, ImageTk, Image
 from pynput import mouse
 from pynput.mouse import Controller, Button
 from utility import is_caps_lock_on
@@ -202,4 +203,37 @@ edit_btn.pack(side=tk.LEFT, padx=5)
 
 load_events()
 refresh_event_listbox(event_listbox)
+
+#
+mouse_pos_label = tk.Label(root, text="Mouse: X=0 Y=0", font=("Helvetica", 12))
+mouse_pos_label.pack(pady=5)
+
+snapshot_label = tk.Label(root)
+snapshot_label.pack(pady=5)
+
+mouse_controller_live = Controller()
+snapshot_size = 64
+def update_mouse_position():
+    try:
+        x, y = mouse_controller_live.position
+        mouse_pos_label.config(text=f"Mouse: X={x} Y={y}")
+        half = snapshot_size // 2
+        bbox = (
+            int(x - half),
+            int(y - half),
+            int(x + half),
+            int(y + half)
+        )
+        img = ImageGrab.grab(bbox=bbox)
+        img = img.resize((snapshot_size, snapshot_size), Image.NEAREST)
+        tk_img = ImageTk.PhotoImage(img)
+        snapshot_label.img = tk_img  # prevent GC
+        snapshot_label.config(image=tk_img)
+    except Exception as e:
+        print(e)
+        pass
+    root.after(100, update_mouse_position)  # ~10 FPS
+# update_mouse_position()
+
+# main loop
 root.mainloop()

@@ -1,21 +1,8 @@
 // Button Party: learn the game controller. A big controller is drawn on
 // screen; press the glowing button and your animal celebrates. Every other
 // button says its color, the d-pad says its direction, sticks move the animal.
-// No controller? Keyboard A B X Y and clicks work too.
+// No controller? Keyboard A B X Y and clicks work too. Button colors: PAD_STYLES in input.js.
 
-// Colors by physical position (standard mapping: 0 bottom, 1 right, 2 left, 3 top).
-const PAD_STYLES = {
-  xbox: {
-    0: { label: 'A', color: 'green' }, 1: { label: 'B', color: 'red' },
-    2: { label: 'X', color: 'blue' }, 3: { label: 'Y', color: 'yellow' },
-    4: { label: 'LB', color: 'orange' }, 5: { label: 'RB', color: 'purple' },
-  },
-  playstation: {
-    0: { label: '✕', color: 'blue' }, 1: { label: '○', color: 'red' },
-    2: { label: '□', color: 'pink' }, 3: { label: '△', color: 'green' },
-    4: { label: 'L1', color: 'orange' }, 5: { label: 'R1', color: 'purple' },
-  },
-};
 const ARROWS = { up: '⬆️', down: '⬇️', left: '⬅️', right: '➡️' };
 const DPAD_BUTTON = { up: 12, down: 13, left: 14, right: 15 };
 
@@ -32,9 +19,7 @@ Modes.push({
     this.streak = 0;
   },
 
-  style() {
-    return /054c|playstation|dualshock|dualsense|wireless controller/i.test(Input.padId) ? PAD_STYLES.playstation : PAD_STYLES.xbox;
-  },
+  style() { return padStyle(); },
 
   layout() {
     const w = Math.min(Stage.w * 0.8, Stage.h * 0.9, 720), h = w * 0.46, br = w * 0.055;
@@ -86,6 +71,7 @@ Modes.push({
       this.target = null;
       this.nextT = 1.4;
       this.streak++;
+      Progress.earn(this.streak % 5 === 0 ? 5 : 2, pos.x, pos.y);
       if (this.streak % 5 === 0) Sfx.tada(); else Sfx.ding(this.streak % 8);
       this.animal.doAction();
       FX.burst(this.animal.x, this.animal.y, { emojis: ['⭐', '✨'], n: 10 });
@@ -213,18 +199,31 @@ Modes.push({
     return true;
   },
 
-  onPointerDown(p) {
-    const L = this.L;
-    for (const i of [0, 1, 2, 3]) if (dist(p.x, p.y, L.buttons[i].x, L.buttons[i].y) < L.br * 1.25) return this.press(i);
+  // What a point is over (a face button, bumper, d-pad arm or the animal), and what clicking does.
+  hitAt(x, y) {
+    const L = this.L, a = this.animal;
+    for (const i of [0, 1, 2, 3]) {
+      const b = L.buttons[i];
+      if (dist(x, y, b.x, b.y) < L.br * 1.25) return { x: b.x, y: b.y, r: L.br * 1.5, act: () => this.press(i) };
+    }
     for (const i of [4, 5]) {
       const b = L.bumpers[i];
-      if (Math.abs(p.x - b.x) < b.w / 2 && Math.abs(p.y - b.y) < b.h / 2) return this.press(i);
+      if (Math.abs(x - b.x) < b.w / 2 && Math.abs(y - b.y) < b.h / 2) return { x: b.x, y: b.y, r: b.w * 0.6, act: () => this.press(i) };
     }
-    for (const dir of ['up', 'down', 'left', 'right']) if (dist(p.x, p.y, L.dpad[dir].x, L.dpad[dir].y) < L.br) return this.onNav(dir);
-    const a = this.animal;
-    if (dist(p.x, p.y, a.x, a.y) < a.radius * 1.3) {
-      a.doAction();
-      UI.say(a.kind.id, a.kind.emoji);
+    for (const dir of ['up', 'down', 'left', 'right']) {
+      const d = L.dpad[dir];
+      if (dist(x, y, d.x, d.y) < L.br) return { x: d.x, y: d.y, r: L.br * 1.2, act: () => this.onNav(dir) };
     }
+    if (dist(x, y, a.x, a.y) < a.radius * 1.3) {
+      return { x: a.x, y: a.y - a.size * 0.05, r: a.radius * 1.5, act: () => { a.doAction(); UI.say(a.kind.id, a.kind.emoji); } };
+    }
+    return null;
   },
+
+  hint() {
+    const p = Input.pointer, hit = Input.lastDevice === 'mouse' && p.inside && this.hitAt(p.x, p.y);
+    return hit ? { x: hit.x, y: hit.y, r: hit.r, text: hintFor(), cursor: 'pointer' } : null;
+  },
+
+  onPointerDown(p) { this.hitAt(p.x, p.y)?.act(); },
 });

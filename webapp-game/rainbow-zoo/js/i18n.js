@@ -17,6 +17,28 @@ const WORDS = {
   great:      ['Great job!', 'すごい！|sugoi', '真棒！|zhēn bàng', 'Hebat!'],
   big:        ['So big!', 'おおきい！|ōkii', '好大！|hǎo dà', 'Besar sekali!'],
   roar:       ['Roar!', 'ガオー！|gaō', '吼！|hǒu', 'Aum!'],
+  meow:       ['Meow!', 'ニャー！|nyā', '喵！|miāo', 'Meong!'],
+
+  // Levels
+  level:      ['Level', 'レベル|reberu', '等级|děngjí', 'Level'],
+  levelup:    ['Level up!', 'レベルアップ！|reberu appu', '升级啦！|shēngjí la', 'Naik level!'],
+  new:        ['New!', 'あたらしい！|atarashii', '新的！|xīn de', 'Baru!'],
+
+  // Hats (level rewards)
+  bow:        ['bow', 'リボン|ribon', '蝴蝶结|húdiéjié', 'pita'],
+  flower:     ['flower', 'おはな|ohana', '花|huā', 'bunga'],
+  cap:        ['cap', 'ぼうし|bōshi', '帽子|màozi', 'topi'],
+  sunhat:     ['sun hat', 'むぎわらぼうし|mugiwara bōshi', '草帽|cǎomào', 'topi jerami'],
+  headphones: ['headphones', 'ヘッドホン|heddohon', '耳机|ěrjī', 'headphone'],
+  tophat:     ['top hat', 'シルクハット|shiruku hatto', '礼帽|lǐmào', 'topi tinggi'],
+  gradcap:    ['graduation cap', 'がくぼう|gakubō', '学士帽|xuéshìmào', 'topi toga'],
+  star:       ['star', 'ほし|hoshi', '星星|xīngxing', 'bintang'],
+  crown:      ['crown', 'おうかん|ōkan', '皇冠|huángguān', 'mahkota'],
+
+  // Hints for what to do with the mouse / finger
+  click:      ['Click!', 'クリック！|kurikku', '点一下！|diǎn yíxià', 'Klik!'],
+  tap:        ['Tap!', 'タップ！|tappu', '点一下！|diǎn yíxià', 'Ketuk!'],
+  drag:       ['Drag!', 'ドラッグ！|doraggu', '拖一拖！|tuō yi tuō', 'Seret!'],
 
   // Animals
   rabbit:     ['rabbit', 'うさぎ|usagi', '兔子|tùzi', 'kelinci'],
@@ -26,6 +48,9 @@ const WORDS = {
   godzilla:   ['Godzilla', 'ゴジラ|gojira', '哥斯拉|gēsīlā', 'Godzilla'],
   giraffe:    ['giraffe', 'キリン|kirin', '长颈鹿|chángjǐnglù', 'jerapah'],
   elephant:   ['elephant', 'ぞう|zō', '大象|dàxiàng', 'gajah'],
+  horse:      ['horse', 'うま|uma', '马|mǎ', 'kuda'],
+  cat:        ['cat', 'ねこ|neko', '猫|māo', 'kucing'],
+  ladybug:    ['ladybug', 'てんとうむし|tentōmushi', '瓢虫|piáochóng', 'kepik'],
 
   // Fruits
   apple:      ['apple', 'りんご|ringo', '苹果|píngguǒ', 'apel'],
@@ -144,6 +169,16 @@ function timePhrase(minutes, lang = Settings.lang) {
     return { text: `jam ${n[h]} lewat ${m} menit`, roman: '', en };
   }
   return { text: en, roman: '', en };
+}
+
+// "Press A" for hints; `label` is what's printed on the key or button.
+function pressPhrase(label, lang = Settings.lang) {
+  switch (lang) {
+    case 'ja': return `${label}をおして`;
+    case 'zh': return `按${label}`;
+    case 'id': return `Tekan ${label}`;
+    default: return `Press ${label}`;
+  }
 }
 
 // "Can you make it 3 o'clock?" for the clock quiz.

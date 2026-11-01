@@ -1,0 +1,4226 @@
+[
+ {
+  "id": "hammy-001",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Boing boing! Trampoline time!"
+ },
+ {
+  "id": "hammy-002",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can a friend come and play at our house?"
+ },
+ {
+  "id": "hammy-003",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I draw a picture?"
+ },
+ {
+  "id": "hammy-004",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I go down the water slide?"
+ },
+ {
+  "id": "hammy-005",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I have a bubble bath?"
+ },
+ {
+  "id": "hammy-006",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I jump in the ball pit?"
+ },
+ {
+  "id": "hammy-007",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I play with my friends?"
+ },
+ {
+  "id": "hammy-008",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can I wear something new?"
+ },
+ {
+  "id": "hammy-009",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can Mom read me a bedtime story?"
+ },
+ {
+  "id": "hammy-010",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we do a puzzle?"
+ },
+ {
+  "id": "hammy-011",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we do some adding?"
+ },
+ {
+  "id": "hammy-012",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we have a little snack?"
+ },
+ {
+  "id": "hammy-013",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we match the shapes?"
+ },
+ {
+  "id": "hammy-014",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we play air hockey?"
+ },
+ {
+  "id": "hammy-015",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we play with Dad?"
+ },
+ {
+  "id": "hammy-016",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we play with Mom?"
+ },
+ {
+  "id": "hammy-017",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we sort the colors?"
+ },
+ {
+  "id": "hammy-018",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Can we watch a cartoon?"
+ },
+ {
+  "id": "hammy-019",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Choo choo! Can I play with my train?"
+ },
+ {
+  "id": "hammy-020",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Dad, can we read together?"
+ },
+ {
+  "id": "hammy-021",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Dad, can we shoot hoops?"
+ },
+ {
+  "id": "hammy-022",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "How many carrots can we count?"
+ },
+ {
+  "id": "hammy-023",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I can climb all the way up!"
+ },
+ {
+  "id": "hammy-024",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I can help wash the dishes!"
+ },
+ {
+  "id": "hammy-025",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I can set the table!"
+ },
+ {
+  "id": "hammy-026",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I feel like swimming!"
+ },
+ {
+  "id": "hammy-027",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I need to go potty!"
+ },
+ {
+  "id": "hammy-028",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I want a big family hug!"
+ },
+ {
+  "id": "hammy-029",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I want to read a book!"
+ },
+ {
+  "id": "hammy-030",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I want to rest a little."
+ },
+ {
+  "id": "hammy-031",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I'm hungry! Can we eat breakfast?"
+ },
+ {
+  "id": "hammy-032",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I'm sleepy. Can I take a nap?"
+ },
+ {
+  "id": "hammy-033",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "I'm sleepy. Can we go to bed?"
+ },
+ {
+  "id": "hammy-034",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "It's a birthday! Let's have a party!"
+ },
+ {
+  "id": "hammy-035",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "It's lunch time! Yummy!"
+ },
+ {
+  "id": "hammy-036",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let me tidy up my toys!"
+ },
+ {
+  "id": "hammy-037",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's brush my teeth!"
+ },
+ {
+  "id": "hammy-038",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's build a sandcastle!"
+ },
+ {
+  "id": "hammy-039",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's build a tall tower!"
+ },
+ {
+  "id": "hammy-040",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's collect the floating toys!"
+ },
+ {
+  "id": "hammy-041",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's cook something yummy with Mom!"
+ },
+ {
+  "id": "hammy-042",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's count to twenty!"
+ },
+ {
+  "id": "hammy-043",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's do a jigsaw puzzle!"
+ },
+ {
+  "id": "hammy-044",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's do it!"
+ },
+ {
+  "id": "hammy-045",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's find pretty flowers!"
+ },
+ {
+  "id": "hammy-046",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's find the shapes!"
+ },
+ {
+  "id": "hammy-047",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's get squeaky clean!"
+ },
+ {
+  "id": "hammy-048",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's go bowling!"
+ },
+ {
+  "id": "hammy-049",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's have a dance party!"
+ },
+ {
+  "id": "hammy-050",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's have a picnic together!"
+ },
+ {
+  "id": "hammy-051",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's have a pretend tea party!"
+ },
+ {
+  "id": "hammy-052",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's have dinner with Mom and Dad!"
+ },
+ {
+  "id": "hammy-053",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's hit the shuttlecock!"
+ },
+ {
+  "id": "hammy-054",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's learn colors!"
+ },
+ {
+  "id": "hammy-055",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's learn the ABCs!"
+ },
+ {
+  "id": "hammy-056",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's look after the garden!"
+ },
+ {
+  "id": "hammy-057",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's look at our family photos!"
+ },
+ {
+  "id": "hammy-058",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's look for butterflies!"
+ },
+ {
+  "id": "hammy-059",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's make a barbecue with Dad!"
+ },
+ {
+  "id": "hammy-060",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's make up a story!"
+ },
+ {
+  "id": "hammy-061",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's match the letters!"
+ },
+ {
+  "id": "hammy-062",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's pick apples and count them!"
+ },
+ {
+  "id": "hammy-063",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's play a board game together!"
+ },
+ {
+  "id": "hammy-064",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's play basketball!"
+ },
+ {
+  "id": "hammy-065",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's play memory!"
+ },
+ {
+  "id": "hammy-066",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's play tennis!"
+ },
+ {
+  "id": "hammy-067",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's practice piano!"
+ },
+ {
+  "id": "hammy-068",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's relax in the sunshine."
+ },
+ {
+  "id": "hammy-069",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's relax on the comfy sofa."
+ },
+ {
+  "id": "hammy-070",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's run and collect stars!"
+ },
+ {
+  "id": "hammy-071",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's share a snack with a friend!"
+ },
+ {
+  "id": "hammy-072",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's sing a song together!"
+ },
+ {
+  "id": "hammy-073",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Let's watch the fish in the pond."
+ },
+ {
+  "id": "hammy-074",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Mom, can you play piano with me?"
+ },
+ {
+  "id": "hammy-075",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Okay! Let's go!"
+ },
+ {
+  "id": "hammy-076",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Push me on the swing!"
+ },
+ {
+  "id": "hammy-077",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Splash splash!"
+ },
+ {
+  "id": "hammy-078",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Up and down on the seesaw!"
+ },
+ {
+  "id": "hammy-079",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Vroom vroom! Can I drive a car?"
+ },
+ {
+  "id": "hammy-080",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Wash wash wash my hands!"
+ },
+ {
+  "id": "hammy-081",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Wheee! Can I go down the slide?"
+ },
+ {
+  "id": "hammy-082",
+  "speaker": "hammy",
+  "group": "activities.js",
+  "text": "Yay! Here we go!"
+ },
+ {
+  "id": "hammy-083",
+  "speaker": "hammy",
+  "group": "app.js",
+  "text": "Good morning! I'm Hammy! Welcome to my happy resort! My tummy is rumbling. Let's have breakfast!"
+ },
+ {
+  "id": "hammy-084",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "A yellow duck floats by. Quack!"
+ },
+ {
+  "id": "hammy-085",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Bye-bye, butterfly! Hammy waves."
+ },
+ {
+  "id": "hammy-086",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Dad and Hammy go to the pool."
+ },
+ {
+  "id": "hammy-087",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Drip, drop! It is raining."
+ },
+ {
+  "id": "hammy-088",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy brushes its teeth. Brush, brush!"
+ },
+ {
+  "id": "hammy-089",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy goes to the garden."
+ },
+ {
+  "id": "hammy-090",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy has a warm bath."
+ },
+ {
+  "id": "hammy-091",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy picks the apples."
+ },
+ {
+  "id": "hammy-092",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy sees a butterfly."
+ },
+ {
+  "id": "hammy-093",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy wears a float ring."
+ },
+ {
+  "id": "hammy-094",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Hammy wears a yellow raincoat."
+ },
+ {
+  "id": "hammy-095",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "It flies to a red flower."
+ },
+ {
+  "id": "hammy-096",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "It is night. Look up at the sky!"
+ },
+ {
+  "id": "hammy-097",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Kick, kick, kick! Hammy swims with Dad."
+ },
+ {
+  "id": "hammy-098",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Look! An apple tree."
+ },
+ {
+  "id": "hammy-099",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Mom makes an apple pie."
+ },
+ {
+  "id": "hammy-100",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Mom reads a story in bed."
+ },
+ {
+  "id": "hammy-101",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "One star."
+ },
+ {
+  "id": "hammy-102",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "One, two, three, four, five apples!"
+ },
+ {
+  "id": "hammy-103",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Splash! Hammy jumps in a puddle."
+ },
+ {
+  "id": "hammy-104",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "The butterfly is blue!"
+ },
+ {
+  "id": "hammy-105",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "The moon and stars say goodnight."
+ },
+ {
+  "id": "hammy-106",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "The rain stops. Look, a rainbow!"
+ },
+ {
+  "id": "hammy-107",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "The sky is full of stars. Goodnight!"
+ },
+ {
+  "id": "hammy-108",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "The sun goes down. It is evening."
+ },
+ {
+  "id": "hammy-109",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Two stars, three stars!"
+ },
+ {
+  "id": "hammy-110",
+  "speaker": "hammy",
+  "group": "book page",
+  "text": "Yum! Hammy shares with Dad."
+ },
+ {
+  "id": "hammy-111",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "How many apples were on the tree?"
+ },
+ {
+  "id": "hammy-112",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "What color is the butterfly?"
+ },
+ {
+  "id": "hammy-113",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "What do we use when it rains?"
+ },
+ {
+  "id": "hammy-114",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "When do we see the stars?"
+ },
+ {
+  "id": "hammy-115",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "Who reads the story?"
+ },
+ {
+  "id": "hammy-116",
+  "speaker": "hammy",
+  "group": "book question",
+  "text": "Who swims with Hammy?"
+ },
+ {
+  "id": "hammy-117",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Counting Stars."
+ },
+ {
+  "id": "hammy-118",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Five Little Apples."
+ },
+ {
+  "id": "hammy-119",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Goodnight, Hammy."
+ },
+ {
+  "id": "hammy-120",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Hammy and the Blue Butterfly."
+ },
+ {
+  "id": "hammy-121",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Rainy Day."
+ },
+ {
+  "id": "hammy-122",
+  "speaker": "hammy",
+  "group": "book title",
+  "text": "Splash Time."
+ },
+ {
+  "id": "hammy-123",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A ant! Ants are tiny but very strong."
+ },
+ {
+  "id": "hammy-124",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A bee! Bees make honey and help flowers grow."
+ },
+ {
+  "id": "hammy-125",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A butterfly! Butterflies taste with their feet!"
+ },
+ {
+  "id": "hammy-126",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A caterpillar! A caterpillar turns into a butterfly!"
+ },
+ {
+  "id": "hammy-127",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A cricket! Crickets sing by rubbing their legs."
+ },
+ {
+  "id": "hammy-128",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A ladybug! A ladybug has spots on its wings."
+ },
+ {
+  "id": "hammy-129",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "A snail! A snail carries its house on its back."
+ },
+ {
+  "id": "hammy-130",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A ant! Ants are tiny but very strong."
+ },
+ {
+  "id": "hammy-131",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A bee! Bees make honey and help flowers grow."
+ },
+ {
+  "id": "hammy-132",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A butterfly! Butterflies taste with their feet!"
+ },
+ {
+  "id": "hammy-133",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A caterpillar! A caterpillar turns into a butterfly!"
+ },
+ {
+  "id": "hammy-134",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A cricket! Crickets sing by rubbing their legs."
+ },
+ {
+  "id": "hammy-135",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A ladybug! A ladybug has spots on its wings."
+ },
+ {
+  "id": "hammy-136",
+  "speaker": "hammy",
+  "group": "bug facts",
+  "text": "New bug! A snail! A snail carries its house on its back."
+ },
+ {
+  "id": "hammy-137",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "blue! That's blue!"
+ },
+ {
+  "id": "hammy-138",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the blue balloon?"
+ },
+ {
+  "id": "hammy-139",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the blue paint pot?"
+ },
+ {
+  "id": "hammy-140",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the green balloon?"
+ },
+ {
+  "id": "hammy-141",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the green paint pot?"
+ },
+ {
+  "id": "hammy-142",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the orange balloon?"
+ },
+ {
+  "id": "hammy-143",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the orange paint pot?"
+ },
+ {
+  "id": "hammy-144",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the pink balloon?"
+ },
+ {
+  "id": "hammy-145",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the pink paint pot?"
+ },
+ {
+  "id": "hammy-146",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the purple balloon?"
+ },
+ {
+  "id": "hammy-147",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the purple paint pot?"
+ },
+ {
+  "id": "hammy-148",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the red balloon?"
+ },
+ {
+  "id": "hammy-149",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the red paint pot?"
+ },
+ {
+  "id": "hammy-150",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the yellow balloon?"
+ },
+ {
+  "id": "hammy-151",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "Can you find the yellow paint pot?"
+ },
+ {
+  "id": "hammy-152",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "green! That's green!"
+ },
+ {
+  "id": "hammy-153",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "orange! That's orange!"
+ },
+ {
+  "id": "hammy-154",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "pink! That's pink!"
+ },
+ {
+  "id": "hammy-155",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "purple! That's purple!"
+ },
+ {
+  "id": "hammy-156",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "red! That's red!"
+ },
+ {
+  "id": "hammy-157",
+  "speaker": "hammy",
+  "group": "colors",
+  "text": "yellow! That's yellow!"
+ },
+ {
+  "id": "hammy-158",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Eighteen!"
+ },
+ {
+  "id": "hammy-159",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Eleven!"
+ },
+ {
+  "id": "hammy-160",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Fifteen!"
+ },
+ {
+  "id": "hammy-161",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Fourteen!"
+ },
+ {
+  "id": "hammy-162",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Nine!"
+ },
+ {
+  "id": "hammy-163",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Nineteen!"
+ },
+ {
+  "id": "hammy-164",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "One!"
+ },
+ {
+  "id": "hammy-165",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Seventeen!"
+ },
+ {
+  "id": "hammy-166",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Six!"
+ },
+ {
+  "id": "hammy-167",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Sixteen!"
+ },
+ {
+  "id": "hammy-168",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Ten!"
+ },
+ {
+  "id": "hammy-169",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Thirteen!"
+ },
+ {
+  "id": "hammy-170",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Twelve!"
+ },
+ {
+  "id": "hammy-171",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Twenty!"
+ },
+ {
+  "id": "hammy-172",
+  "speaker": "hammy",
+  "group": "counting",
+  "text": "Two!"
+ },
+ {
+  "id": "hammy-173",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "apple!"
+ },
+ {
+  "id": "hammy-174",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "banana!"
+ },
+ {
+  "id": "hammy-175",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "blueberries!"
+ },
+ {
+  "id": "hammy-176",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "broccoli!"
+ },
+ {
+  "id": "hammy-177",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "carrot!"
+ },
+ {
+  "id": "hammy-178",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "cereal!"
+ },
+ {
+  "id": "hammy-179",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "cheese!"
+ },
+ {
+  "id": "hammy-180",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "cookie!"
+ },
+ {
+  "id": "hammy-181",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "corn!"
+ },
+ {
+  "id": "hammy-182",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "cucumber!"
+ },
+ {
+  "id": "hammy-183",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "egg!"
+ },
+ {
+  "id": "hammy-184",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "grapes!"
+ },
+ {
+  "id": "hammy-185",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "milk!"
+ },
+ {
+  "id": "hammy-186",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "orange!"
+ },
+ {
+  "id": "hammy-187",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "pancakes!"
+ },
+ {
+  "id": "hammy-188",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "pasta!"
+ },
+ {
+  "id": "hammy-189",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "pear!"
+ },
+ {
+  "id": "hammy-190",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "rice!"
+ },
+ {
+  "id": "hammy-191",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "salad!"
+ },
+ {
+  "id": "hammy-192",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "sandwich!"
+ },
+ {
+  "id": "hammy-193",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "soup!"
+ },
+ {
+  "id": "hammy-194",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "strawberry!"
+ },
+ {
+  "id": "hammy-195",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "sunflower seeds!"
+ },
+ {
+  "id": "hammy-196",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "sweet potato!"
+ },
+ {
+  "id": "hammy-197",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "toast!"
+ },
+ {
+  "id": "hammy-198",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "tomato!"
+ },
+ {
+  "id": "hammy-199",
+  "speaker": "hammy",
+  "group": "food names",
+  "text": "watermelon!"
+ },
+ {
+  "id": "hammy-200",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Biscuit! Let's share!"
+ },
+ {
+  "id": "hammy-201",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Coco! Let's share!"
+ },
+ {
+  "id": "hammy-202",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Mochi! Let's share!"
+ },
+ {
+  "id": "hammy-203",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Nutmeg! Let's share!"
+ },
+ {
+  "id": "hammy-204",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Pip! Let's share!"
+ },
+ {
+  "id": "hammy-205",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Here you go, Sunny! Let's share!"
+ },
+ {
+  "id": "hammy-206",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Biscuit! Now give the present!"
+ },
+ {
+  "id": "hammy-207",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Coco! Now give the present!"
+ },
+ {
+  "id": "hammy-208",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Mochi! Now give the present!"
+ },
+ {
+  "id": "hammy-209",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Nutmeg! Now give the present!"
+ },
+ {
+  "id": "hammy-210",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Pip! Now give the present!"
+ },
+ {
+  "id": "hammy-211",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Hooray! Happy birthday, Sunny! Now give the present!"
+ },
+ {
+  "id": "hammy-212",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Biscuit is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-213",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Coco is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-214",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Mochi is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-215",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Nutmeg is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-216",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Pip is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-217",
+  "speaker": "hammy",
+  "group": "friends",
+  "text": "Yay! Sunny is coming to play at the resort!"
+ },
+ {
+  "id": "hammy-218",
+  "speaker": "hammy",
+  "group": "games",
+  "text": "Dad's turn!"
+ },
+ {
+  "id": "hammy-219",
+  "speaker": "hammy",
+  "group": "games",
+  "text": "Lap 1!"
+ },
+ {
+  "id": "hammy-220",
+  "speaker": "hammy",
+  "group": "games",
+  "text": "Lap 2!"
+ },
+ {
+  "id": "hammy-221",
+  "speaker": "hammy",
+  "group": "games",
+  "text": "Mom's turn!"
+ },
+ {
+  "id": "hammy-222",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Find the matching pairs! Tap two cards."
+ },
+ {
+  "id": "hammy-223",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Push the puck into the top goal! First to 5!"
+ },
+ {
+  "id": "hammy-224",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Put each shape in its matching hole!"
+ },
+ {
+  "id": "hammy-225",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Put the puzzle pieces in the frame!"
+ },
+ {
+  "id": "hammy-226",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Sort the balls! Each ball goes in the bucket of the same color."
+ },
+ {
+  "id": "hammy-227",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "STRIKE! All the pins!"
+ },
+ {
+  "id": "hammy-228",
+  "speaker": "hammy",
+  "group": "games/arcade.js",
+  "text": "Tap to roll the ball when the arrow points where you want!"
+ },
+ {
+  "id": "hammy-229",
+  "speaker": "hammy",
+  "group": "games/base.js",
+  "text": "Almost! Try again!"
+ },
+ {
+  "id": "hammy-230",
+  "speaker": "hammy",
+  "group": "games/base.js",
+  "text": "Not that one. Try another!"
+ },
+ {
+  "id": "hammy-231",
+  "speaker": "hammy",
+  "group": "games/base.js",
+  "text": "Now rinse! Tap the water!"
+ },
+ {
+  "id": "hammy-232",
+  "speaker": "hammy",
+  "group": "games/base.js",
+  "text": "Try again!"
+ },
+ {
+  "id": "hammy-233",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "A star space!"
+ },
+ {
+  "id": "hammy-234",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Family game! Tap the dice to roll for Hammy!"
+ },
+ {
+  "id": "hammy-235",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Five candles! Now let's sing Happy Birthday!"
+ },
+ {
+  "id": "hammy-236",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Hammy reached the end! Everyone cheers!"
+ },
+ {
+  "id": "hammy-237",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Hammy's turn! Tap the dice!"
+ },
+ {
+  "id": "hammy-238",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Hug space! Everybody hug!"
+ },
+ {
+  "id": "hammy-239",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Make a wish! Now blow out the candles!"
+ },
+ {
+  "id": "hammy-240",
+  "speaker": "hammy",
+  "group": "games/family.js",
+  "text": "Rainbow! Slide ahead two!"
+ },
+ {
+  "id": "hammy-241",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Brush, brush, brush your teeth! Brush away the bits."
+ },
+ {
+  "id": "hammy-242",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Dad is throwing balls! Move left and right to catch them!"
+ },
+ {
+  "id": "hammy-243",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Delicious!"
+ },
+ {
+  "id": "hammy-244",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Draw anything you like! Tap when you are done."
+ },
+ {
+  "id": "hammy-245",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Eight!"
+ },
+ {
+  "id": "hammy-246",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Five!"
+ },
+ {
+  "id": "hammy-247",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Four!"
+ },
+ {
+  "id": "hammy-248",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Mmm, so good!"
+ },
+ {
+  "id": "hammy-249",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Mom is blowing bubbles! Pop them and count!"
+ },
+ {
+  "id": "hammy-250",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Nom nom nom!"
+ },
+ {
+  "id": "hammy-251",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Now stir, stir, stir!"
+ },
+ {
+  "id": "hammy-252",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Seven!"
+ },
+ {
+  "id": "hammy-253",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Tap to drop the block. Build a tall tower!"
+ },
+ {
+  "id": "hammy-254",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Tea party time! Give every friend a cup of tea."
+ },
+ {
+  "id": "hammy-255",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Three!"
+ },
+ {
+  "id": "hammy-256",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Tidy up! Put each toy in its box."
+ },
+ {
+  "id": "hammy-257",
+  "speaker": "hammy",
+  "group": "games/home.js",
+  "text": "Yummy!"
+ },
+ {
+  "id": "hammy-258",
+  "speaker": "hammy",
+  "group": "games/learning.js",
+  "text": "Help the little letters find their big letters!"
+ },
+ {
+  "id": "hammy-259",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Dance party! Copy your friend's dance move!"
+ },
+ {
+  "id": "hammy-260",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Listen first!"
+ },
+ {
+  "id": "hammy-261",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Listen! Is the sound HIGH like a bird, or LOW like a bear?"
+ },
+ {
+  "id": "hammy-262",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Pick a song to sing with Hammy!"
+ },
+ {
+  "id": "hammy-263",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Play any keys you like! Each color is a note."
+ },
+ {
+  "id": "hammy-264",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "Tap any key on the beat, when the ball lands! Ready?"
+ },
+ {
+  "id": "hammy-265",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "That was a high sound, like a bird!"
+ },
+ {
+  "id": "hammy-266",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "That was a low sound, like a bear!"
+ },
+ {
+  "id": "hammy-267",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "The C major scale! Play the glowing keys C D E F G A B C!"
+ },
+ {
+  "id": "hammy-268",
+  "speaker": "hammy",
+  "group": "games/music.js",
+  "text": "You climbed the whole scale!"
+ },
+ {
+  "id": "hammy-269",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Boing! Tap each time Hammy lands to bounce higher!"
+ },
+ {
+  "id": "hammy-270",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Build a sandcastle! Pick a piece, then tap the sand."
+ },
+ {
+  "id": "hammy-271",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Dad will grill them. Tap Flip! to tell Dad when to turn them!"
+ },
+ {
+  "id": "hammy-272",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Dinner is ready! Everyone eats together. Yum!"
+ },
+ {
+  "id": "hammy-273",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Flip!"
+ },
+ {
+  "id": "hammy-274",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Good job, Dad!"
+ },
+ {
+  "id": "hammy-275",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Let's garden! Pick seeds and tap a bed to plant. Water helps them grow!"
+ },
+ {
+  "id": "hammy-276",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Let's make veggie skewers! Drag the veggies onto the sticks."
+ },
+ {
+  "id": "hammy-277",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Look closely! Tap the little garden bugs to meet them."
+ },
+ {
+  "id": "hammy-278",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "No weeds here!"
+ },
+ {
+  "id": "hammy-279",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Not ready yet. Give it some water!"
+ },
+ {
+  "id": "hammy-280",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Nothing to pick here."
+ },
+ {
+  "id": "hammy-281",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Picnic time! Give everyone a sandwich, an apple and some juice."
+ },
+ {
+  "id": "hammy-282",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Plant some seeds first!"
+ },
+ {
+  "id": "hammy-283",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Set the table! A plate, a cup and a spoon for everyone."
+ },
+ {
+  "id": "hammy-284",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Sizzle sizzle!"
+ },
+ {
+  "id": "hammy-285",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Something is already growing here!"
+ },
+ {
+  "id": "hammy-286",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Tap the apples to pick them. Let's count them into the basket!"
+ },
+ {
+  "id": "hammy-287",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Tap when the swing comes back to you, to push it higher!"
+ },
+ {
+  "id": "hammy-288",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "This one is ready! Use the basket!"
+ },
+ {
+  "id": "hammy-289",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Vroom vroom! Drive the car and collect the stars!"
+ },
+ {
+  "id": "hammy-290",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "What a beautiful castle! Keep building, or tap Done!"
+ },
+ {
+  "id": "hammy-291",
+  "speaker": "hammy",
+  "group": "games/outside.js",
+  "text": "Wheee! So high!"
+ },
+ {
+  "id": "hammy-292",
+  "speaker": "hammy",
+  "group": "games/reading.js",
+  "text": "Pick a book to read!"
+ },
+ {
+  "id": "hammy-293",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Backhand!"
+ },
+ {
+  "id": "hammy-294",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Forehand!"
+ },
+ {
+  "id": "hammy-295",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Pull the ball back and let go to shoot!"
+ },
+ {
+  "id": "hammy-296",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Run! Move up and down to collect the stars!"
+ },
+ {
+  "id": "hammy-297",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Shoot hoops with Dad! Pull back and let go!"
+ },
+ {
+  "id": "hammy-298",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "Tap when the shuttlecock comes to you! Keep the rally going!"
+ },
+ {
+  "id": "hammy-299",
+  "speaker": "hammy",
+  "group": "games/sports.js",
+  "text": "The ball is coming! Tap when the ring turns green!"
+ },
+ {
+  "id": "hammy-300",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "A! A is for apple."
+ },
+ {
+  "id": "hammy-301",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "A! You found it!"
+ },
+ {
+  "id": "hammy-302",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Apple! Which letter does apple start with?"
+ },
+ {
+  "id": "hammy-303",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "B! B is for banana."
+ },
+ {
+  "id": "hammy-304",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "B! You found it!"
+ },
+ {
+  "id": "hammy-305",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Banana! Which letter does banana start with?"
+ },
+ {
+  "id": "hammy-306",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big A, little a!"
+ },
+ {
+  "id": "hammy-307",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big B, little b!"
+ },
+ {
+  "id": "hammy-308",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big C, little c!"
+ },
+ {
+  "id": "hammy-309",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big D, little d!"
+ },
+ {
+  "id": "hammy-310",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big E, little e!"
+ },
+ {
+  "id": "hammy-311",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big F, little f!"
+ },
+ {
+  "id": "hammy-312",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big G, little g!"
+ },
+ {
+  "id": "hammy-313",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big H, little h!"
+ },
+ {
+  "id": "hammy-314",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big I, little i!"
+ },
+ {
+  "id": "hammy-315",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big J, little j!"
+ },
+ {
+  "id": "hammy-316",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big K, little k!"
+ },
+ {
+  "id": "hammy-317",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big L, little l!"
+ },
+ {
+  "id": "hammy-318",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big M, little m!"
+ },
+ {
+  "id": "hammy-319",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big N, little n!"
+ },
+ {
+  "id": "hammy-320",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big O, little o!"
+ },
+ {
+  "id": "hammy-321",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big P, little p!"
+ },
+ {
+  "id": "hammy-322",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big Q, little q!"
+ },
+ {
+  "id": "hammy-323",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big R, little r!"
+ },
+ {
+  "id": "hammy-324",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big S, little s!"
+ },
+ {
+  "id": "hammy-325",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big T, little t!"
+ },
+ {
+  "id": "hammy-326",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big U, little u!"
+ },
+ {
+  "id": "hammy-327",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big V, little v!"
+ },
+ {
+  "id": "hammy-328",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big W, little w!"
+ },
+ {
+  "id": "hammy-329",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big X, little x!"
+ },
+ {
+  "id": "hammy-330",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big Y, little y!"
+ },
+ {
+  "id": "hammy-331",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Big Z, little z!"
+ },
+ {
+  "id": "hammy-332",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "C! C is for cat."
+ },
+ {
+  "id": "hammy-333",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "C! You found it!"
+ },
+ {
+  "id": "hammy-334",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Cat! Which letter does cat start with?"
+ },
+ {
+  "id": "hammy-335",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "D! D is for dog."
+ },
+ {
+  "id": "hammy-336",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "D! You found it!"
+ },
+ {
+  "id": "hammy-337",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Dog! Which letter does dog start with?"
+ },
+ {
+  "id": "hammy-338",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "E! E is for egg."
+ },
+ {
+  "id": "hammy-339",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "E! You found it!"
+ },
+ {
+  "id": "hammy-340",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Egg! Which letter does egg start with?"
+ },
+ {
+  "id": "hammy-341",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "F! F is for fish."
+ },
+ {
+  "id": "hammy-342",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "F! You found it!"
+ },
+ {
+  "id": "hammy-343",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Fish! Which letter does fish start with?"
+ },
+ {
+  "id": "hammy-344",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "G! G is for grapes."
+ },
+ {
+  "id": "hammy-345",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "G! You found it!"
+ },
+ {
+  "id": "hammy-346",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Grapes! Which letter does grapes start with?"
+ },
+ {
+  "id": "hammy-347",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "H! H is for hamster."
+ },
+ {
+  "id": "hammy-348",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "H! You found it!"
+ },
+ {
+  "id": "hammy-349",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Hamster! Which letter does hamster start with?"
+ },
+ {
+  "id": "hammy-350",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "I! I is for ice cream."
+ },
+ {
+  "id": "hammy-351",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "I! You found it!"
+ },
+ {
+  "id": "hammy-352",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Ice cream! Which letter does ice cream start with?"
+ },
+ {
+  "id": "hammy-353",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "J! J is for juice."
+ },
+ {
+  "id": "hammy-354",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "J! You found it!"
+ },
+ {
+  "id": "hammy-355",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Juice! Which letter does juice start with?"
+ },
+ {
+  "id": "hammy-356",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "K! K is for kite."
+ },
+ {
+  "id": "hammy-357",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "K! You found it!"
+ },
+ {
+  "id": "hammy-358",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Kite! Which letter does kite start with?"
+ },
+ {
+  "id": "hammy-359",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "L! L is for lion."
+ },
+ {
+  "id": "hammy-360",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "L! You found it!"
+ },
+ {
+  "id": "hammy-361",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Lion! Which letter does lion start with?"
+ },
+ {
+  "id": "hammy-362",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little a!"
+ },
+ {
+  "id": "hammy-363",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little b!"
+ },
+ {
+  "id": "hammy-364",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little c!"
+ },
+ {
+  "id": "hammy-365",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little d!"
+ },
+ {
+  "id": "hammy-366",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little e!"
+ },
+ {
+  "id": "hammy-367",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little f!"
+ },
+ {
+  "id": "hammy-368",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little g!"
+ },
+ {
+  "id": "hammy-369",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little h!"
+ },
+ {
+  "id": "hammy-370",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little i!"
+ },
+ {
+  "id": "hammy-371",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little j!"
+ },
+ {
+  "id": "hammy-372",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little k!"
+ },
+ {
+  "id": "hammy-373",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little l!"
+ },
+ {
+  "id": "hammy-374",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little m!"
+ },
+ {
+  "id": "hammy-375",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little n!"
+ },
+ {
+  "id": "hammy-376",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little o!"
+ },
+ {
+  "id": "hammy-377",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little p!"
+ },
+ {
+  "id": "hammy-378",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little q!"
+ },
+ {
+  "id": "hammy-379",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little r!"
+ },
+ {
+  "id": "hammy-380",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little s!"
+ },
+ {
+  "id": "hammy-381",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little t!"
+ },
+ {
+  "id": "hammy-382",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little u!"
+ },
+ {
+  "id": "hammy-383",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little v!"
+ },
+ {
+  "id": "hammy-384",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little w!"
+ },
+ {
+  "id": "hammy-385",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little x!"
+ },
+ {
+  "id": "hammy-386",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little y!"
+ },
+ {
+  "id": "hammy-387",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Little z!"
+ },
+ {
+  "id": "hammy-388",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "M! M is for moon."
+ },
+ {
+  "id": "hammy-389",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "M! You found it!"
+ },
+ {
+  "id": "hammy-390",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Moon! Which letter does moon start with?"
+ },
+ {
+  "id": "hammy-391",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "N! N is for nest."
+ },
+ {
+  "id": "hammy-392",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "N! You found it!"
+ },
+ {
+  "id": "hammy-393",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Nest! Which letter does nest start with?"
+ },
+ {
+  "id": "hammy-394",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "O! O is for orange."
+ },
+ {
+  "id": "hammy-395",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "O! You found it!"
+ },
+ {
+  "id": "hammy-396",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Orange! Which letter does orange start with?"
+ },
+ {
+  "id": "hammy-397",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "P! P is for pig."
+ },
+ {
+  "id": "hammy-398",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "P! You found it!"
+ },
+ {
+  "id": "hammy-399",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Pig! Which letter does pig start with?"
+ },
+ {
+  "id": "hammy-400",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Q! Q is for queen."
+ },
+ {
+  "id": "hammy-401",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Q! You found it!"
+ },
+ {
+  "id": "hammy-402",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Queen! Which letter does queen start with?"
+ },
+ {
+  "id": "hammy-403",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "R! R is for rainbow."
+ },
+ {
+  "id": "hammy-404",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "R! You found it!"
+ },
+ {
+  "id": "hammy-405",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Rainbow! Which letter does rainbow start with?"
+ },
+ {
+  "id": "hammy-406",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "S! S is for sun."
+ },
+ {
+  "id": "hammy-407",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "S! You found it!"
+ },
+ {
+  "id": "hammy-408",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Sun! Which letter does sun start with?"
+ },
+ {
+  "id": "hammy-409",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "T! T is for tree."
+ },
+ {
+  "id": "hammy-410",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "T! You found it!"
+ },
+ {
+  "id": "hammy-411",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is A. A is for apple. Can you find A?"
+ },
+ {
+  "id": "hammy-412",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is B. B is for banana. Can you find B?"
+ },
+ {
+  "id": "hammy-413",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big A. Can you find little a?"
+ },
+ {
+  "id": "hammy-414",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big B. Can you find little b?"
+ },
+ {
+  "id": "hammy-415",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big C. Can you find little c?"
+ },
+ {
+  "id": "hammy-416",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big D. Can you find little d?"
+ },
+ {
+  "id": "hammy-417",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big E. Can you find little e?"
+ },
+ {
+  "id": "hammy-418",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big F. Can you find little f?"
+ },
+ {
+  "id": "hammy-419",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big G. Can you find little g?"
+ },
+ {
+  "id": "hammy-420",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big H. Can you find little h?"
+ },
+ {
+  "id": "hammy-421",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big I. Can you find little i?"
+ },
+ {
+  "id": "hammy-422",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big J. Can you find little j?"
+ },
+ {
+  "id": "hammy-423",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big K. Can you find little k?"
+ },
+ {
+  "id": "hammy-424",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big L. Can you find little l?"
+ },
+ {
+  "id": "hammy-425",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big M. Can you find little m?"
+ },
+ {
+  "id": "hammy-426",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big N. Can you find little n?"
+ },
+ {
+  "id": "hammy-427",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big O. Can you find little o?"
+ },
+ {
+  "id": "hammy-428",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big P. Can you find little p?"
+ },
+ {
+  "id": "hammy-429",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big Q. Can you find little q?"
+ },
+ {
+  "id": "hammy-430",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big R. Can you find little r?"
+ },
+ {
+  "id": "hammy-431",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big S. Can you find little s?"
+ },
+ {
+  "id": "hammy-432",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big T. Can you find little t?"
+ },
+ {
+  "id": "hammy-433",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big U. Can you find little u?"
+ },
+ {
+  "id": "hammy-434",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big V. Can you find little v?"
+ },
+ {
+  "id": "hammy-435",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big W. Can you find little w?"
+ },
+ {
+  "id": "hammy-436",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big X. Can you find little x?"
+ },
+ {
+  "id": "hammy-437",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big Y. Can you find little y?"
+ },
+ {
+  "id": "hammy-438",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is big Z. Can you find little z?"
+ },
+ {
+  "id": "hammy-439",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is C. C is for cat. Can you find C?"
+ },
+ {
+  "id": "hammy-440",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is D. D is for dog. Can you find D?"
+ },
+ {
+  "id": "hammy-441",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is E. E is for egg. Can you find E?"
+ },
+ {
+  "id": "hammy-442",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is F. F is for fish. Can you find F?"
+ },
+ {
+  "id": "hammy-443",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is G. G is for grapes. Can you find G?"
+ },
+ {
+  "id": "hammy-444",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is H. H is for hamster. Can you find H?"
+ },
+ {
+  "id": "hammy-445",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is I. I is for ice cream. Can you find I?"
+ },
+ {
+  "id": "hammy-446",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is J. J is for juice. Can you find J?"
+ },
+ {
+  "id": "hammy-447",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is K. K is for kite. Can you find K?"
+ },
+ {
+  "id": "hammy-448",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is L. L is for lion. Can you find L?"
+ },
+ {
+  "id": "hammy-449",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is M. M is for moon. Can you find M?"
+ },
+ {
+  "id": "hammy-450",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is N. N is for nest. Can you find N?"
+ },
+ {
+  "id": "hammy-451",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is O. O is for orange. Can you find O?"
+ },
+ {
+  "id": "hammy-452",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is P. P is for pig. Can you find P?"
+ },
+ {
+  "id": "hammy-453",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is Q. Q is for queen. Can you find Q?"
+ },
+ {
+  "id": "hammy-454",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is R. R is for rainbow. Can you find R?"
+ },
+ {
+  "id": "hammy-455",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is S. S is for sun. Can you find S?"
+ },
+ {
+  "id": "hammy-456",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is T. T is for tree. Can you find T?"
+ },
+ {
+  "id": "hammy-457",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is U. U is for umbrella. Can you find U?"
+ },
+ {
+  "id": "hammy-458",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is V. V is for violin. Can you find V?"
+ },
+ {
+  "id": "hammy-459",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is W. W is for watermelon. Can you find W?"
+ },
+ {
+  "id": "hammy-460",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is X. X is for xylophone. Can you find X?"
+ },
+ {
+  "id": "hammy-461",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is Y. Y is for yo-yo. Can you find Y?"
+ },
+ {
+  "id": "hammy-462",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "This is Z. Z is for zebra. Can you find Z?"
+ },
+ {
+  "id": "hammy-463",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Tree! Which letter does tree start with?"
+ },
+ {
+  "id": "hammy-464",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "U! U is for umbrella."
+ },
+ {
+  "id": "hammy-465",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "U! You found it!"
+ },
+ {
+  "id": "hammy-466",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Umbrella! Which letter does umbrella start with?"
+ },
+ {
+  "id": "hammy-467",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "V! V is for violin."
+ },
+ {
+  "id": "hammy-468",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "V! You found it!"
+ },
+ {
+  "id": "hammy-469",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Violin! Which letter does violin start with?"
+ },
+ {
+  "id": "hammy-470",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "W! W is for watermelon."
+ },
+ {
+  "id": "hammy-471",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "W! You found it!"
+ },
+ {
+  "id": "hammy-472",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Watermelon! Which letter does watermelon start with?"
+ },
+ {
+  "id": "hammy-473",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "X! X is for xylophone."
+ },
+ {
+  "id": "hammy-474",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "X! You found it!"
+ },
+ {
+  "id": "hammy-475",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Xylophone! Which letter does xylophone start with?"
+ },
+ {
+  "id": "hammy-476",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Y! Y is for yo-yo."
+ },
+ {
+  "id": "hammy-477",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Y! You found it!"
+ },
+ {
+  "id": "hammy-478",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Yo-yo! Which letter does yo-yo start with?"
+ },
+ {
+  "id": "hammy-479",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Z! You found it!"
+ },
+ {
+  "id": "hammy-480",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Z! Z is for zebra."
+ },
+ {
+  "id": "hammy-481",
+  "speaker": "hammy",
+  "group": "letters",
+  "text": "Zebra! Which letter does zebra start with?"
+ },
+ {
+  "id": "hammy-482",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Big hug!"
+ },
+ {
+  "id": "hammy-483",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Cartoon time!"
+ },
+ {
+  "id": "hammy-484",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Don't forget to wash your hands!"
+ },
+ {
+  "id": "hammy-485",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Good morning!"
+ },
+ {
+  "id": "hammy-486",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Good morning! I feel so rested!"
+ },
+ {
+  "id": "hammy-487",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Good night! Sleep tight!"
+ },
+ {
+  "id": "hammy-488",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "I love you!"
+ },
+ {
+  "id": "hammy-489",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Nap time. Sweet dreams!"
+ },
+ {
+  "id": "hammy-490",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Potty time!"
+ },
+ {
+  "id": "hammy-491",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Squeeze!"
+ },
+ {
+  "id": "hammy-492",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Tap the water to splash!"
+ },
+ {
+  "id": "hammy-493",
+  "speaker": "hammy",
+  "group": "location.js",
+  "text": "Yawn! What a nice sleep!"
+ },
+ {
+  "id": "hammy-494",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Can we go to the bathroom, please?"
+ },
+ {
+  "id": "hammy-495",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Can we learn something new?"
+ },
+ {
+  "id": "hammy-496",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Can we play with Mom or Dad?"
+ },
+ {
+  "id": "hammy-497",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "I want a big hug!"
+ },
+ {
+  "id": "hammy-498",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "I'm a bit messy! Can we take a bath?"
+ },
+ {
+  "id": "hammy-499",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "I'm getting hungry! Can we have a snack?"
+ },
+ {
+  "id": "hammy-500",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Let's go to the playground!"
+ },
+ {
+  "id": "hammy-501",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Let's play something fun!"
+ },
+ {
+  "id": "hammy-502",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Let's read a story together!"
+ },
+ {
+  "id": "hammy-503",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Let's wash up and get squeaky clean!"
+ },
+ {
+  "id": "hammy-504",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "My tummy is rumbling! Let's eat something yummy!"
+ },
+ {
+  "id": "hammy-505",
+  "speaker": "hammy",
+  "group": "need lines",
+  "text": "Yawn! I need a little rest."
+ },
+ {
+  "id": "hammy-506",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Air hockey"
+ },
+ {
+  "id": "hammy-507",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Apple trees"
+ },
+ {
+  "id": "hammy-508",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Badminton court"
+ },
+ {
+  "id": "hammy-509",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Ball pit"
+ },
+ {
+  "id": "hammy-510",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Barbecue grill"
+ },
+ {
+  "id": "hammy-511",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Basketball court"
+ },
+ {
+  "id": "hammy-512",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Bathtub"
+ },
+ {
+  "id": "hammy-513",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Bed"
+ },
+ {
+  "id": "hammy-514",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Big pool"
+ },
+ {
+  "id": "hammy-515",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Big sofa"
+ },
+ {
+  "id": "hammy-516",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Block corner"
+ },
+ {
+  "id": "hammy-517",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Blocks"
+ },
+ {
+  "id": "hammy-518",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Board games"
+ },
+ {
+  "id": "hammy-519",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Bookshelf"
+ },
+ {
+  "id": "hammy-520",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Bowling lane"
+ },
+ {
+  "id": "hammy-521",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Butterfly garden"
+ },
+ {
+  "id": "hammy-522",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Chalkboard"
+ },
+ {
+  "id": "hammy-523",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Climbing dome"
+ },
+ {
+  "id": "hammy-524",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Color machine"
+ },
+ {
+  "id": "hammy-525",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Dance stage"
+ },
+ {
+  "id": "hammy-526",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Desk"
+ },
+ {
+  "id": "hammy-527",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Dining table"
+ },
+ {
+  "id": "hammy-528",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Family photos"
+ },
+ {
+  "id": "hammy-529",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Fish pond"
+ },
+ {
+  "id": "hammy-530",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Flower beds"
+ },
+ {
+  "id": "hammy-531",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Fridge"
+ },
+ {
+  "id": "hammy-532",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Grand piano"
+ },
+ {
+  "id": "hammy-533",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Kiddie pool"
+ },
+ {
+  "id": "hammy-534",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Memory machine"
+ },
+ {
+  "id": "hammy-535",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Microphone"
+ },
+ {
+  "id": "hammy-536",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Party table"
+ },
+ {
+  "id": "hammy-537",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Photo wall"
+ },
+ {
+  "id": "hammy-538",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Picnic blanket"
+ },
+ {
+  "id": "hammy-539",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Play rug"
+ },
+ {
+  "id": "hammy-540",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Potty"
+ },
+ {
+  "id": "hammy-541",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Puzzle table"
+ },
+ {
+  "id": "hammy-542",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Reading chair"
+ },
+ {
+  "id": "hammy-543",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Running track"
+ },
+ {
+  "id": "hammy-544",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Sandbox"
+ },
+ {
+  "id": "hammy-545",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Seesaw"
+ },
+ {
+  "id": "hammy-546",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Shape machine"
+ },
+ {
+  "id": "hammy-547",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Shower"
+ },
+ {
+  "id": "hammy-548",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Sink"
+ },
+ {
+  "id": "hammy-549",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Slide"
+ },
+ {
+  "id": "hammy-550",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Sofa"
+ },
+ {
+  "id": "hammy-551",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Stove"
+ },
+ {
+  "id": "hammy-552",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Sun lounger"
+ },
+ {
+  "id": "hammy-553",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Swings"
+ },
+ {
+  "id": "hammy-554",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Teddy tea party"
+ },
+ {
+  "id": "hammy-555",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Tennis court"
+ },
+ {
+  "id": "hammy-556",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Toy box"
+ },
+ {
+  "id": "hammy-557",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Toy cars"
+ },
+ {
+  "id": "hammy-558",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Toy train"
+ },
+ {
+  "id": "hammy-559",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Trampoline"
+ },
+ {
+  "id": "hammy-560",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "TV"
+ },
+ {
+  "id": "hammy-561",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Veggie beds"
+ },
+ {
+  "id": "hammy-562",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Village square"
+ },
+ {
+  "id": "hammy-563",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Wardrobe"
+ },
+ {
+  "id": "hammy-564",
+  "speaker": "hammy",
+  "group": "object names",
+  "text": "Water slide"
+ },
+ {
+  "id": "hammy-565",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Barbecue Area!"
+ },
+ {
+  "id": "hammy-566",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Friends Village!"
+ },
+ {
+  "id": "hammy-567",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Games Zone!"
+ },
+ {
+  "id": "hammy-568",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Garden!"
+ },
+ {
+  "id": "hammy-569",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Main House!"
+ },
+ {
+  "id": "hammy-570",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Playground!"
+ },
+ {
+  "id": "hammy-571",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Sports Complex!"
+ },
+ {
+  "id": "hammy-572",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's explore the Swimming Pool!"
+ },
+ {
+  "id": "hammy-573",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Barbecue Area!"
+ },
+ {
+  "id": "hammy-574",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Friends Village!"
+ },
+ {
+  "id": "hammy-575",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Games Zone!"
+ },
+ {
+  "id": "hammy-576",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Garden!"
+ },
+ {
+  "id": "hammy-577",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Main House!"
+ },
+ {
+  "id": "hammy-578",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Playground!"
+ },
+ {
+  "id": "hammy-579",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Sports Complex!"
+ },
+ {
+  "id": "hammy-580",
+  "speaker": "hammy",
+  "group": "places",
+  "text": "Let's go to the Swimming Pool!"
+ },
+ {
+  "id": "hammy-581",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "Amazing!"
+ },
+ {
+  "id": "hammy-582",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "Great job!"
+ },
+ {
+  "id": "hammy-583",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "Hooray!"
+ },
+ {
+  "id": "hammy-584",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "Well done!"
+ },
+ {
+  "id": "hammy-585",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "Yay!"
+ },
+ {
+  "id": "hammy-586",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You did it!"
+ },
+ {
+  "id": "hammy-587",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 1 star!"
+ },
+ {
+  "id": "hammy-588",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 2 stars!"
+ },
+ {
+  "id": "hammy-589",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 3 stars!"
+ },
+ {
+  "id": "hammy-590",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 4 stars!"
+ },
+ {
+  "id": "hammy-591",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 5 stars!"
+ },
+ {
+  "id": "hammy-592",
+  "speaker": "hammy",
+  "group": "reward card",
+  "text": "You earned 6 stars!"
+ },
+ {
+  "id": "hammy-593",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Bathroom"
+ },
+ {
+  "id": "hammy-594",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Bedroom"
+ },
+ {
+  "id": "hammy-595",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Family Room"
+ },
+ {
+  "id": "hammy-596",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Karaoke Room"
+ },
+ {
+  "id": "hammy-597",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Kitchen"
+ },
+ {
+  "id": "hammy-598",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Living Room"
+ },
+ {
+  "id": "hammy-599",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Piano Room"
+ },
+ {
+  "id": "hammy-600",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Playroom"
+ },
+ {
+  "id": "hammy-601",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Reading Room"
+ },
+ {
+  "id": "hammy-602",
+  "speaker": "hammy",
+  "group": "room names",
+  "text": "Study Room"
+ },
+ {
+  "id": "hammy-603",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A circle! Well done!"
+ },
+ {
+  "id": "hammy-604",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A heart! Well done!"
+ },
+ {
+  "id": "hammy-605",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A rectangle! Well done!"
+ },
+ {
+  "id": "hammy-606",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A square! Well done!"
+ },
+ {
+  "id": "hammy-607",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A star! Well done!"
+ },
+ {
+  "id": "hammy-608",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "A triangle! Well done!"
+ },
+ {
+  "id": "hammy-609",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the circle?"
+ },
+ {
+  "id": "hammy-610",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the heart?"
+ },
+ {
+  "id": "hammy-611",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the rectangle?"
+ },
+ {
+  "id": "hammy-612",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the square?"
+ },
+ {
+  "id": "hammy-613",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the star?"
+ },
+ {
+  "id": "hammy-614",
+  "speaker": "hammy",
+  "group": "shapes",
+  "text": "Can you find the triangle?"
+ },
+ {
+  "id": "hammy-615",
+  "speaker": "hammy",
+  "group": "ui.js",
+  "text": "And a surprise!"
+ },
+ {
+  "id": "hammy-616",
+  "speaker": "hammy",
+  "group": "ui.js",
+  "text": "Hi! I will talk to you."
+ },
+ {
+  "id": "hammy-617",
+  "speaker": "hammy",
+  "group": "ui.js",
+  "text": "Hi! I'm Hammy! Let's play together!"
+ },
+ {
+  "id": "hammy-618",
+  "speaker": "hammy",
+  "group": "washing prompts",
+  "text": "Bubble bath! Rub away the dirty spots!"
+ },
+ {
+  "id": "hammy-619",
+  "speaker": "hammy",
+  "group": "washing prompts",
+  "text": "Scrub the dishes clean!"
+ },
+ {
+  "id": "hammy-620",
+  "speaker": "hammy",
+  "group": "washing prompts",
+  "text": "Scrub-a-dub! Rub the bubbles all over!"
+ },
+ {
+  "id": "hammy-621",
+  "speaker": "hammy",
+  "group": "washing prompts",
+  "text": "Wash your hands! Rub the soap on the dirty spots."
+ },
+ {
+  "id": "mom-001",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "A yellow duck floats by. Quack!"
+ },
+ {
+  "id": "mom-002",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Bye-bye, butterfly! Hammy waves."
+ },
+ {
+  "id": "mom-003",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Dad and Hammy go to the pool."
+ },
+ {
+  "id": "mom-004",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Drip, drop! It is raining."
+ },
+ {
+  "id": "mom-005",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy brushes its teeth. Brush, brush!"
+ },
+ {
+  "id": "mom-006",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy goes to the garden."
+ },
+ {
+  "id": "mom-007",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy has a warm bath."
+ },
+ {
+  "id": "mom-008",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy picks the apples."
+ },
+ {
+  "id": "mom-009",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy sees a butterfly."
+ },
+ {
+  "id": "mom-010",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy wears a float ring."
+ },
+ {
+  "id": "mom-011",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Hammy wears a yellow raincoat."
+ },
+ {
+  "id": "mom-012",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "It flies to a red flower."
+ },
+ {
+  "id": "mom-013",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "It is night. Look up at the sky!"
+ },
+ {
+  "id": "mom-014",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Kick, kick, kick! Hammy swims with Dad."
+ },
+ {
+  "id": "mom-015",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Look! An apple tree."
+ },
+ {
+  "id": "mom-016",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Mom makes an apple pie."
+ },
+ {
+  "id": "mom-017",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Mom reads a story in bed."
+ },
+ {
+  "id": "mom-018",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "One star."
+ },
+ {
+  "id": "mom-019",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "One, two, three, four, five apples!"
+ },
+ {
+  "id": "mom-020",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Splash! Hammy jumps in a puddle."
+ },
+ {
+  "id": "mom-021",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "The butterfly is blue!"
+ },
+ {
+  "id": "mom-022",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "The moon and stars say goodnight."
+ },
+ {
+  "id": "mom-023",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "The rain stops. Look, a rainbow!"
+ },
+ {
+  "id": "mom-024",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "The sky is full of stars. Goodnight!"
+ },
+ {
+  "id": "mom-025",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "The sun goes down. It is evening."
+ },
+ {
+  "id": "mom-026",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Two stars, three stars!"
+ },
+ {
+  "id": "mom-027",
+  "speaker": "mom",
+  "group": "book page",
+  "text": "Yum! Hammy shares with Dad."
+ },
+ {
+  "id": "mom-028",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Counting Stars."
+ },
+ {
+  "id": "mom-029",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Five Little Apples."
+ },
+ {
+  "id": "mom-030",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Goodnight, Hammy."
+ },
+ {
+  "id": "mom-031",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Hammy and the Blue Butterfly."
+ },
+ {
+  "id": "mom-032",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Rainy Day."
+ },
+ {
+  "id": "mom-033",
+  "speaker": "mom",
+  "group": "book title",
+  "text": "Splash Time."
+ },
+ {
+  "id": "mom-034",
+  "speaker": "mom",
+  "group": "location.js",
+  "text": "Hello Hammy!"
+ },
+ {
+  "id": "mom-035",
+  "speaker": "mom",
+  "group": "location.js",
+  "text": "Hi sweetie!"
+ },
+ {
+  "id": "mom-036",
+  "speaker": "mom",
+  "group": "location.js",
+  "text": "I love you!"
+ },
+ {
+  "id": "dad-001",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "A yellow duck floats by. Quack!"
+ },
+ {
+  "id": "dad-002",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Bye-bye, butterfly! Hammy waves."
+ },
+ {
+  "id": "dad-003",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Dad and Hammy go to the pool."
+ },
+ {
+  "id": "dad-004",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Drip, drop! It is raining."
+ },
+ {
+  "id": "dad-005",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy brushes its teeth. Brush, brush!"
+ },
+ {
+  "id": "dad-006",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy goes to the garden."
+ },
+ {
+  "id": "dad-007",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy has a warm bath."
+ },
+ {
+  "id": "dad-008",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy picks the apples."
+ },
+ {
+  "id": "dad-009",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy sees a butterfly."
+ },
+ {
+  "id": "dad-010",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy wears a float ring."
+ },
+ {
+  "id": "dad-011",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Hammy wears a yellow raincoat."
+ },
+ {
+  "id": "dad-012",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "It flies to a red flower."
+ },
+ {
+  "id": "dad-013",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "It is night. Look up at the sky!"
+ },
+ {
+  "id": "dad-014",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Kick, kick, kick! Hammy swims with Dad."
+ },
+ {
+  "id": "dad-015",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Look! An apple tree."
+ },
+ {
+  "id": "dad-016",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Mom makes an apple pie."
+ },
+ {
+  "id": "dad-017",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Mom reads a story in bed."
+ },
+ {
+  "id": "dad-018",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "One star."
+ },
+ {
+  "id": "dad-019",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "One, two, three, four, five apples!"
+ },
+ {
+  "id": "dad-020",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Splash! Hammy jumps in a puddle."
+ },
+ {
+  "id": "dad-021",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "The butterfly is blue!"
+ },
+ {
+  "id": "dad-022",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "The moon and stars say goodnight."
+ },
+ {
+  "id": "dad-023",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "The rain stops. Look, a rainbow!"
+ },
+ {
+  "id": "dad-024",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "The sky is full of stars. Goodnight!"
+ },
+ {
+  "id": "dad-025",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "The sun goes down. It is evening."
+ },
+ {
+  "id": "dad-026",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Two stars, three stars!"
+ },
+ {
+  "id": "dad-027",
+  "speaker": "dad",
+  "group": "book page",
+  "text": "Yum! Hammy shares with Dad."
+ },
+ {
+  "id": "dad-028",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Counting Stars."
+ },
+ {
+  "id": "dad-029",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Five Little Apples."
+ },
+ {
+  "id": "dad-030",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Goodnight, Hammy."
+ },
+ {
+  "id": "dad-031",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Hammy and the Blue Butterfly."
+ },
+ {
+  "id": "dad-032",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Rainy Day."
+ },
+ {
+  "id": "dad-033",
+  "speaker": "dad",
+  "group": "book title",
+  "text": "Splash Time."
+ },
+ {
+  "id": "dad-034",
+  "speaker": "dad",
+  "group": "location.js",
+  "text": "Hello Hammy!"
+ },
+ {
+  "id": "dad-035",
+  "speaker": "dad",
+  "group": "location.js",
+  "text": "Hi sweetie!"
+ },
+ {
+  "id": "dad-036",
+  "speaker": "dad",
+  "group": "location.js",
+  "text": "I love you!"
+ },
+ {
+  "id": "friend-001",
+  "speaker": "friend",
+  "group": "dance moves",
+  "text": "Arms up!"
+ },
+ {
+  "id": "friend-002",
+  "speaker": "friend",
+  "group": "dance moves",
+  "text": "Clap!"
+ },
+ {
+  "id": "friend-003",
+  "speaker": "friend",
+  "group": "dance moves",
+  "text": "Jump!"
+ },
+ {
+  "id": "friend-004",
+  "speaker": "friend",
+  "group": "dance moves",
+  "text": "Spin!"
+ },
+ {
+  "id": "friend-005",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Biscuit!"
+ },
+ {
+  "id": "friend-006",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Coco!"
+ },
+ {
+  "id": "friend-007",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Mochi!"
+ },
+ {
+  "id": "friend-008",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Nutmeg!"
+ },
+ {
+  "id": "friend-009",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Pip!"
+ },
+ {
+  "id": "friend-010",
+  "speaker": "friend",
+  "group": "friend greetings",
+  "text": "Hi Hammy! It's me, Sunny!"
+ },
+ {
+  "id": "friend-011",
+  "speaker": "friend",
+  "group": "games/family.js",
+  "text": "Thank you, Hammy! I love it!"
+ }
+]

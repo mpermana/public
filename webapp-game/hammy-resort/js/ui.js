@@ -431,6 +431,38 @@ const UI = {
       toggle('🎵 Music', 'music', () => Snd.applySettings());
       toggle('🔔 Sounds', 'sfx', () => Snd.applySettings());
       toggle('🗣️ Talking (narration)', 'narration', () => { if (!st.narration) Speech.stop(); else Speech.say('Hi! I will talk to you.'); });
+      // Voice: cute or normal, which device voice, and a button to hear it.
+      const sample = () => Speech.say(`Hi! I'm ${S.hamster.name}! Let's play together!`, { force: true, browser: true });
+      body.append(el('p', 'lead', 'Recorded character voices are AI-generated. Missing lines and custom names use your device voice.'));
+      const style = el('div', 'toggle-row', '<span>🐹 Device voice</span>');
+      const srow2 = el('div', 'chip-row');
+      for (const [id, label] of [['cute', '🐹 Cute'], ['normal', '🙂 Normal']]) {
+        const b = el('button', `chip${(st.voiceStyle || 'cute') === id ? ' on' : ''}`, label);
+        b.addEventListener('click', () => {
+          st.voiceStyle = id;
+          srow2.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b));
+          Save.mark();
+          sample();
+        });
+        srow2.append(b);
+      }
+      const tryBtn = el('button', 'chip', '🔊 Try');
+      tryBtn.addEventListener('click', sample);
+      srow2.append(tryBtn);
+      style.append(srow2);
+      body.append(style);
+      const voices = Speech.list();
+      if (voices.length) {
+        const row = el('div', 'toggle-row', '<span>🎙️ Which voice</span>');
+        const sel = el('select', 'voice-select');
+        sel.append(new Option('✨ Cutest available', ''));
+        for (const v of voices) sel.append(new Option(`${Speech.isChild(v) ? '🧒 ' : ''}${v.name.replace(/^Microsoft |\s*\(.*$|\s*-\s*English.*$/g, '')}`, v.voiceURI));
+        sel.value = voices.some(v => v.voiceURI === st.voice) ? st.voice : '';
+        sel.addEventListener('change', () => { st.voice = sel.value; Save.mark(); sample(); });
+        row.append(sel);
+        body.append(row);
+        if (!voices.some(v => Speech.isChild(v))) body.append(el('p', 'lead', 'Tip: Microsoft Edge has a real child\'s voice (Ana) that sounds the cutest.'));
+      }
       toggle('🕹️ On-screen arrows', 'dpad', () => UI.onScene(Game.scene));
       const vol = el('div', 'toggle-row', '<span>🔊 Volume</span>');
       const vrow = el('div', 'chip-row');
@@ -536,7 +568,7 @@ const UI = {
         body.append(b);
       }
       if (!bday) body.append(el('p', 'lead', `🎂 ${esc(f.name)}'s birthday is on ${Clock.dayName(FRIENDS.indexOf(f))}.`));
-      Speech.say(`Hi ${S.hamster.name}! It's me, ${f.name}!`);
+      Speech.say(`Hi ${S.hamster.name}! It's me, ${f.name}!`, { who: 'friend' });
     });
   },
 
@@ -554,7 +586,10 @@ const UI = {
     this.rewardOpen = true;
     Snd.fanfare();
     FX.confetti(70);
-    Speech.say(`${line} You earned ${stars} star${stars === 1 ? '' : 's'}! ${extras.length ? 'And a surprise!' : ''}`);
+    // Separate pieces, so each can be a recorded voice clip.
+    Speech.say(line);
+    Speech.say(`You earned ${Math.min(stars, 6)} star${stars === 1 ? '' : 's'}!`, { interrupt: false });
+    if (extras.length) Speech.say('And a surprise!', { interrupt: false });
     $('reward-ok').addEventListener('click', () => this.closeReward());
     clearTimeout(this.rewardTimer);
     this.rewardTimer = setTimeout(() => this.closeReward(), 9000);

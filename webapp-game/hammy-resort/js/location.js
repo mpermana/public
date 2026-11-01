@@ -420,7 +420,7 @@ function makeLocation(def) {
       ]);
     }
     const who = c.kind, name = FAMILY[who].name;
-    Speech.say(pick([`Hi sweetie!`, `Hello ${S.hamster.name}!`, `I love you!`]));
+    Speech.say(pick([`Hi sweetie!`, `Hello ${S.hamster.name}!`, `I love you!`]), { who });
     UI.popover(c.x, c.y - c.h - 10, name, c.acts.filter(id => ACTS[id]).map(id => ({
       id, icon: ACTS[id].icon, label: ACTS[id].name,
       onClick: () => Activity.start(ACTS[id].where ? id : { ...ACTS[id], where: this.id }),

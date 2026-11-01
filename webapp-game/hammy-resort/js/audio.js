@@ -1,6 +1,6 @@
 // Sound: synthesized effects, instruments (piano, marimba, music box, flute)
 // for the piano and karaoke games, gentle generated background music, and
-// narration through the browser's speech voices. No audio files needed.
+// narration from local voice clips with device speech as a fallback.
 
 const midiFreq = m => 440 * Math.pow(2, (m - 69) / 12);
 const NOTE_NAMES = ['C', 'C♯', 'D', 'D♯', 'E', 'F', 'F♯', 'G', 'G♯', 'A', 'A♯', 'B'];
@@ -38,7 +38,8 @@ const Snd = {
     const s = S.settings;
     this.master.gain.value = s.volume;
     this.sfxBus.gain.value = s.sfx ? 1 : 0;
-    this.musicBus.gain.setTargetAtTime(s.music && !Music.ducked ? 0.5 : 0, this.ctx.currentTime, 0.2);
+    this.musicBus.gain.setTargetAtTime(s.music && !Music.ducked ? (Speech.active ? 0.1 : 0.5) : 0, this.ctx.currentTime, 0.2);
+    if (Speech.audio) Speech.audio.volume = s.volume;
   },
 
   ok() { return this.ctx && this.ctx.state === 'running' ? this.ctx : null; },
@@ -280,34 +281,127 @@ const Music = {
 
 // ------------------------------------------------------------- narration
 
+// Local recordings provide expressive characters; dynamic and missing lines
+// use device speech. Keep the fallback pitch gentle so words remain clear.
+const CHILD_VOICE = /\b(ana|maisie)\b/i;
+const MALE_VOICE = /\b(male|guy|davis|andrew|brian|christopher|eric|roger|steffan|david|mark|ryan|thomas|daniel|alex|fred|george|james|tony|jason|ralph|aaron|arthur|oliver|liam|noah)\b/i;
+const BRIGHT_VOICE = /\b(ava|emma|jenny|aria|michelle|libby|sonia|samantha|zira|karen|moira|tessa|natasha|clara|joanna|salli|ivy|kimberly)\b|google us english|google uk english female/i;
+
 const Speech = {
   supported: 'speechSynthesis' in window,
-  voice: null,
+  voices: [],
+  queue: [], active: false, audio: null, generation: 0,
 
   init() {
     if (!this.supported) return;
-    const load = () => {
-      const voices = speechSynthesis.getVoices().filter(v => /^en(-|_|$)/i.test(v.lang));
-      const nice = voices.filter(v => /natural|online|google|samantha|aria|jenny|zira/i.test(v.name));
-      this.voice = nice.find(v => /us/i.test(v.lang)) || nice[0] || voices.find(v => /us/i.test(v.lang)) || voices[0] || null;
-    };
+    const load = () => { this.voices = speechSynthesis.getVoices().filter(v => /^en(-|_|$)/i.test(v.lang)); };
     load();
     speechSynthesis.addEventListener?.('voiceschanged', load);
   },
 
-  say(text, { interrupt = true, force = false } = {}) {
-    if (!this.supported || !text || (!S.settings.narration && !force) || !S.settings.volume) return;
-    if (interrupt) speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text.replace(/[^\p{L}\p{N}\s.,!?'’-]/gu, ''));
-    u.lang = 'en-US';
-    if (this.voice) u.voice = this.voice;
-    u.rate = 0.92;
-    u.pitch = 1.15;
+  // How cute a voice is: child voices first, then bright natural voices.
+  score(v) {
+    let s = 0;
+    if (CHILD_VOICE.test(v.name)) s += 100;
+    if (/natural|online|neural|premium|enhanced|google/i.test(v.name)) s += 40;
+    if (BRIGHT_VOICE.test(v.name)) s += 25;
+    if (MALE_VOICE.test(v.name)) s -= 60;
+    if (/en[-_]us/i.test(v.lang)) s += 5;
+    return s;
+  },
+
+  // English voices, cutest first (for the Settings picker).
+  list() { return [...this.voices].sort((a, b) => this.score(b) - this.score(a)); },
+
+  isChild(v) { return !!v && CHILD_VOICE.test(v.name); },
+
+  // The voice and tone for a speaker: hammy (narration too), mom, dad, friend.
+  voiceFor(who) {
+    const all = this.list(), chosen = S.settings.voice && all.find(v => v.voiceURI === S.settings.voice);
+    const adults = all.filter(v => !this.isChild(v)), children = all.filter(v => this.isChild(v));
+    const main = chosen || (S.settings.voiceStyle === 'normal' ? adults.find(v => !MALE_VOICE.test(v.name)) || adults[0] : all[0]) || null;
+    if (who === 'mom') return adults.find(v => !MALE_VOICE.test(v.name)) || main;
+    if (who === 'dad') return adults.find(v => MALE_VOICE.test(v.name) && /natural|online|neural|google|premium/i.test(v.name)) || adults.find(v => MALE_VOICE.test(v.name)) || main;
+    if (who === 'friend') return children.find(v => v !== main) || main;
+    return main;
+  },
+
+  tone(who, voice) {
+    const cute = S.settings.voiceStyle !== 'normal', child = this.isChild(voice);
+    switch (who) {
+      case 'mom': return { pitch: 1.08, rate: 0.95 };
+      case 'dad': return { pitch: MALE_VOICE.test(voice?.name || '') ? 0.98 : 0.9, rate: 0.92 };
+      case 'friend': return { pitch: child ? 1.05 : cute ? 1.18 : 1.05, rate: 0.96 };
+      default: return cute ? { pitch: child ? 1.02 : 1.15, rate: 0.92 } : { pitch: 1, rate: 0.95 };
+    }
+  },
+
+  clean(text) { return text.replace(/[^\p{L}\p{N}\s.,!?'’-]/gu, '').replace(/\s+/g, ' ').trim(); },
+
+  say(text, { interrupt = true, force = false, who = 'hammy', browser = false } = {}) {
+    if (!text || (!S.settings.narration && !force) || !S.settings.volume) return;
+    text = this.clean(text);
+    if (!text) return;
+    if (interrupt) this.stop();
+    this.queue.push({ text, who, browser });
+    if (!this.active) this.next();
+  },
+
+  next() {
+    const line = this.queue.shift();
+    this.active = !!line;
+    Snd.applySettings();
+    if (!line) return;
+    const token = this.generation;
+    let finished = false;
+    const done = () => {
+      if (finished || token !== this.generation) return;
+      finished = true;
+      this.audio = null;
+      this.next();
+    };
+    const file = !line.browser && window.VOICE_CLIPS?.[line.who]?.[line.text];
+    if (file) {
+      const audio = this.audio = new Audio(`voice/clips/${file}`);
+      audio.volume = S.settings.volume;
+      audio.onended = done;
+      let failed = false;
+      const fallback = () => {
+        if (failed || finished || token !== this.generation) return;
+        failed = true;
+        audio.onended = audio.onerror = null;
+        audio.pause();
+        this.audio = null;
+        this.device(line, done);
+      };
+      audio.onerror = fallback;
+      try { audio.play().catch(fallback); } catch { fallback(); }
+    } else this.device(line, done);
+  },
+
+  device({ text, who }, done) {
+    if (!this.supported) { done(); return; }
+    const u = new SpeechSynthesisUtterance(text);
+    const voice = this.voiceFor(who), t = this.tone(who, voice);
+    u.lang = voice?.lang || 'en-US';
+    if (voice) u.voice = voice;
+    u.rate = t.rate;
+    u.pitch = t.pitch;
     u.volume = clamp(S.settings.volume * 1.2, 0, 1);
-    speechSynthesis.speak(u);
+    u.onend = u.onerror = done;
+    try { speechSynthesis.speak(u); } catch { done(); }
   },
 
   stop() {
+    this.generation++;
+    this.queue.length = 0;
+    if (this.audio) {
+      this.audio.onended = this.audio.onerror = null;
+      this.audio.pause();
+      this.audio = null;
+    }
+    this.active = false;
     if (this.supported) speechSynthesis.cancel();
+    Snd.applySettings();
   },
 };

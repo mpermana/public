@@ -290,7 +290,7 @@ const Activity = {
     UI.closeAll();
     this.current = { act, params: { ...act.params, ...params }, phase: 'travel', startedAt: Clock.total() };
     UI.showCancel(true);
-    Speech.say(pick([`Okay! Let's go!`, `Yay! ${act.name}!`, "Let's do it!"]));
+    Speech.say(pick(["Okay! Let's go!", 'Yay! Here we go!', "Let's do it!"]));
     if (act.id === 'explore') {
       Travel.to(act.where, () => this.complete({ silent: true }));
       return;

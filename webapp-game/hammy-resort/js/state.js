@@ -30,7 +30,7 @@ function freshState() {
     learned: { letters: [], numbers: [] },
     asleep: false,
     lastReward: -999,
-    settings: { music: true, sfx: true, narration: true, volume: 0.8, dpad: false },
+    settings: { music: true, sfx: true, narration: true, volume: 0.8, dpad: false, voiceStyle: 'cute', voice: '' },
   };
 }
 

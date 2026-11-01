@@ -474,7 +474,7 @@ defineScene('house', {
   },
 
   draw(ctx) {
-    Sky.draw(ctx, 0, 0, W, H, { seed: 31, clouds: 4, sunX: 0.9 });
+    Sky.draw(ctx, 0, 0, W, H, { seed: 31, clouds: 4, sunX: 0.93, scale: 0.55 });
     ctx.fillStyle = grassPattern(ctx);
     ctx.fillRect(0, 852, W, 60);
     Art.bush(ctx, 120, 870, 1, { flowers: '#ff9ec4', seed: 1 });

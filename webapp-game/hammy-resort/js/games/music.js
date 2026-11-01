@@ -23,10 +23,10 @@ const SONGS = {
     ['D4', 1, '/fleece'], ['D4', 1, 'was'], ['E4', 1, 'white'], ['D4', 1, 'as'], ['C4', 2, 'snow.'],
   ] },
   ode: { name: 'Ode to Joy', icon: '🎉', bpm: 104, notes: [
-    ['E4', 1, 'Joy'], ['E4', 1, 'ful,'], ['F4', 1, 'joy'], ['G4', 1, 'ful,'], ['G4', 1, 'we'], ['F4', 1, 'a'], ['E4', 1, 'dore'], ['D4', 1, 'thee,'],
-    ['C4', 1, '/God'], ['C4', 1, 'of'], ['D4', 1, 'glo'], ['E4', 1, 'ry,'], ['E4', 1.5, 'Lord'], ['D4', 0.5, 'of'], ['D4', 2, 'love.'],
-    ['E4', 1, '/Hearts'], ['E4', 1, 'un'], ['F4', 1, 'fold'], ['G4', 1, 'like'], ['G4', 1, 'flow'], ['F4', 1, 'ers'], ['E4', 1, 'be'], ['D4', 1, 'fore'],
-    ['C4', 1, '/thee,'], ['C4', 1, 'op'], ['D4', 1, 'ning'], ['E4', 1, 'to'], ['D4', 1.5, 'the'], ['C4', 0.5, 'sun'], ['C4', 2, 'above.'],
+    ['E4', 1, 'Hap'], ['E4', 1, 'py,'], ['F4', 1, 'hap'], ['G4', 1, 'py,'], ['G4', 1, 'we'], ['F4', 1, 'are'], ['E4', 1, 'sing'], ['D4', 1, 'ing,'],
+    ['C4', 1, '/Sun'], ['C4', 1, 'is'], ['D4', 1, 'shin'], ['E4', 1, 'ing,'], ['E4', 1.5, 'sing'], ['D4', 0.5, 'a'], ['D4', 2, 'long!'],
+    ['E4', 1, '/Friends'], ['E4', 1, 'and'], ['F4', 1, 'fam'], ['G4', 1, "'ly,"], ['G4', 1, 'all'], ['F4', 1, 'to'], ['E4', 1, 'geth'], ['D4', 1, 'er,'],
+    ['C4', 1, '/hap'], ['C4', 1, 'py,'], ['D4', 1, 'hap'], ['E4', 1, 'py,'], ['D4', 1.5, 'joy'], ['C4', 0.5, 'ful'], ['C4', 2, 'song!'],
   ] },
   rowboat: { name: 'Row, Row, Row Your Boat', icon: '🚣', bpm: 100, notes: [
     ['C4', 1.5, 'Row,'], ['C4', 1.5, 'row,'], ['C4', 1, 'row'], ['D4', 0.5, 'your'], ['E4', 1.5, 'boat'],
@@ -40,11 +40,12 @@ const SONGS = {
     ['E5', 0.5, '/If'], ['E5', 0.5, "you're"], ['F5', 1, 'hap'], ['F5', 1, 'py'], ['F5', 1, 'and'], ['D5', 0.5, 'you'], ['D5', 0.5, 'know'], ['E5', 1, 'it,'], ['E5', 1, 'then'], ['C5', 1, 'your'],
     ['C5', 0.5, '/face'], ['C5', 0.5, 'will'], ['D5', 1, 'sure'], ['C5', 1, 'ly'], ['B4', 1, 'show'], ['A4', 1, 'it!'], ['G4', 2, 'Clap!'],
   ] },
-  wheels: { name: 'The Wheels on the Bus', icon: '🚌', bpm: 112, notes: [
-    ['C4', 1, 'The'], ['F4', 1, 'wheels'], ['F4', 0.5, 'on'], ['F4', 0.5, 'the'], ['F4', 1, 'bus'], ['A4', 1, 'go'], ['C5', 1, 'round'], ['A4', 1, 'and'], ['F4', 2, 'round,'],
-    ['G4', 1, '/round'], ['E4', 1, 'and'], ['C4', 2, 'round,'], ['C5', 1, 'round'], ['A4', 1, 'and'], ['F4', 2, 'round.'],
-    ['C4', 1, '/The'], ['F4', 1, 'wheels'], ['F4', 0.5, 'on'], ['F4', 0.5, 'the'], ['F4', 1, 'bus'], ['A4', 1, 'go'], ['C5', 1, 'round'], ['A4', 1, 'and'], ['F4', 2, 'round,'],
-    ['G4', 2, '/all'], ['C4', 2, 'through'], ['F4', 2, 'town!'],
+  farm: { name: 'Old MacDonald Had a Farm', icon: '🐮', bpm: 116, notes: [
+    ['G4', 1, 'Old'], ['G4', 1, 'Mac'], ['G4', 1, 'Don'], ['D4', 1, 'ald'], ['E4', 1, 'had'], ['E4', 1, 'a'], ['D4', 2, 'farm,'],
+    ['B4', 1, '/E'], ['B4', 1, 'I'], ['A4', 1, 'E'], ['A4', 1, 'I'], ['G4', 3, 'O!'],
+    ['D4', 1, '/And'], ['G4', 1, 'on'], ['G4', 1, 'his'], ['G4', 1, 'farm'], ['D4', 1, 'he'], ['E4', 1, 'had'], ['E4', 1, 'a'], ['D4', 2, 'cow,'],
+    ['B4', 1, '/E'], ['B4', 1, 'I'], ['A4', 1, 'E'], ['A4', 1, 'I'], ['G4', 2, 'O!'],
+    ['D4', 0.5, '/With'], ['D4', 0.5, 'a'], ['G4', 1, 'moo'], ['G4', 1, 'moo'], ['G4', 0.5, 'here,'], ['D4', 0.5, 'and'], ['D4', 0.5, 'a'], ['G4', 1, 'moo'], ['G4', 1, 'moo'], ['G4', 1, 'there!'],
   ] },
 };
 const PIANO_SONGS = ['twinkle', 'mary', 'ode'];
@@ -463,7 +464,7 @@ defineGame('dance', {
     if (!this.move && (this.wait -= dt) <= 0) {
       this.move = pick(DANCE_MOVES);
       this.moveT = 0;
-      Speech.say(this.move.name);
+      Speech.say(this.move.name, { who: 'friend' });
       Snd.ding(3);
     }
     if (this.move) this.moveT += dt;

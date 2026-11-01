@@ -1,0 +1,91 @@
+${FOOD_NAMES[it.f]}!
+${L}! ${L} is for ${wordName}.
+${L}! You found it!
+${NUMBER_WORDS[a]} ${things} and ${NUMBER_WORDS[b]} more. How many altogether?
+${NUMBER_WORDS[n]} ${name}!
+${NUMBER_WORDS[n]} ${things}!
+${NUMBER_WORDS[this.score]}!
+${SONGS[id].name}! Play the glowing key each time.
+${a} plus ${b} is ${a + b}!
+${down} down! Roll again!
+${isNew ? 'New bug! ' : ''}A ${o.bug.name}! ${o.bug.fact}
+${n}! ${NUMBER_WORDS[n]}!
+${s.name}! Let's sing!
+${target}! That's ${target}!
+${this.book.title}.
+${this.meal.title} time! Tap a food to give it to Hammy.
+${this.players[this.turn].name} rolled ${NUMBER_WORDS[d.v]}!
+${this.players[this.turn].name}'s turn!
+${wordName[0].toUpperCase() + wordName.slice(1)}! Which letter does ${wordName} start with?
+A ${target}! Well done!
+Big ${it.key}, little ${it.key.toLowerCase()}!
+Can you find the ${target} ${things[0]}?
+Can you find the ${target}?
+Can you find the number ${NUMBER_WORDS[n]}?
+Collect ${need.stars} stars to unlock this book!
+Find the ${this.toys[0].n} in the ball pit! Tap the balls to move them.
+Great! Next, the ${ING_NAMES[this.recipe.steps[this.added]]}.
+Hammy is ${MOODS[mood]}. ${top ? top.line : ''}
+Here you go, ${f.name}! Let's share!
+Hi Hammy! It's me, ${f.name}!
+Hi again! ${Wishes.top()?.line || "Let's play!"}
+Hooray! Happy birthday, ${this.friend.name}! Now give the present!
+How many ${name} did we pick?
+How many ${things} are there? Let's count!
+It's ${this.friend.name}'s birthday! ${this.friend.name} is five. Tap the cake to put on five candles!
+Lap ${lap}!
+Let's go to the ${LOCATION[id].name}!
+Let's make ${this.recipe.name.toLowerCase()} with Mom! Add the ${ING_NAMES[this.recipe.steps[0]]}.
+Little ${L.toLowerCase()}!
+NUMBER_WORDS[m.count]
+NUMBER_WORDS[this.candles.length]
+Not yet! We need the ${ING_NAMES[want]}.
+Now it is ${['a seed', 'a sprout', 'growing', 'flowering', 'ready to pick'][cropStage(plot)]}!
+Now the ${this.want} toys!
+ROOMS[id].name
+Roll ${this.frame + 1}! Knock them down!
+SONGS[id] ? `You played ${SONGS[id].name}!` : 'You climbed the whole scale!'
+The ${it.key}!
+This is ${L}. ${L} is for ${wordName}. Can you find ${L}?
+This is big ${L}. Can you find little ${L.toLowerCase()}?
+We picked ${NUMBER_WORDS[this.score]} apples!
+We picked three ${c.name.toLowerCase()}! One, two, three!
+We planted ${CROPS[tool].name.toLowerCase()} seeds! Now let's water them.
+Yay! ${f.name} is coming to play at the resort!
+Yes! ${c.label}! What a good reader!
+You earned ${Math.min(stars, 6)} star${stars === 1 ? '' : 's'}!
+You found the ${t.n}! Now find the ${this.toys[this.want].n}!
+You tapped ${r.hits} beats!
+['One!', 'Two!', 'Three!', 'Four!', 'Five!', 'Six!', 'Seven!', 'Eight!'][this.stack.length - 2] || '
+['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven', 'twelve'][
+b.side > 0 ? 'Forehand!' : 'Backhand!'
+c.f[1]
+def.after || 'Now rinse! Tap the water!'
+def.prompt
+def.prompt.call ? def.prompt.call(this) : def.prompt
+got ? `${s.name}! You got it!` : s.how
+h.note > 70 ? 'That was a high sound, like a bird!' : 'That was a low sound, like a bear!'
+it.key
+it.key.toLowerCase()
+kind === 'nap' ? 'Nap time. Sweet dreams!' : 'Good night! Sleep tight!'
+label
+line
+part.ask
+plot.crop ? 'Not ready yet. Give it some water!' : 'Nothing to pick here.'
+prompt
+r.prompt
+s.name
+st === 4 ? 'This one is ready! Use the basket!' : 'Something is already growing here!'
+text
+this.act.with === 'dad' ? 'Shoot hoops with Dad! Pull back and let go!' : 'Pull the ball back and le
+this.book.pages[this.page][0], { force: true, who: b === 'mom' || b === 'dad' ? b : 'hammy' }
+this.cur.after, { interrupt: false }
+this.cur.prompt
+this.lines[0], { who: 'mom' }
+this.lines[this.panel], { who: this.panel === 1 ? 'dad' : 'mom' }
+this.move.name, { who: 'friend' }
+this.q.prompt
+typeof def.prompt === 'function' ? def.prompt.call(this) : def.prompt
+w.line, { interrupt: false }
+w.w, { force: true }
+wishes[0].line

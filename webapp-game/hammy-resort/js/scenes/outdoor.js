@@ -449,6 +449,8 @@ makeLocation({
 // ------------------------------------------------------- friends village
 
 const VILLAGE_HOUSES = [[230, 470, 0.8], [800, 455, 0.85], [1370, 470, 0.8], [520, 375, 0.5], [1080, 370, 0.5], [1520, 380, 0.45]];
+// Where each friend waits, in front of their own house.
+const VILLAGE_SPOTS = [[350, 560], [930, 545], [1270, 565], [560, 565], [1100, 560], [1490, 575]];
 
 makeLocation({
   id: 'village', title: 'Friends Village', music: 'village', outdoor: true,
@@ -463,9 +465,9 @@ makeLocation({
   family: { mom: { x: 120, y: 760, facing: 1 }, dad: { x: 1530, y: 640, facing: -1 } },
   extraPeople() {
     const bday = Friends.birthday();
-    return FRIENDS.filter(f => f.id !== S.friends.invited).map((f, i) => {
-      const [x, y, s] = VILLAGE_HOUSES[i], fy = i < 3 ? y + 70 : 560;
-      return { kind: f.id, x: x + (i < 3 ? 120 : 0), y: fy, h: this.hamSize * 0.95, pose: f === bday ? 'celebrate' : 'idle', facing: -1, villager: true, bday: f === bday, acts: [] };
+    return FRIENDS.map((f, i) => ({ f, i })).filter(({ f }) => f.id !== S.friends.invited).map(({ f, i }) => {
+      const [x, y] = VILLAGE_SPOTS[i];
+      return { kind: f.id, x, y, h: this.hamSize * 0.95, pose: f === bday ? 'celebrate' : 'idle', facing: x > 800 ? -1 : 1, villager: true, bday: f === bday, acts: [] };
     });
   },
   drawBack(g) {

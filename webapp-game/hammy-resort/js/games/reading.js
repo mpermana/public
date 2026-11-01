@@ -135,7 +135,8 @@ defineGame('reading', {
     if (!this.book) return;
     if (this.q) return Speech.say(this.q.prompt);
     const who = this.act.with ? `${FAMILY[this.buddy()]?.name || ''} reads: ` : '';
-    Speech.say(this.book.pages[this.page][0], { force: true });
+    const b = this.buddy();
+    Speech.say(this.book.pages[this.page][0], { force: true, who: b === 'mom' || b === 'dad' ? b : 'hammy' });
     this.prompt = `${who}📖 Page ${this.page + 1} of ${this.book.pages.length}`;
   },
   flip(dir) {
@@ -293,7 +294,8 @@ defineGame('story', {
     const [who, where, what] = this.picks;
     this.lines = [`Once upon a time, ${who[1] === 'hammy' ? S.hamster.name : who[2]} went ${where[2]}.`, `And guess what? ${what[2][0].toUpperCase() + what[2].slice(1)}!`, `Everyone laughed and hugged. The end!`];
     this.panel = 0;
-    this.say(this.lines[0]);
+    this.say(this.lines[0], false);
+    Speech.say(this.lines[0], { who: 'mom' });
     this.timer = 0;
   },
   tick(dt) {
@@ -305,7 +307,10 @@ defineGame('story', {
       if (this.panel >= this.lines.length) {
         this.telling = false;
         this.finish(1, 'What a great story!');
-      } else this.say(this.lines[this.panel]);
+      } else {
+        this.say(this.lines[this.panel], false);
+        Speech.say(this.lines[this.panel], { who: this.panel === 1 ? 'dad' : 'mom' });
+      }
     }
   },
   render(ctx) {

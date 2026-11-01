@@ -208,7 +208,7 @@ defineGame('birthday', {
       Snd.fanfare();
       S.friends.hearts[this.friend.id] = (S.friends.hearts[this.friend.id] || 0) + 2;
       S.friends.visited[this.friend.id] = true;
-      Speech.say(`Thank you, ${S.hamster.name}! I love it!`);
+      Speech.say(`Thank you, ${S.hamster.name}! I love it!`, { who: 'friend' });
       this.finish(2, 'Happy birthday! 🎂');
     }
   },

@@ -38,6 +38,10 @@ function placeName(sceneId) {
   if (sceneId?.startsWith('room:')) return ROOMS[sceneId.slice(5)]?.name || 'House';
   return LOCATION[sceneId]?.name || 'Resort';
 }
+function placeIcon(sceneId) {
+  if (sceneId?.startsWith('room:')) return ROOMS[sceneId.slice(5)]?.icon || '🚪';
+  return LOCATION[sceneId]?.icon || '🚪';
+}
 
 // ------------------------------------------------------------ activities
 

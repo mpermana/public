@@ -87,6 +87,82 @@ class WalkGrid {
   }
 }
 
+// --------------------------------------------------------------- doorways
+
+// A doorway is an opening in the side wall with the next room showing through
+// it, blurred and washed out until Hammy walks in. Crossing the lit sill, a
+// good step inside the floor, is what moves on, so nobody has to find the very
+// edge of the room.
+const GATE = { w: 180, top: 150, sill: 0.58, near: 340 };
+const gateDud = new Set();
+
+// What a gateway cuts out of the room: a tall arch for a doorway, or a stair
+// shaft climbing the back wall ('up') / dropping through the floor ('down').
+// The outer corners sit off-canvas, so only the inner side is rounded.
+function gateRect(d) {
+  const x = d.side < 0 ? -70 : W - GATE.w, w = GATE.w + 70;
+  if (!d.stairs) return { x, y: GATE.top, w, h: H - GATE.top + 20 };
+  const y = d.stairs === 'up' ? 210 : d.y - 8;
+  return { x, y, w, h: (d.stairs === 'up' ? d.y + d.h : H + 20) - y };
+}
+
+function gatePath(ctx, d) {
+  const r = gateRect(d);
+  rr(ctx, r.x, r.y, r.w, r.h, d.stairs === 'down' ? 54 : 110);
+}
+
+// Treads marching up to the back of the room, or down into the floor, with a
+// handrail along the open side. Drawn over the peek, so the room beyond shows
+// between the steps.
+function stairFlight(ctx, d) {
+  const up = d.stairs === 'up', n = 6, rise = 30;
+  const base = up ? d.y + d.h - 36 : d.y + 18;
+  for (let k = 0; k < n; k++) {
+    const y = base + (up ? -k * rise : k * rise), w = GATE.w - 6 - k * 16;
+    box(ctx, -30, y, w + 30, 26, 9, shade('#f0d9bd', up ? -0.02 - k * 0.03 : -0.1 - k * 0.08), { lw: 2.5 });
+  }
+  const top = base + (up ? -(n - 1) * rise : (n - 1) * rise);
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = '#d9a98a';
+  ctx.lineWidth = 6;
+  for (let k = 0; k < n; k += 2) {
+    const y = base + (up ? -k * rise : k * rise), x = GATE.w - 20 - k * 16;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y - 54);
+    ctx.stroke();
+  }
+  ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.moveTo(GATE.w - 20, base - 54);
+  ctx.lineTo(GATE.w - 20 - (n - 1) * 16, top - 54);
+  ctx.stroke();
+}
+
+function gateFrom(d) {
+  const side = d.side ?? (d.x === 0 ? -1 : 1);
+  return { ...d, side, w: GATE.w, x: side < 0 ? 0 : W - GATE.w, sill: side < 0 ? GATE.w * GATE.sill : W - GATE.w * GATE.sill, armed: true };
+}
+
+// The strip of the next room seen through a doorway, painted once into a small
+// offscreen canvas. The slice starts past that room's own doorway, so we look
+// into the room itself rather than at the back of its door frame.
+function gateArt(d) {
+  const sc = Scenes[d.to], key = `peek:${d.to}:${d.stairs || d.side}`;
+  if (!sc?.drawBack || gateDud.has(key)) return null;
+  const sw = GATE.w * 1.6, sx = d.stairs ? 0 : d.side < 0 ? W - GATE.w - sw : GATE.w;
+  try {
+    return Cache.get(key, sw, H - GATE.top, g => {
+      g.translate(-sx, -GATE.top);
+      sc.drawBack(g);
+    });
+  } catch (e) {
+    gateDud.add(key);
+    console.warn('No doorway peek for', d.to, e);
+    return null;
+  }
+}
+
 // ---------------------------------------------------------- Mom & Dad
 
 // Where Mom and Dad usually are, by hour. Activities that need them call
@@ -129,6 +205,7 @@ function makeLocation(def) {
     ...def,
     acts: def.acts || [...new Set(Object.values(def.spots).flatMap(s => s.acts || []))],
   };
+  scene.doors = (def.doors || []).map(gateFrom);
 
   scene.enter = function (params = {}, prev) {
     this.grid = this.grid || new WalkGrid(this.walk, this.blocks || []);
@@ -140,6 +217,8 @@ function makeLocation(def) {
     const entry = params.returnPos || (prev && this.entries?.[prev]) || this.start || { x: W / 2, y: H * 0.8 };
     const p = this.grid.nearestFree(entry.x, entry.y);
     Object.assign(this.ham, { x: p.x, y: p.y });
+    this.hoverGate = null;
+    for (const d of this.doors) d.armed = !this.inGate(d, p.x, p.y);
     this.friend = Friends.invited() ? { x: p.x - 110, y: p.y + 10, facing: 1 } : null;
     S.scene = this.id;
     S.pos = null;
@@ -198,7 +277,7 @@ function makeLocation(def) {
     if (this.inline) {
       this.updateInline(dt);
     } else {
-      const [dx, dy] = Input.dir();
+      const [dx, dy] = Input.dir(), was = { x: h.x, y: h.y };
       if (dx || dy) {
         h.path = [];
         h.onArrive = null;
@@ -208,7 +287,6 @@ function makeLocation(def) {
         else if (this.grid.free(h.x, ny)) h.y = ny;
         if (dx) h.facing = Math.sign(dx);
         h.pose = 'walk';
-        this.checkDoors();
       } else if (h.path.length) {
         const tgt = h.path[0], d = dist(h.x, h.y, tgt.x, tgt.y), far = h.path.reduce((a, p, i) => a + (i ? dist(p.x, p.y, h.path[i - 1].x, h.path[i - 1].y) : d), 0);
         const sp = (far > 600 ? 420 : 280) * dt;
@@ -218,16 +296,14 @@ function makeLocation(def) {
           h.x = tgt.x;
           h.y = tgt.y;
           h.path.shift();
-          if (!h.path.length) {
-            this.arrive();
-            this.checkDoors();
-          }
+          if (!h.path.length) this.arrive();
         } else {
           h.x += (tgt.x - h.x) / d * sp;
           h.y += (tgt.y - h.y) / d * sp;
         }
         if (Math.random() < dt * 4) Snd.step();
       } else if (h.pose === 'walk' || h.pose === 'run') h.pose = 'idle';
+      if (h.x !== was.x || h.y !== was.y) this.checkDoors();
     }
     // The invited friend follows a little behind.
     if (this.friend) {
@@ -243,16 +319,127 @@ function makeLocation(def) {
     if ((this.bubbleT -= dt) <= 0) this.sayWish(false);
   };
 
-  // Walking into a doorway leads to the next room.
+  // ---------------------------------------------------------- doorways
+
+  // Stepping over the sill leads to the next room: the view pushes into the
+  // opening, then crossfades to the room that was showing through it.
   scene.checkDoors = function () {
-    if (!this.doors || this.inline || Activity.current) return;
+    if (!this.doors.length || this.inline || Activity.current || Game.trans) return;
+    const h = this.ham;
     for (const d of this.doors) {
-      if (this.ham.x >= d.x && this.ham.x <= d.x + d.w && this.ham.y >= d.y && this.ham.y <= d.y + d.h) {
-        this.ham.path = [];
-        Game.go(d.to, {});
-        return;
-      }
+      if (!this.inGate(d, h.x, h.y)) { d.armed = true; continue; }
+      if (!d.armed) continue;
+      d.armed = false;
+      h.path = [];
+      h.onArrive = null;
+      Snd.whoosh();
+      FX.sparkle(d.x + d.w / 2, h.y - this.hamSize * 0.6, 6);
+      Game.go(d.to, {}, { zoom: { x: d.x, y: GATE.top, w: d.w, h: H - GATE.top } });
+      return;
     }
+  };
+
+  scene.inGate = function (d, x, y) {
+    return y > d.y && y < d.y + d.h && (d.side < 0 ? x <= d.sill : x >= d.sill);
+  };
+
+  // 0 across the room, 1 standing on the sill: how awake a doorway looks.
+  scene.gateProx = function (d) {
+    const h = this.ham, gap = d.side < 0 ? h.x - d.sill : d.sill - h.x;
+    const band = h.y > d.y - 90 && h.y < d.y + d.h + 90 ? 1 : 0.45;
+    return clamp(1 - gap / GATE.near, 0, 1) * band;
+  };
+
+  scene.gateAt = function (p) {
+    return this.doors.find(d => {
+      const r = gateRect(d);
+      return p.x >= d.x && p.x <= d.x + d.w && p.y >= r.y && p.y <= r.y + r.h;
+    }) || null;
+  };
+
+  scene.gateNear = function () { return this.doors.find(d => this.gateProx(d) > 0.6) || null; };
+
+  scene.walkThroughGate = function (d) {
+    this.walkTo(d.sill + d.side * 60, clamp(this.ham.y, d.y + 40, d.y + d.h - 20));
+  };
+
+  // The opening shows the room next door, blurred and hazy so it reads as
+  // somewhere else; it clears as Hammy walks up to it.
+  scene.drawGateways = function (ctx) {
+    for (const d of this.doors) {
+      const p = Math.max(this.gateProx(d), this.hoverGate === d ? 0.6 : 0);
+      ctx.save();
+      gatePath(ctx, d);
+      ctx.clip();
+      const art = gateArt(d), r = gateRect(d);
+      if (art) {
+        ctx.filter = `blur(${(4.2 - 3.3 * p) * View.px}px) saturate(${0.55 + 0.45 * p}) brightness(${(d.stairs === 'down' ? 0.8 : 1.1) - 0.1 * p})`;
+        ctx.drawImage(art, d.x - 18, r.y, d.w + 36, r.h);
+        ctx.filter = 'none';
+      }
+      const g = ctx.createLinearGradient(d.side < 0 ? d.x : d.x + d.w, 0, d.x + d.w / 2, 0);
+      g.addColorStop(0, `rgba(255,251,242,${0.38 - 0.26 * p})`);
+      g.addColorStop(1, `rgba(255,251,242,${0.14 - 0.1 * p})`);
+      ctx.fillStyle = g;
+      ctx.fillRect(d.x, r.y, d.w, r.h);
+      if (d.stairs) stairFlight(ctx, d);
+      ctx.restore();
+      this.drawGateCue(ctx, d, p);
+    }
+  };
+
+  // What makes the doorway an invitation: light spilling onto the floor, a sill
+  // to step over, arrows walking out and the name of the room beyond.
+  scene.drawGateCue = function (ctx, d, p) {
+    const t = Game.time, cx = d.x + d.w / 2, inner = d.side < 0 ? d.w : W - d.w;
+    ctx.save();
+    const sg = ctx.createLinearGradient(inner, 0, inner - d.side * 300, 0);
+    sg.addColorStop(0, `rgba(255,244,214,${0.1 + 0.26 * p})`);
+    sg.addColorStop(1, 'rgba(255,244,214,0)');
+    ctx.fillStyle = sg;
+    ctx.fillRect(Math.min(inner, inner - d.side * 300), 540, 300, H - 540);
+    rr(ctx, d.sill - 23, d.y + 16, 46, d.h - 26, 22);
+    ctx.fillStyle = `rgba(255,232,150,${0.2 + 0.4 * p})`;
+    ctx.fill();
+    ctx.setLineDash([18, 14]);
+    ctx.lineDashOffset = -t * 60;
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = `rgba(255,196,64,${0.4 + 0.6 * p})`;
+    ctx.stroke();
+    ctx.setLineDash([]);
+    const span = GATE.w * GATE.sill - 30, ay = d.y + d.h * 0.62;
+    ctx.lineWidth = 9;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.strokeStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(120,90,40,.35)';
+    ctx.shadowBlur = 6;
+    for (let i = 0; i < 3; i++) {
+      const ph = (t * 1.1 + i * 0.34) % 1, ax = d.sill + d.side * (14 + ph * span);
+      ctx.globalAlpha = clamp((0.3 + 0.7 * p) * Math.sin(ph * Math.PI), 0, 1);
+      ctx.beginPath();
+      ctx.moveTo(ax - d.side * 11, ay - 17);
+      ctx.lineTo(ax + d.side * 11, ay);
+      ctx.lineTo(ax - d.side * 11, ay + 17);
+      ctx.stroke();
+    }
+    ctx.restore();
+    ctx.save();
+    const label = `${d.stairs ? (d.stairs === 'up' ? '⬆️' : '⬇️') : placeIcon(d.to)} ${placeName(d.to)}`;
+    ctx.font = `700 22px ${FONT}`;
+    const lw = ctx.measureText(label).width + 56;
+    const lx = clamp(cx, lw / 2 + 14, W - lw / 2 - 14);
+    const ly = (d.stairs ? d.y + 32 : GATE.top + 58) + Math.sin(t * 2) * 4;
+    box(ctx, lx - lw / 2, ly - 22, lw, 44, 22, p > 0.5 ? '#fff3b8' : '#ffffff', { lw: 2.5 });
+    drawText(ctx, label, lx, ly, 22);
+    if (p > 0.5 && Input.lastDevice === 'key') drawText(ctx, 'Press Enter', cx, d.y + d.h - 4, 18, { color: '#7b6a8f', stroke: '#fff', sw: 0.3 });
+    if (this.hoverGate === d) {
+      gatePath(ctx, d);
+      ctx.lineWidth = 7;
+      ctx.strokeStyle = '#ffd34d';
+      ctx.stroke();
+    }
+    ctx.restore();
   };
 
   // Hammy says what it would like, now and then (and on arrival if urgent).
@@ -316,6 +503,7 @@ function makeLocation(def) {
     // Outdoors the sky is live (time of day, weather) behind the cached ground.
     if (this.outdoor) Sky.draw(ctx, 0, 0, W, (this.horizon || 340) + 60, { seed: this.id.length, clouds: 4, sunX: 0.82 });
     Cache.draw(ctx, `scene:${this.id}`, 0, 0, W, H, g => this.drawBack(g));
+    if (this.doors.length) this.drawGateways(ctx);
     this.drawDyn?.(ctx);
     this.drawCharacters(ctx);
     this.drawFront?.(ctx);
@@ -376,7 +564,8 @@ function makeLocation(def) {
 
   scene.pointerMove = function (p) {
     this.hover = this.inline ? null : this.spotAt(p) || null;
-    Game.canvasCursor(this.hover || this.personAt(p) ? 'pointer' : '');
+    this.hoverGate = this.inline ? null : this.gateAt(p);
+    Game.canvasCursor(this.hover || this.hoverGate || this.personAt(p) ? 'pointer' : '');
   };
 
   scene.pointerDown = function (p) {
@@ -387,6 +576,11 @@ function makeLocation(def) {
     if (s) {
       this.walkToSpot(Object.keys(this.spots).find(k => this.spots[k] === s), () => this.openSpot(s));
       return;
+    }
+    const gate = this.gateAt(p);
+    if (gate) {
+      FX.sparkle(p.x, p.y, 3);
+      return this.walkThroughGate(gate);
     }
     if (this.clickExtra?.(p)) return;
     this.walkTo(p.x, p.y);
@@ -429,8 +623,9 @@ function makeLocation(def) {
 
   scene.key = function (e) {
     if ((e.code === 'Enter' || e.code === 'Space') && !this.inline) {
-      const s = this.nearSpot();
+      const s = this.nearSpot(), d = s ? null : this.gateNear();
       if (s) this.openSpot(s);
+      else if (d) this.walkThroughGate(d);
       return true;
     }
     if (this.inline && (e.code === 'Enter' || e.code === 'Space')) {

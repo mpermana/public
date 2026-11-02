@@ -29,8 +29,13 @@ browser after every change and when the tab is closed.
   look around; scroll, pinch or use ➕ ➖ 🔭 to zoom. A 💭 bubble on a sign
   means Hammy would like to go there; *New!* marks places not visited yet.
 - **Main House:** an open dollhouse. Tap a room and Hammy walks over (and
-  up the stairs). Inside a room, tap the floor to walk, tap an object to see
-  what you can do with it, or walk through the side doorways to the next room.
+  up the stairs); arrows or a controller stroll him from room to room out
+  there, and Enter goes inside. Inside a room, tap the floor to walk, tap an
+  object to see what you can do with it, or walk through a side doorway to the
+  next room — each doorway shows the room beyond it, hazy until Hammy steps up
+  to the lit sill. The room at the left of every floor has the stairs (up at
+  the back, down through the stairwell at the front), so the whole house can
+  be walked without coming back out to the dollhouse.
 - **Activity bar** (bottom left): everything you can do in the current place.
   Items with 💭 are things Hammy wishes for right now.
 - **Top bar:** Hammy's face and mood, five need meters, the clock (tap it for
@@ -40,6 +45,10 @@ browser after every change and when the tab is closed.
 - **Keyboard:** arrows or WASD walk, Enter / Space uses the nearest object,
   Esc pauses (or stops what Hammy is doing). Mini-games also use the keyboard.
 - **Touch:** tap to walk and choose; optional on-screen arrows in Settings.
+- **Controller:** plug in an Xbox pad (or any game pad) and press a button.
+  The left stick or d-pad walks, A does things, B goes back, and the right
+  stick aims a pointer for the mini-games. In menus the stick moves between
+  the buttons and A presses one. Settings picks which pad to play with.
 - **✋ Stop** cancels any activity at any time, without losing anything.
 
 ## What's inside
@@ -99,7 +108,8 @@ Narration plays local character recordings when available, with device voices
 for missing lines and custom names. Music lowers while a character speaks.
 The device fallback uses gentle pitch changes and clear pacing; Mom, Dad and
 friends have their own voices. The Settings voice picker and Try button preview
-the device fallback. To create the AI-generated offline recordings, follow
+the device fallback. Free Windows voice recordings are included; for regeneration
+or optional OpenAI voices, follow
 [voice/README.md](voice/README.md). *Start over…* in
 Settings erases the save after a second confirmation; starting a *New game*
 from the menu also asks first. Everything is stored in `localStorage`

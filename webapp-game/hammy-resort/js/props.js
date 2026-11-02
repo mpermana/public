@@ -48,16 +48,60 @@ const Props = {
     }
   },
 
-  // An open doorway at a room's side, leading to the next room.
-  sideDoor(ctx, side, label) {
-    const x = side < 0 ? 26 : W - 26 - 70, y = 300, w = 70, h = 250;
-    rr(ctx, x - 8, y - 8, w + 16, h + 8, 36);
-    paint(ctx, '#ffffff', y, y + h, { lw: 3 });
-    rr(ctx, x, y, w, h, 30);
-    ctx.fillStyle = 'rgba(74,58,92,.28)';
-    ctx.fill();
-    drawText(ctx, side < 0 ? '◀' : '▶', x + w / 2, y + h / 2, 30, { color: '#fff' });
-    if (label) drawEmoji(ctx, label, x + w / 2, y + h * 0.28, 38);
+  // An opening in the side wall that leads to the next room. Only the frame
+  // is painted into the backdrop: the peek of the room beyond, the sill and
+  // the arrows are drawn live each frame (scene.drawGateways in location.js).
+  doorway(ctx, side, icon) {
+    const x = side < 0 ? -70 : W - GATE.w, w = GATE.w + 70, y = GATE.top, h = H - y + 20;
+    ctx.save();
+    rr(ctx, x, y, w, h, 110);
+    ctx.clip();
+    // A warm glow stands in for the next room wherever the live peek is not
+    // drawn — the dollhouse thumbnails, for one.
+    const g = ctx.createLinearGradient(side < 0 ? 0 : W, 0, side < 0 ? GATE.w : W - GATE.w, 0);
+    g.addColorStop(0, '#f0d9bd');
+    g.addColorStop(1, '#fff6e6');
+    ctx.fillStyle = g;
+    ctx.fillRect(x, y, w, h);
+    if (icon) drawEmoji(ctx, icon, side < 0 ? GATE.w / 2 : W - GATE.w / 2, y + 150, 56);
+    ctx.restore();
+    // The jamb: a thick white frame with a warm liner.
+    rr(ctx, x, y, w, h, 110);
+    ctx.lineWidth = 16;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#e9c6a4';
+    ctx.stroke();
+    // The shadow the jamb casts back into this room.
+    const sx = side < 0 ? GATE.w : W - GATE.w - 130;
+    const sg = ctx.createLinearGradient(side < 0 ? sx : sx + 130, 0, side < 0 ? sx + 130 : sx, 0);
+    sg.addColorStop(0, 'rgba(74,58,92,.13)');
+    sg.addColorStop(1, 'rgba(74,58,92,0)');
+    ctx.fillStyle = sg;
+    ctx.fillRect(sx, y, 130, H);
+  },
+
+  // The stairwell at the left of a floor: up the back wall, or down through
+  // the floor. The steps and the room beyond are drawn live by the scene.
+  stairwell(ctx, d) {
+    const r = gateRect(d), up = d.stairs === 'up', round = up ? 100 : 54;
+    ctx.save();
+    rr(ctx, r.x, r.y, r.w, r.h, round);
+    ctx.clip();
+    const g = ctx.createLinearGradient(0, r.y, 0, r.y + r.h);
+    g.addColorStop(0, up ? '#fff3e0' : '#a4897a');
+    g.addColorStop(1, up ? '#dcbf9f' : '#6f5b50');
+    ctx.fillStyle = g;
+    ctx.fillRect(r.x, r.y, r.w, r.h);
+    ctx.restore();
+    rr(ctx, r.x, r.y, r.w, r.h, round);
+    ctx.lineWidth = 14;
+    ctx.strokeStyle = '#ffffff';
+    ctx.stroke();
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#e9c6a4';
+    ctx.stroke();
   },
 
   picture(ctx, x, y, w, h, { frame = '#e8b985', kind = 'landscape' } = {}) {

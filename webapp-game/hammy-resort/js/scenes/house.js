@@ -49,31 +49,48 @@ function roomShell(g, { wall = '#ffe9d6', accent = '#ffd9c4', pattern = 'stripes
 // One room scene. `draw` paints furniture into the cached backdrop.
 function room(id, def) {
   const floorIdx = FLOORS.findIndex(f => f.includes(id)), floor = FLOORS[floorIdx] || [], i = floor.indexOf(id);
+  // Rooms along a floor open into each other through a doorway in the side
+  // wall. Hammy comes in a step clear of it, so the way back is in plain sight
+  // and the doorway is not tripped again on arrival.
   const doors = [], entries = {};
   if (floor[i - 1]) {
-    doors.push({ x: 0, y: 580, w: 46, h: 300, to: `room:${floor[i - 1]}` });
-    entries[`room:${floor[i - 1]}`] = { x: 110, y: 760 };
+    doors.push({ side: -1, to: `room:${floor[i - 1]}`, y: 600, h: 290 });
+    entries[`room:${floor[i - 1]}`] = { x: GATE.w + 90, y: 760 };
   }
   if (floor[i + 1]) {
-    doors.push({ x: W - 46, y: 580, w: 46, h: 300, to: `room:${floor[i + 1]}` });
-    entries[`room:${floor[i + 1]}`] = { x: W - 110, y: 760 };
+    doors.push({ side: 1, to: `room:${floor[i + 1]}`, y: 600, h: 290 });
+    entries[`room:${floor[i + 1]}`] = { x: W - GATE.w - 90, y: 760 };
   }
+  // The room at the left of every floor holds the stairs, so the whole house
+  // can be walked: up at the back of the room, down through the stairwell at
+  // the front. A floor with only one of the two gets the whole left wall.
+  if (i === 0) {
+    const up = FLOORS[floorIdx + 1]?.[0], down = FLOORS[floorIdx - 1]?.[0], both = up && down;
+    if (up) {
+      doors.push({ side: -1, to: `room:${up}`, y: 600, h: both ? 150 : 290, stairs: 'up' });
+      entries[`room:${up}`] = { x: GATE.w + 90, y: both ? 680 : 700 };
+    }
+    if (down) {
+      doors.push({ side: -1, to: `room:${down}`, y: both ? 750 : 600, h: both ? 140 : 290, stairs: 'down' });
+      entries[`room:${down}`] = { x: GATE.w + 90, y: both ? 820 : 800 };
+    }
+  }
+  const left = doors.some(d => d.side < 0), right = doors.some(d => d.side > 0);
   const blocks = def.blocks || [];
-  const scene = makeLocation({
+  return makeLocation({
     id: `room:${id}`, title: ROOMS[id].name, back: 'house', music: 'home', outdoor: false,
-    walk: [{ x: doors.some(d => d.x === 0) ? 0 : 70, y: 610, w: W - (doors.length === 2 ? 0 : doors.some(d => d.x === 0) ? 70 : doors.length ? 70 : 140), h: 270 }],
+    walk: [{ x: left ? 0 : 70, y: 610, w: (right ? W : W - 70) - (left ? 0 : 70), h: 270 }],
     blocks, doors, entries, start: def.start || { x: W / 2, y: 780 },
     ...def,
     drawBack(g) {
       roomShell(g, def.shell);
       def.draw.call(this, g);
-      for (const d of doors) Props.sideDoor(g, d.x === 0 ? -1 : 1, ROOMS[d.to.slice(5)].icon);
+      for (const d of doors) {
+        if (d.stairs) Props.stairwell(g, d);
+        else Props.doorway(g, d.side, ROOMS[d.to.slice(5)].icon);
+      }
     },
   });
-  if (!doors.some(d => d.x === 0)) scene.walk[0].x = 70;
-  if (!doors.some(d => d.x > 0)) scene.walk[0].w = W - scene.walk[0].x - 70;
-  else scene.walk[0].w = W - scene.walk[0].x;
-  return scene;
 }
 
 // ----------------------------------------------------------------- rooms
@@ -87,7 +104,7 @@ room('kitchen', {
     fridge: { name: 'Fridge', x: 1000, y: 680, hit: { x: 915, y: 270, w: 170, h: 340 }, acts: ['snack', 'breakfast', 'lunch'] },
     table: { name: 'Dining table', x: 1250, y: 800, hit: { x: 1080, y: 600, w: 340, h: 160 }, acts: ['breakfast', 'lunch', 'dinner', 'snack'], alwaysAsk: true },
   },
-  family: { mom: { x: 860, y: 700, facing: -1, acts: ['hug_mom', 'cook_mom', 'play_mom'] }, dad: { x: 1460, y: 800, facing: -1 } },
+  family: { mom: { x: 860, y: 700, facing: -1, acts: ['hug_mom', 'cook_mom', 'play_mom'] }, dad: { x: 1340, y: 800, facing: -1 } },
   draw(g) {
     Props.wallCabinets(g, 120, 70, 500, 120, '#a8dcc8');
     Props.counter(g, 380, 610, 520, 150, '#a8dcc8');
@@ -411,9 +428,23 @@ room('playroom', {
 
 // --------------------------------------------------------- house overview
 
+// The next room along in the dollhouse: left and right along a floor, up and
+// down a floor in the same column, with the playroom up in the attic.
+function houseNeighbour(id, dx, dfloor) {
+  if (id === 'playroom') return dfloor < 0 ? FLOORS[FLOORS.length - 1][1] : null;
+  const f = FLOORS.findIndex(fl => fl.includes(id));
+  if (f < 0) return null;
+  const i = FLOORS[f].indexOf(id);
+  if (dx) return FLOORS[f][i + dx] || null;
+  if (dfloor > 0) return FLOORS[f + 1]?.[i] || (f === FLOORS.length - 1 ? 'playroom' : null);
+  if (dfloor < 0) return FLOORS[f - 1]?.[i] || null;
+  return null;
+}
+
 defineScene('house', {
   back: 'map',
   sim: true,
+  walkable: true,
 
   enter(params = {}) {
     Music.play(Clock.isNight() ? 'night' : 'home');
@@ -435,22 +466,37 @@ defineScene('house', {
 
   hammyPos() { return { x: this.ham.x, y: this.ham.y - 40 }; },
 
-  // Walk through the house (via the stairs) to a room, then go inside.
-  goRoom(id) {
+  // Walk through the house (via the stairs) to a room. Tapping a room goes
+  // inside on arrival; strolling with the arrows or a stick stays out here.
+  goRoom(id, enter = true) {
     if (!HOUSE_ROOMS[id]) return;
-    const fromY = roomFloorY(this.room), toY = roomFloorY(id), r = roomRect(id), pts = [];
+    const fromY = this.ham.y, toY = roomFloorY(id), r = roomRect(id), pts = [];
     if (Math.abs(fromY - toY) > 2) {
       pts.push([STAIRS_X, fromY], [STAIRS_X, toY]);
     }
     pts.push([r.x + r.w / 2, toY]);
-    this.walk = { pts, to: id };
+    this.walk = { pts, to: id, enter };
     Snd.whoosh();
   },
 
   update(dt) {
-    const w = this.walk, h = this.ham;
+    const h = this.ham;
+    // Arrows, the on-screen pad or a controller stick stroll Hammy from room
+    // to room: one room per push, and a push during a stroll carries on from
+    // wherever that stroll was heading.
+    const [dx, dy] = Input.dir();
+    const push = Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5;
+    this.navT = push ? Math.max(0, (this.navT || 0) - dt) : 0;
+    if (push && !this.navT && !this.walk?.enter) {
+      this.navT = 0.3;
+      const sideways = Math.abs(dx) > Math.abs(dy);
+      const id = houseNeighbour(this.walk?.to || this.room, sideways ? Math.sign(dx) : 0, sideways ? 0 : -Math.sign(dy));
+      if (id) this.goRoom(id, false);
+      else Snd.hmm();
+    }
+    const w = this.walk;
     if (!w) return;
-    let step = 520 * dt;
+    let step = (w.enter ? 520 : 1000) * dt;
     while (step > 0 && w.pts.length) {
       const [tx, ty] = w.pts[0], d = dist(h.x, h.y, tx, ty);
       if (d <= step) {
@@ -469,7 +515,8 @@ defineScene('house', {
       this.walk = null;
       this.room = w.to;
       S.houseRoom = w.to;
-      Game.go(`room:${w.to}`, {}, { zoom: roomRect(w.to) });
+      if (w.enter) Game.go(`room:${w.to}`, {}, { zoom: roomRect(w.to) });
+      else Snd.tap();
     }
   },
 
@@ -520,7 +567,11 @@ defineScene('house', {
     }
     // Labels on top of the tint.
     for (const id of Object.keys(HOUSE_ROOMS)) {
-      const r = roomRect(id), hover = this.hover === id, wish = Wishes.list().find(x => x.act.where === `room:${id}`);
+      const keyish = Input.lastDevice === 'key' || Input.lastDevice === 'pad';
+      const r = roomRect(id), wish = Wishes.list().find(x => x.act.where === `room:${id}`);
+      // With arrows or a controller the room Hammy is in carries the ring, so
+      // it is plain which one Enter opens.
+      const hover = this.hover === id || (keyish && !this.walk && this.room === id);
       const label = `${ROOMS[id].icon} ${ROOMS[id].name}`;
       ctx.font = `700 21px ${FONT}`;
       const lw = ctx.measureText(label).width + 28;
@@ -546,6 +597,9 @@ defineScene('house', {
     if (this.walk) {
       box(ctx, W / 2 - 230, H - 66, 460, 54, 27, '#ffffff', { lw: 0 });
       drawText(ctx, `🐾 Going to the ${ROOMS[this.walk.to].name}…`, W / 2, H - 39, 26);
+    } else if (Input.lastDevice === 'key' || Input.lastDevice === 'pad') {
+      box(ctx, W / 2 - 250, H - 66, 500, 54, 27, '#ffffff', { lw: 0 });
+      drawText(ctx, '⬅️➡️⬆️⬇️ Move room to room · Enter to go in', W / 2, H - 39, 24);
     }
   },
 

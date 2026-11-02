@@ -62,6 +62,7 @@ const UI = {
     }
     this.renderActbar(scene);
     $('dpad').hidden = !(playing && !game && S.settings.dpad && scene?.walkable);
+    this.showCancel(!!Activity.current);
     this.closePopover();
     if (playing && !game) this.updateHud(true);
   },
@@ -195,8 +196,11 @@ const UI = {
     this.toastTimer = setTimeout(() => t.classList.remove('show'), ms);
   },
 
+  // The way out of an activity in a location scene. Mini-games keep their own
+  // handle in the corner, and this bar would cover the buttons they draw along
+  // the bottom, so it stays hidden there.
   showCancel(on) {
-    $('cancel-bar').hidden = !on;
+    $('cancel-bar').hidden = !on || !!Game.id?.startsWith('game:');
   },
 
   // ------------------------------------------------------------- popover
@@ -433,7 +437,7 @@ const UI = {
       toggle('🗣️ Talking (narration)', 'narration', () => { if (!st.narration) Speech.stop(); else Speech.say('Hi! I will talk to you.'); });
       // Voice: cute or normal, which device voice, and a button to hear it.
       const sample = () => Speech.say(`Hi! I'm ${S.hamster.name}! Let's play together!`, { force: true, browser: true });
-      body.append(el('p', 'lead', 'Recorded character voices are AI-generated. Missing lines and custom names use your device voice.'));
+      body.append(el('p', 'lead', 'Character voices are computer-generated. Missing lines and custom names use your device voice.'));
       const style = el('div', 'toggle-row', '<span>🐹 Device voice</span>');
       const srow2 = el('div', 'chip-row');
       for (const [id, label] of [['cute', '🐹 Cute'], ['normal', '🙂 Normal']]) {
@@ -464,6 +468,28 @@ const UI = {
         if (!voices.some(v => Speech.isChild(v))) body.append(el('p', 'lead', 'Tip: Microsoft Edge has a real child\'s voice (Ana) that sounds the cutest.'));
       }
       toggle('🕹️ On-screen arrows', 'dpad', () => UI.onScene(Game.scene));
+      // Which game controller to play with, when more than one is plugged in.
+      const pads = Input.padList();
+      const padRow = el('div', 'toggle-row', '<span>🎮 Controller</span>');
+      const prow = el('div', 'chip-row');
+      const padChip = (val, label) => {
+        const b = el('button', `chip${String(st.pad ?? 'auto') === String(val) ? ' on' : ''}`, label);
+        b.addEventListener('click', () => {
+          st.pad = val;
+          Snd.click();
+          prow.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === b));
+          Save.mark();
+        });
+        prow.append(b);
+      };
+      padChip('auto', '✨ Any');
+      for (const g of pads) padChip(g.index, padName(g));
+      padChip('off', '🚫 Off');
+      padRow.append(prow);
+      body.append(padRow);
+      body.append(el('p', 'lead', pads.length
+        ? 'Left stick or d-pad walks, A does things, B goes back. The right stick aims a pointer for the games.'
+        : 'Plug in an Xbox controller (or any game pad) and press a button — it shows up here.'));
       const vol = el('div', 'toggle-row', '<span>🔊 Volume</span>');
       const vrow = el('div', 'chip-row');
       for (const [v, label] of [[0.35, 'Quiet'], [0.65, 'Medium'], [1, 'Loud']]) {
@@ -622,6 +648,38 @@ const UI = {
     }
   },
 
+  // ------------------------------------------------------- controllers
+
+  // The HTML layer a controller should be steering. Menus, panels and reward
+  // cards are not on the canvas, so the stick moves between their buttons.
+  padLayer() {
+    if (!$('popover').hidden) return $('popover');
+    if (!$('reward').hidden) return $('reward');
+    if (!$('panel').hidden) return $('panel').querySelector('.sheet-body') || $('panel');
+    if (!$('menu').hidden) return $('menu');
+    return null;
+  },
+
+  padMove(step) {
+    const layer = this.padLayer();
+    const items = [...(layer?.querySelectorAll('button:not([disabled]), input, select') || [])];
+    if (!items.length) return;
+    const cur = items.indexOf(document.activeElement);
+    const next = items[cur < 0 ? (step > 0 ? 0 : items.length - 1) : (cur + step + items.length) % items.length];
+    for (const old of document.querySelectorAll('.pad-focus')) old.classList.remove('pad-focus');
+    next.classList.add('pad-focus');
+    next.focus();
+    Snd.tap();
+  },
+
+  padPress() {
+    const layer = this.padLayer();
+    if (!layer) return;
+    const on = layer.contains(document.activeElement) && document.activeElement.classList.contains('pad-focus');
+    if (on) document.activeElement.click();
+    else this.padMove(1);
+  },
+
   // --------------------------------------------------------- keyboard
 
   key(e) {
@@ -646,9 +704,10 @@ const UI = {
   showMenu() {
     const m = $('menu'), has = Save.exists();
     const title = "Hammy's Happy Resort";
-    m.innerHTML = `<h1 class="menu-title">${[...title].map((c, i) => `<span style="animation-delay:${i * 0.06}s">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</h1>
+    m.innerHTML = `<div class="menu-inner">
+      <h1 class="menu-title">${[...title].map((c, i) => `<span style="animation-delay:${i * 0.06}s">${c === ' ' ? '&nbsp;' : esc(c)}</span>`).join('')}</h1>
       <p class="menu-sub">Take care of ${has ? esc(S.hamster.name) : 'Hammy'} in a big, happy resort!</p>
-      <div class="menu-buttons"></div>`;
+      <div class="menu-buttons"></div></div>`;
     const grid = m.querySelector('.menu-buttons');
     const add = (icon, label, cls, fn) => {
       const b = el('button', `menu-btn ${cls}`, `<span class="mi">${icon}</span>${label}`);

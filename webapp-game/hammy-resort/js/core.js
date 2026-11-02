@@ -298,12 +298,15 @@ const FX = {
 
 // ------------------------------------------------------------------- input
 
+const padName = g => g.id.replace(/\s*\(.*$/, '').trim() || `Controller ${g.index + 1}`;
+
 const Input = {
   pointer: { x: W / 2, y: H / 2, down: false, inside: false, type: 'mouse' },
   pointers: new Map(),   // active touches, for pinch zoom
   pinchDist: 0,
   held: new Set(),
   dpad: { x: 0, y: 0 },
+  pad: { x: 0, y: 0, a: false, b: false, cursorT: 0, navT: 0, layer: null },
   lastDevice: 'mouse',
 
   init(canvas) {
@@ -360,6 +363,15 @@ const Input = {
     });
     addEventListener('keyup', e => this.held.delete(e.code));
     addEventListener('blur', () => this.held.clear());
+
+    addEventListener('gamepadconnected', e => {
+      this.lastDevice = 'pad';
+      if ((S.settings?.pad ?? 'auto') !== 'off') UI.toast(`🎮 ${padName(e.gamepad)} ready! Left stick walks, A does things.`);
+    });
+    addEventListener('gamepaddisconnected', () => {
+      this.pad.x = this.pad.y = 0;
+      this.held.delete('Space');
+    });
   },
 
   move(e) {
@@ -376,13 +388,126 @@ const Input = {
     return View.toDesign((a.x + b.x) / 2, (a.y + b.y) / 2);
   },
 
-  // Arrow keys / WASD / on-screen pad as a direction, length <= 1.
+  // Arrow keys / WASD / on-screen pad / controller stick as a direction,
+  // length <= 1.
   dir() {
     const h = code => (this.held.has(code) ? 1 : 0);
-    const x = clamp(h('ArrowRight') + h('KeyD') - h('ArrowLeft') - h('KeyA') + this.dpad.x, -1, 1);
-    const y = clamp(h('ArrowDown') + h('KeyS') - h('ArrowUp') - h('KeyW') + this.dpad.y, -1, 1);
+    const x = clamp(h('ArrowRight') + h('KeyD') - h('ArrowLeft') - h('KeyA') + this.dpad.x + this.pad.x, -1, 1);
+    const y = clamp(h('ArrowDown') + h('KeyS') - h('ArrowUp') - h('KeyW') + this.dpad.y + this.pad.y, -1, 1);
     const m = Math.hypot(x, y);
     return m > 1 ? [x / m, y / m] : [x, y];
+  },
+
+  // ------------------------------------------------------- controllers
+
+  // Every connected pad, and the one in use: whichever was picked in Settings
+  // while it is still plugged in, else the first one.
+  padList() {
+    return [...(navigator.getGamepads?.() || [])].filter(g => g && g.connected);
+  },
+  activePad() {
+    const want = S.settings?.pad ?? 'auto';
+    if (want === 'off') return null;
+    const list = this.padList();
+    return list.find(g => g.index === Number(want)) || list[0] || null;
+  },
+
+  // Polled once a frame. A controller drives the game through the paths that
+  // already exist: dir() for walking, a key press for acting and going back,
+  // the pointer for aiming, so no scene or game needs controller code.
+  tickPad(dt) {
+    const p = this.pad, g = this.activePad();
+    if (!g) {
+      if (p.a) this.held.delete('Space');
+      p.x = p.y = p.cursorT = 0;
+      p.a = p.b = false;
+      return;
+    }
+    // Axes past the dead zone, rescaled so a small push still means slow.
+    const ax = n => {
+      const v = g.axes[n] || 0, d = 0.25;
+      return Math.abs(v) > d ? (v - Math.sign(v) * d) / (1 - d) : 0;
+    };
+    const btn = n => !!g.buttons[n]?.pressed;
+    const lx = clamp(ax(0) + (btn(15) ? 1 : 0) - (btn(14) ? 1 : 0), -1, 1);
+    const ly = clamp(ax(1) + (btn(13) ? 1 : 0) - (btn(12) ? 1 : 0), -1, 1);
+    const a = btn(0), b = btn(1) || btn(9);
+    if (lx || ly || a || b) this.lastDevice = 'pad';
+    // Menus and panels are HTML, so there the stick walks the buttons instead.
+    const layer = UI.padLayer();
+    if (layer !== p.layer) {
+      p.layer = layer;
+      p.navT = 0;
+      if (layer) UI.padMove(1);
+    }
+    p.x = layer ? 0 : lx;
+    p.y = layer ? 0 : ly;
+    if (layer) {
+      p.cursorT = 0;
+      const step = Math.abs(ly) > 0.5 ? Math.sign(ly) : Math.abs(lx) > 0.5 ? Math.sign(lx) : 0;
+      if (!step) p.navT = 0;
+      else if ((p.navT -= dt) <= 0) {
+        p.navT = 0.22;
+        UI.padMove(step);
+      }
+    } else {
+      // The right stick aims a pointer, for the games that want taps.
+      const rx = ax(2), ry = ax(3);
+      if (rx || ry) {
+        p.cursorT = 6;
+        this.lastDevice = 'pad';
+        Object.assign(this.pointer, {
+          x: clamp(this.pointer.x + rx * 1000 * dt, 0, W),
+          y: clamp(this.pointer.y + ry * 1000 * dt, 0, H),
+          inside: true, type: 'pad',
+        });
+        Game.pointer('move', this.pointer);
+      } else if (p.cursorT > 0 && (p.cursorT -= dt) <= 0) {
+        p.cursorT = 0;
+        if (this.lastDevice === 'pad') this.pointer.inside = false;
+      }
+    }
+    // A does things: press where the cursor is aiming while it is out,
+    // otherwise use whatever Hammy is standing next to. Holding it down keeps
+    // scrubbing and stirring going, the way holding Space does.
+    if (a !== p.a) {
+      p.a = a;
+      if (!a) {
+        this.held.delete('Space');
+        if (this.pointer.down) {
+          this.pointer.down = false;
+          Game.pointer('up', this.pointer);
+        }
+      } else if (layer) UI.padPress();
+      else {
+        this.held.add('Space');
+        if (p.cursorT > 0) {
+          this.pointer.down = true;
+          Game.pointer('down', this.pointer);
+        } else Game.key({ code: 'Enter', repeat: false, preventDefault() {} });
+      }
+    }
+    if (b !== p.b) {
+      p.b = b;
+      if (b) Game.key({ code: 'Escape', repeat: false, preventDefault() {} });
+    }
+  },
+
+  // Where the controller is aiming, fading out once the stick is let go.
+  drawPadCursor(ctx) {
+    const { x, y, down } = this.pointer;
+    ctx.save();
+    ctx.globalAlpha = clamp(this.pad.cursorT, 0, 1);
+    circle(ctx, x, y, down ? 15 : 21);
+    ctx.fillStyle = 'rgba(255,255,255,.5)';
+    ctx.fill();
+    ctx.lineWidth = 5;
+    ctx.strokeStyle = '#9d7bff';
+    ctx.stroke();
+    circle(ctx, x, y, 4);
+    ctx.fillStyle = '#9d7bff';
+    ctx.fill();
+    ctx.restore();
   },
 };
 
@@ -432,6 +557,7 @@ const Game = {
 
   tick(dt) {
     this.time += dt;
+    Input.tickPad(dt);
     const tr = this.trans;
     if (tr) {
       tr.t += dt;
@@ -474,6 +600,7 @@ const Game = {
       FX.draw(ctx);
     } catch (e) { this.report(e); }
     ctx.restore();
+    if (Input.pad.cursorT > 0) Input.drawPadCursor(ctx);
     if (tr) {
       const p = tr.phase === 'out' ? tr.t / tr.dur : 1 - tr.t / tr.dur;
       ctx.fillStyle = `rgba(255,248,236,${clamp(p, 0, 1)})`;

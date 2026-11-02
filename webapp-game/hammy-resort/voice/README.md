@@ -1,12 +1,27 @@
 # Hammy's character voices
 
-The game plays local MP3 recordings when available and uses device speech for
+The game plays local WAV or MP3 recordings when available and uses device speech for
 missing lines and custom names. Music lowers during either kind of narration.
 Hammy's browser fallback uses a gentle pitch and slower pacing. Mom, Dad and
 friends retain distinct voices. Device voice controls in Settings affect the
 fallback; recorded voices are selected here before generation.
 
-## Record on Windows
+## Free Windows recordings
+
+The included WAV clips were generated locally with installed Windows voices,
+without an API key or network service. Hammy and Mom use Zira with different
+pitch and pacing, Dad uses David, and the friend uses Mark. Book pages have
+slower pacing, and letter lessons spell isolated letters. These are traditional
+computer voices, so they have less expression than modern neural narration.
+
+The game loads `clips/manifest.js` automatically. To regenerate after changing
+dialogue, run `./voice/make_voices_free.ps1` in PowerShell. Existing WAVs are
+skipped; `-Force` replaces them and `-Limit 5` makes a small batch. No Python,
+downloads, account or billing are needed for this option. WAV files are larger
+than MP3s but play directly in the browser. If both formats exist, the manifest
+prefers MP3. Settings identifies the voices as computer-generated.
+
+## Optional OpenAI recordings
 
 Install Python 3 if `py` is unavailable. Run these commands from the project root:
 
@@ -32,7 +47,7 @@ Remove-Item Env:OPENAI_API_KEY
 
 Refresh the game after recording. Clips and their generated `manifest.js` work
 offline, including opening `index.html` directly. No key goes into the game.
-The Settings panel discloses that recorded character voices are AI-generated.
+The Settings panel discloses that character voices are computer-generated.
 
 ## Resume and update
 

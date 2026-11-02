@@ -149,7 +149,9 @@ for o in previous:
     cnt[o['speaker']] = max(cnt.get(o['speaker'], 0), int(o['id'].rsplit('-', 1)[1]))
 # Retired recordings can still be on disk after dialogue is removed.
 # Never reuse their ids for new text on a later extraction.
-for clip in (here / 'clips').glob('*.mp3'):
+for clip in (here / 'clips').iterdir() if (here / 'clips').exists() else []:
+    if clip.suffix not in ('.mp3', '.wav'):
+        continue
     match = re.fullmatch(r'(hammy|mom|dad|friend)-(\d+)', clip.stem)
     if match:
         who, number = match.groups()

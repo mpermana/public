@@ -79,9 +79,11 @@ def manifest(lines):
     clips.mkdir(parents=True, exist_ok=True)
     data = {who: {} for who in VOICES}
     for line in lines:
-        filename = line['id'] + '.mp3'
-        if exists(clips / filename):
-            data[line['speaker']][line['text']] = filename
+        for extension in ('mp3', 'wav'):
+            filename = line['id'] + '.' + extension
+            if exists(clips / filename):
+                data[line['speaker']][line['text']] = filename
+                break
     # Atomic writes avoid a broken manifest if recording is interrupted.
     temp = clips / 'manifest.js.tmp'
     temp.write_text('window.VOICE_CLIPS = ' + json.dumps(data, ensure_ascii=True, indent=2) + ';\n', encoding='utf-8')

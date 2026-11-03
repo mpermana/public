@@ -274,6 +274,10 @@ defineGame('basketball', {
 
 // --------------------------------------------------------------- badminton
 
+// The shuttlecock floats across slowly and counts as hit over a wide slice of
+// its flight, so there is plenty of time to see it coming and swing.
+const SHUTTLE = { from: 0.55, to: 1.12, gone: 1.22, ring: 104, size: 2.4 };
+
 defineGame('badminton', {
   music: 'outdoor',
   init() {
@@ -282,7 +286,9 @@ defineGame('badminton', {
     this.say('Tap when the shuttlecock comes to you! Keep the rally going!');
   },
   serve(fromPartner) {
-    this.sh = { side: fromPartner ? 1 : -1, t: -0.6, dur: 1.5, missed: false };
+    // Coming to Hammy: a slow, floaty lob. Going back to the partner: nobody
+    // is waiting on a tap, so it travels at a livelier speed.
+    this.sh = { side: fromPartner ? 1 : -1, t: -0.7, dur: fromPartner ? 2.8 : 1.3, missed: false };
   },
   shPos() {
     const s = this.sh, p = clamp(s.t / s.dur, 0, 1.25), x0 = s.side > 0 ? 1220 : 380, x1 = s.side > 0 ? 380 : 1220;
@@ -298,7 +304,7 @@ defineGame('badminton', {
       this.serve(true);
       return;
     }
-    if (s.side > 0 && pos.p > 1.18 && !s.missed) {
+    if (s.side > 0 && pos.p > SHUTTLE.gone && !s.missed) {
       s.missed = true;
       FX.text(380, 600, pick(['Oops!', 'Next one!', 'Almost!']), '#7cc6ff', 42);
       setTimeout(() => this.serve(true), 800);
@@ -308,7 +314,7 @@ defineGame('badminton', {
     const s = this.sh, pos = this.shPos();
     if (s.side < 0 || s.missed) return;
     this.swing = 0.4;
-    if (pos.p > 0.78 && pos.p < 1.15) {
+    if (pos.p > SHUTTLE.from && pos.p < SHUTTLE.to) {
       this.good(pos.x, pos.y, pick(['Nice hit!', 'Rally!', 'Whoosh!']));
       Snd.kick();
       if (this.score >= this.goal) this.finish(1, 'Badminton champ! 🏸');
@@ -343,6 +349,7 @@ defineGame('badminton', {
       ctx.save();
       ctx.translate(pos.x, pos.y);
       ctx.rotate(this.sh.side > 0 ? -0.6 : 0.6);
+      ctx.scale(SHUTTLE.size, SHUTTLE.size);
       ctx.beginPath();
       ctx.moveTo(-14, -22); ctx.lineTo(14, -22); ctx.lineTo(6, 6); ctx.lineTo(-6, 6); ctx.closePath();
       paint(ctx, '#ffffff', -22, 6, { lw: 2, line: '#c9c1d6' });
@@ -350,10 +357,11 @@ defineGame('badminton', {
       ctx.fillStyle = '#ff6b6b';
       ctx.fill();
       ctx.restore();
-      if (this.sh.side > 0 && pos.p > 0.6 && pos.p < 1.15) {
-        circle(ctx, pos.x, pos.y, 40);
-        ctx.strokeStyle = pos.p > 0.78 ? '#69db7c' : '#ffffff';
-        ctx.lineWidth = 6;
+      if (this.sh.side > 0 && pos.p > 0.28) {
+        const on = pos.p > SHUTTLE.from && pos.p < SHUTTLE.to;
+        circle(ctx, pos.x, pos.y, SHUTTLE.ring * (on ? 1 : 0.6));
+        ctx.strokeStyle = on ? '#69db7c' : 'rgba(255,255,255,.7)';
+        ctx.lineWidth = on ? 10 : 6;
         ctx.stroke();
       }
     }

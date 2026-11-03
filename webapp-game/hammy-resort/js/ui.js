@@ -26,6 +26,19 @@ const UI = {
     $('back-btn').addEventListener('click', () => { Snd.click(); this.back(); });
     $('cancel-btn').addEventListener('click', () => { Snd.click(); Activity.cancel(); });
     $('panel').addEventListener('click', e => { if (e.target === $('panel')) this.closePanel(); });
+    // Keep --vvh on the height actually on screen, so a panel never puts its
+    // buttons behind Safari's toolbars.
+    const vv = window.visualViewport;
+    const fitViewport = () => document.documentElement.style.setProperty('--vvh', `${Math.round(vv?.height || innerHeight)}px`);
+    fitViewport();
+    vv?.addEventListener('resize', fitViewport);
+    addEventListener('orientationchange', () => setTimeout(fitViewport, 250));
+    // The rotate hint is only a nudge: a tap puts it away, and it bows out on
+    // its own so it never sits over a button for long.
+    const hint = $('rotate-hint');
+    const dismiss = () => hint.classList.add('gone');
+    hint.addEventListener('click', () => { Snd.click(); dismiss(); });
+    setTimeout(dismiss, 8000);
     document.querySelector('.sheet-close').addEventListener('click', () => { Snd.click(); this.closePanel(); });
     for (const b of document.querySelectorAll('#dpad button')) {
       const [x, y] = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] }[b.dataset.dir];
@@ -228,8 +241,11 @@ const UI = {
   },
 
   // Popover listing activities by id.
-  actPopover(x, y, title, ids, params = {}) {
-    this.popover(x, y, title, ids.filter(id => ACTS[id]).map(id => ({ id, icon: ACTS[id].icon, label: ACTS[id].name, onClick: () => Activity.start(id, params) })));
+  actPopover(x, y, title, ids, params = {}, extra = []) {
+    this.popover(x, y, title, [
+      ...ids.filter(id => ACTS[id]).map(id => ({ id, icon: ACTS[id].icon, label: ACTS[id].name, onClick: () => Activity.start(id, params) })),
+      ...extra,
+    ]);
   },
 
   closePopover() { $('popover').hidden = true; },
@@ -241,13 +257,18 @@ const UI = {
 
   // -------------------------------------------------------------- panels
 
-  openPanel(kind, build, { onClose = null, pause = false } = {}) {
+  openPanel(kind, build, { onClose = null, pause = false, footTop = false } = {}) {
     const body = document.querySelector('.sheet-body');
+    const foot = document.querySelector('.sheet-foot');
     body.replaceChildren();
-    build(body);
+    foot.replaceChildren();
+    build(body, foot);
+    foot.hidden = !foot.children.length;
+    document.querySelector('.sheet').classList.toggle('foot-top', footTop);
     this.panelKind = kind;
     this.onPanelClose = onClose;
     $('panel').hidden = false;
+    document.body.classList.add('panel-open');
     if (pause) Game.paused = true;
     this.closePopover();
   },
@@ -255,6 +276,7 @@ const UI = {
   closePanel() {
     if ($('panel').hidden) return;
     $('panel').hidden = true;
+    document.body.classList.remove('panel-open');
     Game.paused = false;
     const cb = this.onPanelClose;
     this.onPanelClose = null;
@@ -722,7 +744,7 @@ const UI = {
   },
 
   confirmNewGame() {
-    this.openPanel('confirm', body => {
+    this.openPanel('confirm', (body, foot) => {
       body.append(el('h2', '', '🌟 Start a new game?'));
       body.append(el('p', 'lead', `Your saved game with ${esc(S.hamster.name)} (⭐ ${S.stars}) will be replaced.`));
       const row = el('div', 'confirm');
@@ -731,20 +753,19 @@ const UI = {
       const fresh = el('button', 'menu-btn', '🌟 New game');
       fresh.addEventListener('click', () => { Snd.click(); this.closePanel(); Save.reset(); this.openChooser(true); });
       row.append(keep, fresh);
-      body.append(row);
+      foot.append(row);
     });
   },
 
   // Pick a name and fur. `starting` begins a new game afterwards.
   openChooser(starting) {
-    this.openPanel('chooser', body => {
+    this.openPanel('chooser', (body, foot) => {
       body.append(el('h2', '', '🐹 Choose your hamster'));
       const wrap = el('div', 'chooser');
       const c = el('canvas');
       c.width = c.height = 440;
       const redraw = () => drawPortrait(c, { mood: 'excited', pose: 'idle' });
-      const right = el('div', '');
-      right.style.cssText = 'display:flex;flex-direction:column;gap:14px;align-items:center;';
+      const right = el('div', 'chooser-fields');
       const input = el('input', 'name-input');
       input.value = S.hamster.name;
       input.maxLength = 12;
@@ -786,7 +807,7 @@ const UI = {
         }
       });
       row.append(go);
-      body.append(row);
-    });
+      foot.append(row);
+    }, { footTop: true });
   },
 };

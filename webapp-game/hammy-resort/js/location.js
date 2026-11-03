@@ -209,7 +209,8 @@ function makeLocation(def) {
 
   scene.enter = function (params = {}, prev) {
     this.grid = this.grid || new WalkGrid(this.walk, this.blocks || []);
-    this.ham = { x: 0, y: 0, facing: 1, path: [], pose: 'idle', onArrive: null, bubble: null };
+    this.ham = { x: 0, y: 0, facing: 1, path: [], pose: 'idle', poseT: 0, onArrive: null, bubble: null };
+    this.carry = null;
     this.inline = null;
     this.hover = null;
     this.bubbleT = 6;
@@ -274,6 +275,10 @@ function makeLocation(def) {
   scene.update = function (dt) {
     const h = this.ham;
     def.update?.call(this, dt);
+    if (this.seq) {
+      this.tickSequence(dt);
+      return;
+    }
     if (this.inline) {
       this.updateInline(dt);
     } else {
@@ -303,7 +308,13 @@ function makeLocation(def) {
         }
         if (Math.random() < dt * 4) Snd.step();
       } else if (h.pose === 'walk' || h.pose === 'run') h.pose = 'idle';
-      if (h.x !== was.x || h.y !== was.y) this.checkDoors();
+      if (h.x !== was.x || h.y !== was.y) {
+        h.poseT = 0;
+        this.checkDoors();
+      } else if (h.poseT > 0 && (h.poseT -= dt) <= 0) {
+        h.poseT = 0;
+        h.pose = 'idle';
+      }
     }
     // The invited friend follows a little behind.
     if (this.friend) {
@@ -496,7 +507,7 @@ function makeLocation(def) {
       drawHamster(ctx, p.x, p.y, (p.size || 1) * this.hamSize, { pose: p.pose, facing: p.facing ?? h.facing, mood: inl.mood || Mood.current(), shadow: p.shadow !== false, t: Game.time, dirt: false });
       return;
     }
-    drawHamster(ctx, h.x, h.y, this.hamSize, { pose: h.pose, facing: h.facing, mood: Mood.current(), lookAt: this.hover ? { x: this.hover.x, y: this.hover.y - 60 } : null, dirt: wet ? false : undefined });
+    drawHamster(ctx, h.x, h.y, this.hamSize, { pose: h.pose, facing: h.facing, mood: Mood.current(), holding: this.carry, lookAt: this.hover ? { x: this.hover.x, y: this.hover.y - 60 } : null, dirt: wet ? false : undefined });
   };
 
   scene.draw = function (ctx) {
@@ -521,18 +532,20 @@ function makeLocation(def) {
     if (this.inline) return;
     const t = Game.time, near = this.nearSpot();
     for (const [id, s] of Object.entries(this.spots)) {
-      if (!s.acts?.length || s.badge === false) continue;
+      if ((!s.acts?.length && !s.fiddle) || s.badge === false) continue;
       const b = s.badgeAt || { x: s.hit.x + s.hit.w / 2, y: s.hit.y - 18 };
       const hover = this.hover === s || near === s, by = b.y + Math.sin(t * 2 + id.length) * 4;
+      // A thing to fiddle with gets a smaller, quieter badge than an activity.
+      const little = !s.acts?.length, k = little ? 0.66 : 1;
       ctx.save();
-      ctx.globalAlpha = hover ? 1 : 0.85;
-      circle(ctx, b.x, by, hover ? 32 : 25);
+      ctx.globalAlpha = hover ? 1 : little ? 0.6 : 0.85;
+      circle(ctx, b.x, by, (hover ? 32 : 25) * k);
       ctx.fillStyle = hover ? '#fff3b8' : 'rgba(255,255,255,.9)';
       ctx.shadowColor = 'rgba(74,58,92,.25)';
       ctx.shadowBlur = 8;
       ctx.fill();
       ctx.restore();
-      drawEmoji(ctx, ACTS[s.acts[0]]?.icon || '✨', b.x, by, hover ? 40 : 32);
+      drawEmoji(ctx, (s.acts?.length ? ACTS[s.acts[0]]?.icon : s.fiddle.icon) || '✨', b.x, by, (hover ? 40 : 32) * k);
       if (hover) drawText(ctx, s.name, b.x, by - 50, 24, { color: PAL.ink, stroke: '#fff', sw: 0.28 });
       if (near === s && Input.lastDevice === 'key') drawText(ctx, 'Press Enter', b.x, by + 46, 18, { color: '#7b6a8f', stroke: '#fff', sw: 0.3 });
     }
@@ -542,7 +555,7 @@ function makeLocation(def) {
     const h = this.ham;
     let best = null, bd = 170;
     for (const s of Object.values(this.spots)) {
-      if (!s.acts?.length) continue;
+      if (!s.acts?.length && !s.fiddle) continue;
       const d = dist(h.x, h.y, s.x, s.y);
       if (d < bd) { bd = d; best = s; }
     }
@@ -551,7 +564,7 @@ function makeLocation(def) {
 
   scene.spotAt = function (p) {
     return Object.values(this.spots).find(s => s.hit && p.x >= s.hit.x && p.x <= s.hit.x + s.hit.w && p.y >= s.hit.y && p.y <= s.hit.y + s.hit.h)
-      || Object.values(this.spots).find(s => s.acts?.length && dist(p.x, p.y, (s.badgeAt || { x: s.hit.x + s.hit.w / 2 }).x, (s.badgeAt || { y: s.hit.y - 18 }).y) < 34);
+      || Object.values(this.spots).find(s => (s.acts?.length || s.fiddle) && dist(p.x, p.y, (s.badgeAt || { x: s.hit.x + s.hit.w / 2 }).x, (s.badgeAt || { y: s.hit.y - 18 }).y) < 34);
   };
 
   scene.personAt = function (p) {
@@ -569,6 +582,7 @@ function makeLocation(def) {
   };
 
   scene.pointerDown = function (p) {
+    if (this.seq) this.seq = null;
     if (this.inline) return this.tapInline(p);
     const person = this.personAt(p);
     if (person) return this.openPerson(person);
@@ -590,9 +604,67 @@ function makeLocation(def) {
   scene.openSpot = function (s) {
     const b = s.badgeAt || { x: s.hit.x + s.hit.w / 2, y: s.hit.y - 18 };
     if (s.go) return Game.go(s.go);
-    if (s.acts?.length === 1 && !s.alwaysAsk) return Activity.start(s.acts[0]);
-    UI.actPopover(b.x, b.y - 30, s.name, s.acts);
+    const id = Object.keys(this.spots).find(k => this.spots[k] === s);
+    const extra = s.fiddle ? [{ icon: s.fiddle.icon, label: s.fiddle.label || s.name, onClick: () => this.doFiddle(id) }] : [];
+    const acts = s.acts || [];
+    if (!acts.length && extra.length) return this.doFiddle(id);
+    if (acts.length === 1 && !s.alwaysAsk && !extra.length) return Activity.start(acts[0]);
+    UI.actPopover(b.x, b.y - 30, s.name, acts, {}, extra);
     Speech.say(s.name);
+  };
+
+  // ------------------------------------------------------- little things
+
+  // Fiddles are the small, free interactions: a lamp to switch on, curtains to
+  // pull, a plant to water, a pillow to hug. No time passes and no needs
+  // change — it is just play — and the state is saved, so a room stays the way
+  // it was left.
+  scene.fid = function (id) {
+    return S.fiddle[`${this.id}|${id}`] ?? (this.spots[id]?.fiddle?.start || 0);
+  };
+
+  scene.doFiddle = function (id) {
+    const s = this.spots[id], f = s?.fiddle;
+    if (!f) return;
+    const n = f.says?.length || 2, at = this.fid(id);
+    const next = f.loop === false ? Math.min(at + 1, n - 1) : (at + 1) % n;
+    S.fiddle[`${this.id}|${id}`] = next;
+    Save.mark();
+    this.ham.facing = Math.sign(s.x - this.ham.x) || this.ham.facing;
+    if (f.snd) Snd[f.snd]?.();
+    if (f.fx) FX[f.fx]?.(s.fxAt?.x ?? s.x, s.fxAt?.y ?? s.y - 90, 5);
+    this.react(f.pose || 'celebrate', f.says?.[next]);
+    f.on?.call(this, next, id);
+  };
+
+  // A little show: poses one after another, for the moments worth animating
+  // (waking up in the morning). Any tap cuts it short.
+  scene.sequence = function (steps) {
+    this.seq = steps.map(s => ({ ...s }));
+  };
+
+  scene.tickSequence = function (dt) {
+    const st = this.seq[0];
+    if (!st.at) {
+      st.at = 0;
+      this.ham.pose = st.pose;
+      this.ham.poseT = 99;
+      if (st.text) this.say(st.text, st.secs + 0.8);
+      st.go?.call(this);
+    }
+    if ((st.at += dt) >= st.secs) this.seq.shift();
+    if (!this.seq.length) {
+      this.seq = null;
+      this.ham.poseT = 0.2;
+    }
+  };
+
+  // A moment's reaction: a pose, and something to say about it.
+  scene.react = function (pose, text, secs = 1.8) {
+    const h = this.ham;
+    h.pose = pose;
+    h.poseT = secs;
+    if (text) this.say(text, Math.max(secs, 2.6));
   };
 
   scene.openPerson = function (c) {
@@ -708,6 +780,12 @@ function makeLocation(def) {
       Clock.boost = 0;
       if (inl.kind === 'sleep' && S.time.minute >= 6 * 60 && S.time.minute < 9 * 60 && !S.today.done.includes('wake')) S.today.done.push('wake');
       Music.play(this.music);
+      this.sequence([
+        { pose: 'sit', secs: 0.9, text: 'Mmm… is it morning already?' },
+        { pose: 'sleepy', secs: 1.1, text: 'Yaaawn!' },
+        { pose: 'celebrate', secs: 0.9, text: 'Big stretch! Up we go!' },
+        { pose: 'jump', secs: 0.5, text: inl.kind === 'nap' ? 'All rested!' : 'Good morning!', go() { Snd.boing(); } },
+      ]);
       Speech.say(pick(['Good morning! I feel so rested!', 'Yawn! What a nice sleep!']));
     }
     if (inl.kind === 'toilet') {

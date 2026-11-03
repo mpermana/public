@@ -38,6 +38,12 @@ browser after every change and when the tab is closed.
   be walked without coming back out to the dollhouse.
 - **Activity bar** (bottom left): everything you can do in the current place.
   Items with 💭 are things Hammy wishes for right now.
+- **Little things:** rooms are full of small things to fiddle with, marked by a
+  smaller badge than an activity — lamps and fires to switch on, curtains and
+  blinds to pull, a plant to water, a pillow or a teddy to hug, a toaster to
+  pop, a fridge to peek into, a drum to bang. They cost no time and change no
+  needs, Hammy says something about each one, and a room stays the way it was
+  left.
 - **Top bar:** Hammy's face and mood, five need meters, the clock (tap it for
   the schedule), weather, time speed (▶️ normal, ⏩ double, ⏸️ paused) and stars.
 - **Bottom buttons:** 🗺️ map · 🏠 home · 💭 what Hammy wants · 📅 schedule ·

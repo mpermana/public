@@ -23,6 +23,7 @@ function freshState() {
     counts: {},
     stickers: [],
     seen: {},
+    fiddle: {},   // lamps switched on, curtains pulled, plants watered
     songs: {},
     books: {},
     garden: { plots: Array.from({ length: 6 }, () => ({ crop: null, planted: 0, water: 0, weeds: 0 })), apples: 0, flowers: 0, insects: [] },

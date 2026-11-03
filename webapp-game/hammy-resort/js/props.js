@@ -5,7 +5,7 @@
 const Props = {
   // ------------------------------------------------------------ walls & co.
 
-  window(ctx, x, y, w, h, { curtain = '#ffb3cf', seed = 1 } = {}) {
+  window(ctx, x, y, w, h, { curtain = '#ffb3cf', seed = 1, open = true } = {}) {
     box(ctx, x - 10, y - 10, w + 20, h + 20, 14, '#ffffff', { lw: 3 });
     ctx.save();
     rr(ctx, x, y, w, h, 8);
@@ -21,7 +21,23 @@ const Props = {
     ctx.lineTo(x + w, y + h / 2);
     ctx.stroke();
     box(ctx, x - 22, y + h + 4, w + 44, 14, 6, '#ffffff', { lw: 2.5 });
-    if (curtain) {
+    if (curtain && !open) {
+      // Pulled across: two panels meeting in the middle, with soft folds.
+      for (const side of [0, 1]) {
+        const px = side ? x + w / 2 : x - 12;
+        box(ctx, px, y - 14, w / 2 + 12, h + 26, 10, curtain, { lw: 2.5 });
+        ctx.strokeStyle = shade(curtain, -0.16);
+        ctx.lineWidth = 3;
+        for (let i = 1; i < 4; i++) {
+          const fx = px + (w / 2 + 12) * (i / 4);
+          ctx.beginPath();
+          ctx.moveTo(fx, y - 10);
+          ctx.lineTo(fx, y + h + 8);
+          ctx.stroke();
+        }
+      }
+    }
+    if (curtain && open) {
       for (const side of [0, 1]) {
         const cx = side ? x + w + 4 : x - 4, dir = side ? -1 : 1;
         ctx.beginPath();
@@ -32,8 +48,8 @@ const Props = {
         ctx.closePath();
         paint(ctx, curtain, y, y + h, { lw: 2.5 });
       }
-      box(ctx, x - 40, y - 26, w + 80, 12, 6, '#c8a27a', { lw: 2 });
     }
+    if (curtain) box(ctx, x - 40, y - 26, w + 80, 12, 6, '#c8a27a', { lw: 2 });
   },
 
   door(ctx, x, y, w, h, color = '#e8b985', { knob = true } = {}) {
@@ -102,6 +118,294 @@ const Props = {
     ctx.lineWidth = 4;
     ctx.strokeStyle = '#e9c6a4';
     ctx.stroke();
+  },
+
+  // A toy drum. `hit` bounces the sticks and rings the skin.
+  drum(ctx, x, y, s = 1, hit = 0) {
+    groundShadow(ctx, x, y, 44 * s, 9 * s);
+    box(ctx, x - 42 * s, y - 56 * s, 84 * s, 56 * s, 10 * s, '#ff8fb8', { lw: 3 });
+    for (let i = 0; i < 4; i++) {
+      ctx.strokeStyle = '#fff3b8';
+      ctx.lineWidth = 4 * s;
+      ctx.beginPath();
+      ctx.moveTo(x - 42 * s + i * 22 * s, y - 4 * s);
+      ctx.lineTo(x - 32 * s + i * 22 * s, y - 52 * s);
+      ctx.stroke();
+    }
+    ellipse(ctx, x, y - 58 * s, 42 * s, 13 * s);
+    paint(ctx, '#fff6e6', y - 72 * s, y - 44 * s, { lw: 3 });
+    if (hit) {
+      ctx.strokeStyle = 'rgba(255,255,255,.8)';
+      ctx.lineWidth = 3 * s;
+      ellipse(ctx, x, y - 58 * s, (26 + hit * 22) * s, (8 + hit * 7) * s);
+      ctx.stroke();
+    }
+    // Two sticks, resting or raised.
+    for (const i of [0, 1]) {
+      ctx.save();
+      ctx.translate(x + (i ? 30 : -30) * s, y - 62 * s);
+      ctx.rotate((i ? 0.6 : -0.6) - (i ? 1 : -1) * hit * 0.7);
+      box(ctx, -3 * s, -44 * s, 6 * s, 48 * s, 3 * s, '#e0b07c', { lw: 1.5 });
+      circle(ctx, 0, -46 * s, 7 * s);
+      paint(ctx, '#ffd27a', -54 * s, -38 * s, { lw: 1.5 });
+      ctx.restore();
+    }
+  },
+
+  // A xylophone. `ring` lights up the bar that was struck.
+  xylophone(ctx, x, y, s = 1, ring = -1) {
+    groundShadow(ctx, x, y, 70 * s, 10 * s);
+    box(ctx, x - 66 * s, y - 20 * s, 132 * s, 20 * s, 6 * s, '#d39a63', { lw: 2.5 });
+    const cols = ['#ff8a8a', '#ffb366', '#ffd43b', '#7ed99a', '#7cc6ff', '#b197fc'];
+    for (let i = 0; i < 6; i++) {
+      const bw = (46 - i * 3) * s, bx = x - 58 * s + i * 20 * s, lift = ring === i ? 4 * s : 0;
+      box(ctx, bx, y - (26 + bw / 2) * s / 1 - lift, 16 * s, bw, 5 * s, cols[i], { lw: 2 });
+    }
+  },
+
+  // A rocking horse. `rock` tips it forward and back.
+  rockingHorse(ctx, x, y, s = 1, rock = 0) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(Math.sin(rock) * 0.16);
+    groundShadow(ctx, 0, 0, 56 * s, 10 * s);
+    // Rockers.
+    ctx.beginPath();
+    ctx.moveTo(-62 * s, -6 * s);
+    ctx.quadraticCurveTo(0, 16 * s, 62 * s, -6 * s);
+    ctx.lineWidth = 9 * s;
+    ctx.strokeStyle = '#c98f5b';
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    box(ctx, -40 * s, -70 * s, 80 * s, 44 * s, 18 * s, '#fff6e6', { lw: 3 });
+    for (const dx of [-28, 24]) box(ctx, dx * s, -34 * s, 12 * s, 30 * s, 5 * s, '#f0d9bd', { lw: 2 });
+    // Head and mane.
+    ctx.save();
+    ctx.translate(38 * s, -78 * s);
+    ctx.rotate(-0.3);
+    box(ctx, -14 * s, -28 * s, 28 * s, 46 * s, 12 * s, '#fff6e6', { lw: 3 });
+    circle(ctx, 4 * s, -18 * s, 3 * s);
+    ctx.fillStyle = '#3b2a2a';
+    ctx.fill();
+    ctx.restore();
+    for (let i = 0; i < 4; i++) {
+      circle(ctx, (16 + i * 7) * s, (-92 + i * 5) * s, 8 * s);
+      ctx.fillStyle = '#ff8fb8';
+      ctx.fill();
+    }
+    ctx.restore();
+  },
+
+  // A pretend fireplace. `lit` flickers a safe cartoon fire.
+  fireplace(ctx, x, y, s = 1, lit = false) {
+    box(ctx, x - 70 * s, y - 150 * s, 140 * s, 150 * s, 10 * s, '#e8d6c0', { lw: 3 });
+    box(ctx, x - 52 * s, y - 118 * s, 104 * s, 118 * s, 8 * s, '#6b5a52', { lw: 2.5 });
+    box(ctx, x - 80 * s, y - 166 * s, 160 * s, 20 * s, 8 * s, '#d9a98a', { lw: 3 });
+    for (let i = 0; i < 3; i++) box(ctx, (x - 36 + i * 26) * s + x * 0, y - 26 * s, 24 * s, 12 * s, 5 * s, '#a0785f', { lw: 1.5 });
+    if (lit) {
+      for (let i = 0; i < 4; i++) {
+        const t = Game.time * 3 + i, h = (40 + Math.sin(t) * 12) * s;
+        ellipse(ctx, x + (i - 1.5) * 16 * s, y - 30 * s - h / 2, (12 - i * 1.2) * s, h / 2);
+        ctx.fillStyle = ['#ffd43b', '#ffa94d', '#ff8a5c', '#ffe9a8'][i];
+        ctx.globalAlpha = 0.85;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      Sky.glow(ctx, x, y - 60 * s, 170 * s, '#ffc06a', 0.5);
+    }
+  },
+
+  // A toy camera. `flash` lights the bulb.
+  camera(ctx, x, y, s = 1, flash = 0) {
+    box(ctx, x - 30 * s, y - 24 * s, 60 * s, 40 * s, 9 * s, '#5d5470', { lw: 2.5 });
+    box(ctx, x - 12 * s, y - 32 * s, 24 * s, 10 * s, 4 * s, '#5d5470', { lw: 2 });
+    circle(ctx, x, y - 4 * s, 13 * s);
+    paint(ctx, '#a9dcff', y - 18 * s, y + 10 * s, { lw: 2 });
+    circle(ctx, x, y - 4 * s, 6 * s);
+    ctx.fillStyle = '#3e3a52';
+    ctx.fill();
+    circle(ctx, x + 20 * s, y - 14 * s, 5 * s);
+    ctx.fillStyle = flash ? '#fff6c0' : '#c9bfe0';
+    ctx.fill();
+    if (flash) Sky.glow(ctx, x, y - 10 * s, 120 * s, '#ffffff', 0.5);
+  },
+
+  // A cosy little pet bed.
+  petBed(ctx, x, y, s = 1, color = '#c9b6ff') {
+    groundShadow(ctx, x, y, 52 * s, 11 * s);
+    ellipse(ctx, x, y - 10 * s, 52 * s, 22 * s);
+    paint(ctx, color, y - 32 * s, y, { lw: 3 });
+    ellipse(ctx, x, y - 14 * s, 36 * s, 14 * s);
+    ctx.fillStyle = shade(color, 0.22);
+    ctx.fill();
+  },
+
+  // A toaster. `pop` lifts the toast out of the slot.
+  toaster(ctx, x, y, s = 1, pop = 0) {
+    if (pop) {
+      for (const dx of [-16, 16]) {
+        box(ctx, x + dx * s - 13 * s, y - (56 + pop * 34) * s, 26 * s, 30 * s, 4 * s, '#f0c478', { lw: 2.5 });
+      }
+    }
+    box(ctx, x - 34 * s, y - 52 * s, 68 * s, 52 * s, 12 * s, '#ffd6e5', { lw: 3 });
+    box(ctx, x - 24 * s, y - 56 * s, 48 * s, 10 * s, 5 * s, shade('#ffd6e5', -0.2), { lw: 2 });
+    box(ctx, x + 26 * s, y - (pop ? 44 : 30) * s, 12 * s, 16 * s, 5 * s, '#9c87b8', { lw: 2 });
+    circle(ctx, x - 16 * s, y - 24 * s, 5 * s);
+    ctx.fillStyle = pop ? '#ff8fb8' : '#c9bfe0';
+    ctx.fill();
+  },
+
+  // An electric kettle. `on` lights the base and sends up steam.
+  kettle(ctx, x, y, s = 1, on = false) {
+    box(ctx, x - 30 * s, y - 12 * s, 60 * s, 12 * s, 5 * s, on ? '#ffb3cf' : '#c9bfe0', { lw: 2 });
+    ctx.beginPath();
+    ctx.moveTo(x - 26 * s, y - 12 * s);
+    ctx.lineTo(x + 26 * s, y - 12 * s);
+    ctx.lineTo(x + 20 * s, y - 62 * s);
+    ctx.lineTo(x - 20 * s, y - 62 * s);
+    ctx.closePath();
+    paint(ctx, '#e9f6ff', y - 62 * s, y - 12 * s, { lw: 3, line: '#a9b9c8' });
+    ctx.beginPath();
+    ctx.moveTo(x + 20 * s, y - 52 * s);
+    ctx.quadraticCurveTo(x + 42 * s, y - 50 * s, x + 36 * s, y - 24 * s);
+    ctx.lineWidth = 6 * s;
+    ctx.strokeStyle = '#a9b9c8';
+    ctx.stroke();
+    box(ctx, x - 24 * s, y - 72 * s, 48 * s, 12 * s, 6 * s, '#a9dcff', { lw: 2.5 });
+    if (on) {
+      for (let i = 0; i < 3; i++) {
+        const t = (Game.time * 0.9 + i * 0.33) % 1;
+        circle(ctx, x + 36 * s + Math.sin(t * 6 + i) * 6 * s, y - (70 + t * 56) * s, (5 + t * 7) * s);
+        ctx.fillStyle = `rgba(255,255,255,${0.5 - t * 0.5})`;
+        ctx.fill();
+      }
+    }
+  },
+
+  // A kitchen bin. `lid` swings the lid open.
+  bin(ctx, x, y, s = 1, { color = '#a9dcff', lid = 0 } = {}) {
+    groundShadow(ctx, x, y, 40 * s, 9 * s);
+    ctx.beginPath();
+    ctx.moveTo(x - 36 * s, y - 104 * s);
+    ctx.lineTo(x + 36 * s, y - 104 * s);
+    ctx.lineTo(x + 30 * s, y);
+    ctx.lineTo(x - 30 * s, y);
+    ctx.closePath();
+    paint(ctx, color, y - 104 * s, y, { lw: 3 });
+    if (lid) {
+      drawEmoji(ctx, '♻️', x, y - 70 * s, 34 * s);
+      box(ctx, x - 40 * s, y - 150 * s, 80 * s, 14 * s, 7 * s, shade(color, 0.14), { lw: 2.5 });
+    } else {
+      box(ctx, x - 40 * s, y - 116 * s, 80 * s, 14 * s, 7 * s, shade(color, 0.14), { lw: 2.5 });
+      box(ctx, x - 10 * s, y - 126 * s, 20 * s, 12 * s, 6 * s, shade(color, 0.14), { lw: 2 });
+    }
+  },
+
+  // A pair of slippers, side by side or kicked about.
+  slippers(ctx, x, y, s = 1, color = '#ffb3cf', askew = 0) {
+    for (const i of [0, 1]) {
+      ctx.save();
+      ctx.translate(x + (i ? 34 : -34) * s, y);
+      ctx.rotate((i ? 0.12 : -0.12) + (i ? 1 : -1) * askew * 0.5);
+      groundShadow(ctx, 0, 0, 26 * s, 6 * s);
+      ellipse(ctx, 0, -10 * s, 20 * s, 12 * s);
+      paint(ctx, color, -22 * s, 2 * s, { lw: 2.5 });
+      rr(ctx, -16 * s, -24 * s, 32 * s, 14 * s, 7 * s);
+      paint(ctx, shade(color, 0.14), -24 * s, -10 * s, { lw: 2 });
+      ctx.restore();
+    }
+  },
+
+  // A laundry basket. `full` piles clothes over the rim.
+  basket(ctx, x, y, s = 1, { color = '#e8d6b8', full = 0 } = {}) {
+    groundShadow(ctx, x, y, 54 * s, 11 * s);
+    if (full) {
+      for (let i = 0; i < 3 + full * 2; i++) {
+        const a = -0.9 + i * 0.4;
+        ellipse(ctx, x + Math.sin(a) * 30 * s, y - (84 + (i % 3) * 12) * s, 24 * s, 15 * s);
+        ctx.fillStyle = ['#ffb3cf', '#a9dcff', '#ffe48a', '#c9f0c0'][i % 4];
+        ctx.fill();
+      }
+    }
+    ctx.beginPath();
+    ctx.moveTo(x - 52 * s, y - 86 * s);
+    ctx.lineTo(x + 52 * s, y - 86 * s);
+    ctx.lineTo(x + 42 * s, y);
+    ctx.lineTo(x - 42 * s, y);
+    ctx.closePath();
+    paint(ctx, color, y - 86 * s, y, { lw: 3 });
+    ctx.save();
+    ctx.clip();
+    ctx.strokeStyle = shade(color, -0.18);
+    ctx.lineWidth = 3;
+    for (let i = 0; i < 5; i++) {
+      ctx.beginPath();
+      ctx.moveTo(x - 60 * s, y - (12 + i * 17) * s);
+      ctx.lineTo(x + 60 * s, y - (12 + i * 17) * s);
+      ctx.stroke();
+    }
+    ctx.restore();
+    box(ctx, x - 58 * s, y - 96 * s, 116 * s, 16 * s, 8 * s, shade(color, 0.12), { lw: 2.5 });
+  },
+
+  // A bathroom scale with a cheerful face instead of a number.
+  scale(ctx, x, y, s = 1, { on = false } = {}) {
+    groundShadow(ctx, x, y, 46 * s, 9 * s);
+    box(ctx, x - 44 * s, y - 24 * s, 88 * s, 24 * s, 8 * s, '#dfe8f2', { lw: 3 });
+    circle(ctx, x, y - 28 * s, 18 * s);
+    paint(ctx, on ? '#fff3b8' : '#ffffff', y - 46 * s, y - 10 * s, { lw: 2.5 });
+    if (on) drawEmoji(ctx, '⭐', x, y - 28 * s, 22 * s);
+    else {
+      ctx.fillStyle = '#9db0c4';
+      circle(ctx, x - 6 * s, y - 31 * s, 2.5 * s);
+      ctx.fill();
+      circle(ctx, x + 6 * s, y - 31 * s, 2.5 * s);
+      ctx.fill();
+    }
+  },
+
+  // A little floor fan. `spin` turns the blades; 0 leaves them still.
+  fan(ctx, x, y, s = 1, spin = 0) {
+    groundShadow(ctx, x, y, 34 * s, 8 * s);
+    box(ctx, x - 22 * s, y - 12 * s, 44 * s, 12 * s, 6 * s, '#9c87b8', { lw: 2 });
+    box(ctx, x - 5 * s, y - 70 * s, 10 * s, 60 * s, 5 * s, '#9c87b8', { lw: 2 });
+    circle(ctx, x, y - 96 * s, 42 * s);
+    paint(ctx, '#e8e2f2', y - 138 * s, y - 54 * s, { lw: 3 });
+    ctx.save();
+    ctx.translate(x, y - 96 * s);
+    ctx.rotate(spin);
+    for (let i = 0; i < 4; i++) {
+      ctx.rotate(TAU / 4);
+      ellipse(ctx, 0, -20 * s, 11 * s, 20 * s);
+      ctx.fillStyle = spin ? 'rgba(255,255,255,.75)' : '#c9bfe0';
+      ctx.fill();
+    }
+    ctx.restore();
+    circle(ctx, x, y - 96 * s, 9 * s);
+    paint(ctx, '#b9a4ff', y - 105 * s, y - 87 * s, { lw: 2 });
+    // The cage.
+    ctx.strokeStyle = 'rgba(120,100,150,.35)';
+    ctx.lineWidth = 2;
+    for (const r of [16, 28, 40]) {
+      circle(ctx, x, y - 96 * s, r * s);
+      ctx.stroke();
+    }
+  },
+
+  // A squishy throw pillow. `hug` squashes it, for when it is being cuddled.
+  pillow(ctx, x, y, s = 1, color = '#ffd6e5', hug = 0) {
+    const w = 78 * s * (1 - hug * 0.18), h = 58 * s * (1 + hug * 0.14);
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(-0.12 + hug * 0.3);
+    rr(ctx, -w / 2, -h / 2, w, h, 20 * s);
+    paint(ctx, color, -h / 2, h / 2, { lw: 3 });
+    for (const dx of [-1, 1]) {
+      circle(ctx, dx * w * 0.42, 0, 4 * s);
+      ctx.fillStyle = shade(color, -0.2);
+      ctx.fill();
+    }
+    ctx.restore();
   },
 
   picture(ctx, x, y, w, h, { frame = '#e8b985', kind = 'landscape' } = {}) {
@@ -186,7 +490,7 @@ const Props = {
     }
   },
 
-  plant(ctx, x, y, s = 1, { pot = '#ff9e7a', seed = 4 } = {}) {
+  plant(ctx, x, y, s = 1, { pot = '#ff9e7a', seed = 4, flowers = 0 } = {}) {
     groundShadow(ctx, x, y, 36 * s, 8 * s);
     const rnd = seeded(seed);
     for (let i = 0; i < 7; i++) {
@@ -206,9 +510,13 @@ const Props = {
     ctx.closePath();
     paint(ctx, pot, y - 56 * s, y, { lw: 3 * s });
     box(ctx, x - 34 * s, y - 62 * s, 68 * s, 12 * s, 5 * s, shade(pot, 0.1), { lw: 2.5 * s });
+    for (let i = 0; i < flowers; i++) {
+      const a = -0.6 + i * 0.6;
+      Art.flower(ctx, x + Math.sin(a) * 34 * s, y - (104 + i * 14) * s, 0.7 * s, ['#ff9ec4', '#ffe07a', '#c9b6ff'][i % 3], 'daisy', 1);
+    }
   },
 
-  floorLamp(ctx, x, y, s = 1, shadeColor = '#ffe48a') {
+  floorLamp(ctx, x, y, s = 1, shadeColor = '#ffe48a', lit = true) {
     groundShadow(ctx, x, y, 30 * s, 7 * s);
     box(ctx, x - 22 * s, y - 10 * s, 44 * s, 10 * s, 5 * s, '#9c87b8', { lw: 2 });
     box(ctx, x - 4 * s, y - 200 * s, 8 * s, 192 * s, 4 * s, '#9c87b8', { lw: 2 });
@@ -218,10 +526,15 @@ const Props = {
     ctx.lineTo(x + 40 * s, y - 250 * s);
     ctx.lineTo(x - 40 * s, y - 250 * s);
     ctx.closePath();
-    ctx.save();
-    ctx.scale(1, 1);
-    paint(ctx, shadeColor, y - 250 * s, y - 196 * s, { lw: 3 });
-    ctx.restore();
+    paint(ctx, lit ? shadeColor : shade(shadeColor, -0.3), y - 250 * s, y - 196 * s, { lw: 3 });
+    if (lit) {
+      const g = ctx.createRadialGradient(x, y - 190 * s, 0, x, y - 190 * s, 150 * s);
+      g.addColorStop(0, 'rgba(255,233,168,.5)');
+      g.addColorStop(1, 'rgba(255,233,168,0)');
+      ctx.fillStyle = g;
+      circle(ctx, x, y - 190 * s, 150 * s);
+      ctx.fill();
+    }
   },
 
   tableLamp(ctx, x, y, s = 1, color = '#ffd6a8', lit = true) {
@@ -394,9 +707,23 @@ const Props = {
     drawEmoji(ctx, '⭐', x + 50 * s, y - h * 0.4, 30 * s);
     drawEmoji(ctx, '🌈', x + 10 * s, y - h * 0.32, 30 * s);
     if (open) {
-      ctx.fillStyle = 'rgba(255,255,230,.8)';
-      rr(ctx, x - w / 2 + 10, y - h + 10, w - 20, h * 0.5, 14);
-      ctx.fill();
+      // The top door standing open: shelves, and all the cold things on them.
+      const iw = w - 20, ih = h * 0.56, iy = y - h + 10;
+      box(ctx, x - w / 2 + 10, iy, iw, ih, 14, '#fffdf2', { lw: 2.5 });
+      ctx.strokeStyle = '#d8e4ee';
+      ctx.lineWidth = 3;
+      for (let i = 1; i < 3; i++) {
+        ctx.beginPath();
+        ctx.moveTo(x - w / 2 + 16, iy + (ih / 3) * i);
+        ctx.lineTo(x + w / 2 - 16, iy + (ih / 3) * i);
+        ctx.stroke();
+      }
+      const food = ['🥛', '🧀', '🍓', '🥕', '🍇', '🥚'];
+      for (let i = 0; i < 6; i++) {
+        drawEmoji(ctx, food[i], x - 44 * s + (i % 3) * 44 * s, iy + (ih / 3) * (Math.floor(i / 3) + 0.66), 30 * s);
+      }
+      box(ctx, x + w / 2 - 4, iy - 4, 24 * s, ih + 8, 10, shade('#bfe6ff', -0.06), { lw: 2.5 });
+      Sky.glow(ctx, x, iy + ih / 2, 150 * s, '#fff6c0', 0.45);
     }
   },
 
@@ -456,8 +783,25 @@ const Props = {
     }
   },
 
-  wallCabinets(ctx, x, y, w, h = 110, color = '#a8dcc8') {
+  wallCabinets(ctx, x, y, w, h = 110, color = '#a8dcc8', open = false) {
     box(ctx, x, y, w, h, 12, color, { lw: 3 });
+    if (open) {
+      // Doors swung wide: shelves, plates and cups inside.
+      box(ctx, x + 10, y + 10, w - 20, h - 20, 8, '#f7efe2', { lw: 2.5 });
+      ctx.strokeStyle = '#d9c3a8';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(x + 14, y + h / 2);
+      ctx.lineTo(x + w - 14, y + h / 2);
+      ctx.stroke();
+      for (let i = 0; i < 4; i++) drawEmoji(ctx, i % 2 ? '🍽️' : '☕', x + 46 + i * 108, y + 32, 34);
+      for (let i = 0; i < 3; i++) drawEmoji(ctx, '🥣', x + 92 + i * 136, y + h - 28, 32);
+      for (const side of [0, 1]) {
+        const dx = side ? x + w : x;
+        box(ctx, dx - (side ? 0 : 26), y - 6, 26, h + 12, 8, shade(color, 0.1), { lw: 2.5 });
+      }
+      return;
+    }
     const n = Math.max(1, Math.round(w / 120));
     for (let i = 0; i < n; i++) {
       const dw = (w - 20) / n;
@@ -544,8 +888,13 @@ const Props = {
     }
   },
 
-  toilet(ctx, x, y, s = 1) {
+  toilet(ctx, x, y, s = 1, { lid = false } = {}) {
     groundShadow(ctx, x, y, 50 * s, 10 * s);
+    if (lid) {
+      // Lid up, leaning back against the cistern.
+      ellipse(ctx, x - 6 * s, y - 182 * s, 48 * s, 14 * s);
+      paint(ctx, '#f3f8fc', y - 196 * s, y - 168 * s, { lw: 3, line: '#b8c8d8' });
+    }
     box(ctx, x + 6 * s, y - 170 * s, 66 * s, 100 * s, 14 * s, '#ffffff', { lw: 3, line: '#b8c8d8' });
     box(ctx, x + 50 * s, y - 154 * s, 18 * s, 8 * s, 4, '#a9b9c8', { lw: 1.5 });
     ctx.beginPath();
